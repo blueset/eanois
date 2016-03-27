@@ -1,10 +1,13 @@
 #.gitignore
 /bootstrap/compiled.php
 /vendor
-.idea/ #I added this for phpstorm
+/.idea
 composer.phar
 composer.lock
 .env.*.php
 .env.php
 .DS_Store
 Thumbs.db
+.env
+/.phpintel
+.env.example
