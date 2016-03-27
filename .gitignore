@@ -1,0 +1,10 @@
+#.gitignore
+/bootstrap/compiled.php
+/vendor
+.idea/ #I added this for phpstorm
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
