@@ -155,12 +155,14 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
 
         /*
          * External Svc Providers
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         igaster\laravelTheme\themeServiceProvider::class,
+        Creativeorange\Gravatar\GravatarServiceProvider::class,
 
     ],
 
@@ -212,7 +214,12 @@ return [
          * Third-party Aliases
          */
         'Theme' => igaster\laravelTheme\Facades\Theme::class,
+        'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
 
+        /*
+         * App Aliases
+         */
+        'AdminHelper' => \App\Helpers\AdminHelper::class,
     ],
 
 ];

@@ -1,17 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+
+@section('title', 'Dashboard - ')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
-                <div class="panel-body">
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<section class="content-header">
+    <h1>Dashboard <small>Eanois Content Management System</small></h1>
+    <ol class="breadcrumb">
+        <li><a href=""></a><i class="fa fa-dashboard"></i> Admin Panel</li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
+<section class="content">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium ad aperiam atque, dolore doloribus eaque, eos eveniet ex facere fugiat odio pariatur quasi qui quia quis sint suscipit tempora.</p>
+    <p>{{ dump($user->name) }}</p>
+</section>
 @endsection

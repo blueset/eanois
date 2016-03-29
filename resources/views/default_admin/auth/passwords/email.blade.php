@@ -6,7 +6,7 @@
 @section('body')
     <div class="login-box">
         <div class="login-logo">
-            {{ App\Config::getConfig('site_name') }} <b>Eanois CMS</b>
+            {{ App\Setting::getConfig('site_name') }} <b>Eanois CMS</b>
         </div>
 
         @if (session('status'))

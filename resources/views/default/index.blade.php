@@ -2,5 +2,6 @@
 
 @section('content')
     <h1>Hi!</h1>
-    {{ $config }}
+    {{ dump($view_name) }}
+    {{ dump(Route::current()) }}
 @endsection

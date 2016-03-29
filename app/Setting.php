@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Config extends Model
+class Setting extends Model
 {
     /**
      * The table associated with the model.
@@ -26,14 +26,13 @@ class Config extends Model
     public $timestamps = false;
 
     public function index() {
-        $config = Config::all();
+        $config = self::all();
 
         return view('config.index', ['config' => $config]);
     }
 
-
     public static function getConfig($value) {
-        $item = Config::where('key', $value)->first();
+        $item = self::where('key', $value)->first();
         return $item['value'];
     }
 }

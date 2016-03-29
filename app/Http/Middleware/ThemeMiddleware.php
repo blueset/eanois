@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Config;
+use App\Setting;
 
 class ThemeMiddleware
 {
@@ -16,10 +16,12 @@ class ThemeMiddleware
      */
     public function handle($request, Closure $next, $stage)
     {
+        config(['eanois.stage' => $stage]);
         if ($stage == 'backend'){
-            \Theme::set(Config::getConfig('admin_theme'));
+            \Theme::set(Setting::getConfig('admin_theme'));
+            
         } else {
-            \Theme::set(Config::getConfig('theme'));
+            \Theme::set(Setting::getConfig('theme'));
         }
         return $next($request);
     }
