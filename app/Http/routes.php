@@ -33,5 +33,7 @@ Route::group(['middleware' => ['web', 'theme:frontend']], function () {
 Route::group(['middleware' => ['web', 'theme:backend'], 'prefix' => 'eanois'], function () {
     Route::auth();
     Route::any('/', 'AdminController@index');
+    Route::get('/settings', 'AdminController@viewSettings');
+    Route::post('/settings', 'AdminController@putSettings');
 });
 

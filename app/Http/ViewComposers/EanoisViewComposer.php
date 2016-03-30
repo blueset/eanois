@@ -29,6 +29,13 @@ class EanoisViewComposer
 
             // User
             $view->with('user', \Auth::user());
+
+            // Message - Success
+            $msgsuc = session('message_success', '');
+            if ($msgsuc !== "") {
+                $msgsuc = "<div class=\"callout callout-success\"><p>$msgsuc</p></div>";
+            }
+            $view->with('message_success', $msgsuc);
         }
         $view->with('count', 1);
         $view->with('view_name', $view->getName());

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('body_class', 'skin-blue sidebar-mini')
+@section('body_class', 'fixed skin-blue sidebar-mini')
 
 @section('css')
     @parent
