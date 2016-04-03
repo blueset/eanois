@@ -163,6 +163,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         igaster\laravelTheme\themeServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
+        Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
 
     ],
 
@@ -215,11 +216,13 @@ return [
          */
         'Theme' => igaster\laravelTheme\Facades\Theme::class,
         'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
+        'Slugify' => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
 
         /*
          * App Aliases
          */
         'AdminHelper' => \App\Helpers\AdminHelper::class,
+        'SlugHelper' => \App\Helpers\SlugHelper::class,
     ],
 
 ];

@@ -38,4 +38,6 @@ class AdminController extends Controller
         $request->session()->flash("message_success", "Settings updated.");
         return redirect()->action('AdminController@viewSettings');
     }
+
+    
 }

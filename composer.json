@@ -9,7 +9,9 @@
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-ide-helper": "^2.1",
         "igaster/laravel-theme": "~1.1",
-        "creativeorange/gravatar": "~1.0"
+        "creativeorange/gravatar": "~1.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "cocur/slugify": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

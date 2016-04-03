@@ -13,7 +13,6 @@ use App\Http\Controllers\AdminController;
 
 class AdminHelper
 {
-
     /**
      * Check if the current url is under a certain action
      *
@@ -22,9 +21,10 @@ class AdminHelper
      * @return string|boolean "active" or "" | T/F
      */
     static function sidebar_active($actions, $css = true) {
+        $current = \Route::getCurrentRoute()->getActionName();
         $result = false;
         foreach ((array) $actions as $i) {
-            $result |= url()->current() == action($i);
+            $result |= ends_with($current, $i);
         }
         if ($css) {
             return $result ? "active" : "";
@@ -115,8 +115,10 @@ EOT;
         return $result;
     }
 
-
     public static function textField($name, $field, $value = "", $errors = null) {
+        return self::textField_class($name, $field, "", $value, $errors);
+    }
+    public static function textField_class($name, $field, $class = "", $value = "", $errors = null) {
         if (!is_null($errors)){
             $error_class = $errors->has('site_name') ? ' has-error' : '';
             $error_msg = $errors->has('site_name') ? "<span class=\"help-block\"><strong>".$errors->first($field)."</strong></span>" : "";
@@ -128,7 +130,7 @@ EOT;
         $format = <<<FRM
 <div class="form-group$error_class">
     <label for="$field">$name</label>
-    <input type="text" class="form-control" name="$field" value="$value">
+    <input type="text" class="form-control $class" name="$field" value="$value">
     $error_msg
 </div>
 FRM;

@@ -61,9 +61,13 @@ return [
 //			'views-path' 	=> '',
 //			'asset-path' 	=> '',
 //		],
-        'default',
+        'default' => [
+			'asset-path' => 'eanois_themes/default',
+		],
 
-		'default_admin',
+		'default_admin' => [
+            'asset-path' => 'eanois_themes/default_admin',
+        ],
 		// Add your themes here...
 
 		/*--------------[ Example Structre ]-------------

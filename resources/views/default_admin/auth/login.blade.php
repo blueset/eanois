@@ -5,7 +5,7 @@
 @section('body')
 <div class="login-box">
     <div class="login-logo">
-        {{ App\Setting::getConfig('site_name') }} <b>Eanois CMS</b>
+        <span style="display: inline-block;">{{ App\Setting::getConfig('site_name') }}</span> <b style="display: inline-block;">Eanois CMS</b>
     </div>
     <div class="login-box-body">
         <p class="login-box-msg">Hey, who are you?</p>

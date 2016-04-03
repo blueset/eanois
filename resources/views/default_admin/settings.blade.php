@@ -6,8 +6,8 @@
     <section class="content-header">
         <h1>Settings <small>Eanois Content Management System</small></h1>
         <ol class="breadcrumb">
-            <li><a href=""></a><i class="fa fa-dashboard"></i> Admin Panel</li>
-            <li class="active">Dashboard</li>
+            <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
+            <li class="active">Settings</li>
         </ol>
     </section>
     <section class="content">
