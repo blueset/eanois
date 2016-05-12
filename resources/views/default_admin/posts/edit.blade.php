@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', 'New post - ')
+@section('title', $post->title.' - Post - ')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset(Theme::url('plugins/select2/select2.min.css')) }}">
@@ -10,11 +10,11 @@
 
 @section('content')
     <section class="content-header">
-        <h1>New post <small>Create a new post</small></h1>
+        <h1>Edit post <small>Edit an existing post</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
-            <li><a href="{{ action("Admin\PostController@index") }}"> Posts</a></li>
-            <li class="active">New post</li>
+            <li><a href="{{ action('Admin\PostController@index') }}"> Posts</a></li>
+            <li class="active">Edit a post</li>
         </ol>
     </section>
     <form action="{{ action('Admin\PostController@store') }}" method="post">
@@ -22,19 +22,19 @@
     <section class="content">
         <div class="row">
             <div class="col-md-8">
-                {!! AdminHelper::textField_class("Title", "title", "input-lg", old("title"), $errors) !!}
+                {!! AdminHelper::textField_class("Title", "title", "input-lg", old("title", $post->title), $errors) !!}
                 <div class="slug-info">
                     <div id="slug-edit">
-                        Slug: <span class="form-inline"><input type="text" id="slug" name="slug" value="{{ old("slug") }}" class="form-control"></span> <button type="button" id="btn-slug-reset" class="btn btn-default btn-sm">Use default</button>
+                        Slug: <span class="form-inline"><input type="text" id="slug" name="slug" value="{{ old("slug", $post->slug) }}" class="form-control"></span> <button type="button" id="btn-slug-reset" class="btn btn-default btn-sm">Use default</button>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea class="form-control" rows="10" name="desc" id="desc" data-editor="markdown">{!! old("desc") !!}</textarea>
+                    <textarea class="form-control" rows="10" name="desc" id="desc" data-editor="markdown">{!! old("desc", $post->desc) !!}</textarea>
                 </div>
                 <div class="form-group">
                     <label>Body text</label>
-                    <textarea class="form-control" rows="20" name="body" id="body" data-editor="markdown">{!! old("body") !!}</textarea>
+                    <textarea class="form-control" rows="20" name="body" id="body" data-editor="markdown">{!! old("body", $post->body) !!}</textarea>
                 </div>
                 <div class="box">
                     <div class="box-header">
@@ -56,12 +56,14 @@
                             </tr>
                             </thead>
                             <tbody id="postlink-list">
+                                @foreach ($post->links()->get() as $link)
                                 <tr class="postlink-item">
                                     <td><span class="btn"><i class="fa fa-bars"></i></span></td>
-                                    <td><input type="text" name="postlink_name[0]" class="form-control postlink-name"></td>
-                                    <td><input type="text" name="postlink_link[0]" class="form-control postlink-link"></td>
+                                    <td><input type="text" name="postlink_name[{{ $link->order }}]" class="form-control postlink-name">{{ $link->name }}</td>
+                                    <td><input type="text" name="postlink_link[{{ $link->order }}]" class="form-control postlink-link">{{ $link->link }}</td>
                                     <td><button type="button" class="btn btn-danger postlink-btn-remove"><i class="fa fa-remove"></i></button></td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -85,11 +87,13 @@
                             </tr>
                             </thead>
                             <tbody id="postmeta-list">
+                            @foreach ($post->meta()->get() as $meta)
                             <tr class="postmeta-item">
-                                <td><input type="text" name="postmeta_key[]" class="form-control postmeta-key"></td>
-                                <td><input type="text" name="postmeta_value[]" class="form-control postmeta-value"></td>
+                                <td><input type="text" name="postmeta_key[]" class="form-control postmeta-key">{{ $meta->key }}</td>
+                                <td><input type="text" name="postmeta_value[]" class="form-control postmeta-value">{{ $meta->value }}</td>
                                 <td><a href="javascript:void(0)" class="btn btn-danger postmeta-btn-remove"><i class="fa fa-remove"></i></a></td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -107,7 +111,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control pull-right" name="published_on" id="published_on" placeholder="Immediately">
+                                <input type="text" class="form-control pull-right" name="published_on" id="published_on" placeholder="Immediately" value="{{ old("published_on", $post->published_on) }}">
                             </div>
                         </div>
                     </div>
@@ -144,7 +148,7 @@
                         </div>
                         <div class="form-group">
                             <label>Tags:</label>
-                            <select name="tags[]" id="tags" multiple class="form-control" style="width: 100%;">
+                            <select name="tags[]" id="tags" multiple class="form-control">
                             </select>
                         </div>
                         <div class="form-group">
@@ -213,9 +217,12 @@
                     tags: true,
                     data: cats
                 });
+                $("#tags").val([
+                    @foreach($post->tags()->get() as $t)
+                            "{{ $t->slug }}",
+                    @endforeach
+                ]).trigger('change');
             });
-
-
 
             // Post Links
             function renumberPostLinks(table) {
@@ -306,7 +313,7 @@
 
 
             // Post Slugs
-            var autoSlug = true;
+            var autoSlug = false;
             var updateSlug = function () {
                 if (autoSlug) {
                     $.ajax({

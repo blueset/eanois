@@ -164,6 +164,7 @@ return [
         igaster\laravelTheme\themeServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -217,6 +218,7 @@ return [
         'Theme' => igaster\laravelTheme\Facades\Theme::class,
         'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Slugify' => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
         /*
          * App Aliases

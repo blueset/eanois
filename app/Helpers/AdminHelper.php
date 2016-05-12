@@ -120,8 +120,8 @@ EOT;
     }
     public static function textField_class($name, $field, $class = "", $value = "", $errors = null) {
         if (!is_null($errors)){
-            $error_class = $errors->has('site_name') ? ' has-error' : '';
-            $error_msg = $errors->has('site_name') ? "<span class=\"help-block\"><strong>".$errors->first($field)."</strong></span>" : "";
+            $error_class = $errors->has($field) ? ' has-error' : '';
+            $error_msg = $errors->has($field) ? "<span class=\"help-block\"><strong>".$errors->first($field)."</strong></span>" : "";
         } else {
             $error_class = '';
             $error_msg = '';
@@ -130,7 +130,7 @@ EOT;
         $format = <<<FRM
 <div class="form-group$error_class">
     <label for="$field">$name</label>
-    <input type="text" class="form-control $class" name="$field" value="$value">
+    <input type="text" class="form-control $class" name="$field" id="input-$field" value="$value">
     $error_msg
 </div>
 FRM;

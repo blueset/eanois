@@ -11,7 +11,8 @@
         "igaster/laravel-theme": "~1.1",
         "creativeorange/gravatar": "~1.0",
         "guzzlehttp/guzzle": "~6.0",
-        "cocur/slugify": "^1.4"
+        "cocur/slugify": "^1.4",
+        "intervention/image": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

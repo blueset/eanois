@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\SlugHelper;
+use App\Post;
+use App\PostLink;
+use App\Tag;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = \App\Post::all();
+        $posts = \App\Post::paginate(20);
         return view('posts.index', ['posts' => $posts]);
     }
 
@@ -27,7 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.new');
+        $cats = \App\Category::all();
+        return view('posts.new', ['categories' => $cats]);
     }
 
     /**
@@ -38,7 +44,73 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $slug = empty($request->slug) ? SlugHelper::getSlug($request->title) : $request->slug;
+
+        $this->validate($request, [
+            'title' => 'required',
+            'slug' => 'required',
+            'category' => 'required|exists:categories,id',
+        ]);
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->category = $request->category;
+        $post->slug = SlugHelper::getNextAvailableSlug($slug, Post::class);
+        $post->desc = $request->desc;
+        $post->body = $request->body;
+        $post->published_on = empty($request->published_on) ? Carbon::now() : Carbon::createFromFormat("Y-m-d H:i:s", $request->published_on);
+
+        echo 'stage 1';
+
+        $post->save();
+        if (isset($request->tags)){
+            foreach($request->tags as $t) {
+                if (Tag::where('slug', $t)->exists()) {
+                    $tag = Tag::where('slug', $t);
+                } else {
+                    $tag = new Tag();
+                    $tag->name = $t;
+                    $tag->slug = SlugHelper::getNextAvailableSlug($t, Tag::class);
+                    $tag->save();
+                }
+                $post->tags()->save($tag);
+            }
+        }
+
+        echo 'stage 2';
+
+        if (isset($request->postlink_name)){
+            for ($i = 0; $i < count($request->postlink_name); $i++) {
+                if (!empty($request->postlink_name[$i])){
+                    $link = new PostLink();
+                    $link->name = $request->postlink_name[$i];
+                    $link->url = $request->postlink_link[$i];
+                    $link->order = $i;
+                    $post->links()->save($link);
+                }
+            }
+        }
+
+        echo 'stage 3';
+
+        if (isset($request->postmeta_key)){
+            for ($i = 0; $i < count($request->postmeta_key); $i++) {
+                if (!empty($request->postmeta_key[$i])){
+                    $link = new PostMeta();
+                    $link->name = $request->postmeta_key[$i];
+                    $link->url = $request->postmeta_value[$i];
+                    $post->meta()->save($link);
+                }
+            }
+        }
+
+        echo 'stage 4';
+
+        $post->save();
+        $request->session()->flash("message_success", "Post created.");
+
+        return redirect()->action('Admin\PostController@edit', ['id' => $post->id]);
     }
 
     /**
@@ -60,7 +132,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $cats = \App\Category::all();
+        return view('posts.edit', ['post' => $post, 'categories' => $cats]);
     }
 
     /**
