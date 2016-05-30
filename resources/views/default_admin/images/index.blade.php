@@ -4,7 +4,7 @@
 
 @section('css')
     @parent
-
+    {{--<link rel="stylesheet" href="{{ asset(Theme::url('css/dropzone.css')) }}">--}}
 @endsection
 
 @section('content')
@@ -20,19 +20,51 @@
             <div class="box-header">
                 <h3 class="box-title">Images</h3>
                 <div class="box-tools">
-                    <button type="button" class="btn btn-small btn-success">
+                    <button type="button" class="btn btn-small btn-success upload-trigger">
                         <i class="fa fa-upload"></i> Upload new picture
                     </button>
                 </div>
             </div>
-            <div class="box-body">
-                <form action="{{ action('Admin\ImageController@store') }}" method="post" enctype="multipart/form-data" class="dropzone" id="image-upload">
+            <div class="box-body" id="images-list">
+                <form action="{{ action('Admin\ImageController@store') }}" method="post" enctype="multipart/form-data" id="image-upload">
                     {{ csrf_field() }}
                     <div class="fallback">
                         <input type="file" name="file[]" multiple>
                     </div>
+                    <div class="mailbox-attachments clearfix dropzone-previews" id="upload-previews">
+
+                    </div>
+                    <div class="dz-default">
+                        Drop here to upload
+                    </div>
+                    <div id="template">
+                        <li>
+                            <span class="mailbox-attachment-icon has-img"><img data-dz-thumbnail alt="Thumbnail"></span>
+                            <div class="mailbox-attachment-info">
+                                <div class="progress progress-xxs active dz-progress" data-dz-uploadprogress>
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
+                                </div>
+                                <span data-dz-name></span>
+                            <span class="mailbox-attachment-size">
+                                <span data-dz-size></span>
+                                <span class="text-danger" data-dz-errormessage></span>
+                                <button class="btn btn-xs btn-success pull-right hidden" disabled type="button">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn btn-xs btn-error pull-right hidden" disabled type="button">
+                                    <i class="fa fa-exclamation"></i>
+                                </button>
+                            </span>
+                            </div>
+                        </li>
+                    </div>
+
                 </form>
 
+                <div class="images-empty upload-trigger">
+                    <span>No file found. <br>
+                    Click or drop here to upload.</span>
+                </div>
             </div>
             <div class="box-footer">
                 {{--@include('paginator.default', ['paginator' => $posts, 'class' => 'pagination-sm no-margin pull-right'])--}}
@@ -80,11 +112,43 @@
 
 
             // Dropzone
-            var dz = $("#image-upload").dropzone({
+            var dz = new Dropzone("#image-upload", {
                 url: "{{ action('Admin\ImageController@store') }}",
                 parallelUploads: 2,
-
+                previewTemplate: $('#template').html(),
+                clickable: ".upload-trigger",
+                thumbnailWidth: 198,
+                thumbnailHeight: 120,
+                previewsContainer: "#upload-previews"
             });
+
+            dz.on("uploadprogress", function(file, progress, bytesent){
+                console.log(this);
+                console.log(file);
+                console.log(progress);
+                $(file.previewElement).find(".progress-bar").css('width', progress+"%").attr('aria-valuenow', progress);
+            }).on('sending', function(file){
+                $(file.previewElement).find(".progress-bar").css('display', 'block');
+            }).on('complete', function(file){
+                $(file.previewElement).find(".progress-bar").css('display', 'none');
+            }).on('success', function(file){
+                $(file.previewElement).find(".btn-success").removeClass('hidden');
+            }).on('success', function(file){
+                $(file.previewElement).find(".btn-danger").removeClass('hidden');
+            });
+
+            $("#template").remove();
+
+            $('#images-list').on('dragenter', function(){
+                $(".dz-default").css("display", "flex");
+            });
+            $('.dz-default').on('dragleave', function(){
+                $(".dz-default").css("display", "none");
+            });
+            $('.dz-default').on('drop', function(){
+                $(".dz-default").css("display", "none");
+            });
+
         });
     </script>
 @endsection

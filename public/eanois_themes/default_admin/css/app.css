@@ -11,3 +11,49 @@
     border-bottom: #3c8dbc 1px dotted;
     margin: 0 5px;
 }
+
+/*
+ * Images index: Drop zone
+ */
+
+.images-empty{
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    border: 3px dashed #999999;
+    padding: 30px 0;
+    color: #999999;
+    text-align: center;
+    font-size: 2em;
+}
+
+.dz-default{
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    display: none;
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    z-index:5;
+    margin: 10px;
+    padding: 30px 0;
+    text-align: center;
+    font-size: 2em;
+    color: hsl(198,97%,65%);
+    border: 3px dashed hsl(198,97%,65%);
+    background-color: hsla(198,97%,65%,.3);
+    align-items: center;
+    justify-content: center;
+}
+
+.dz-progress{
+    margin: 0;
+}
+
+#images-list{
+    position: relative;
+}
+
