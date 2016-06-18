@@ -39,7 +39,9 @@
                     </div>
                     <div id="template">
                         <li>
-                            <span class="mailbox-attachment-icon has-img"><img data-dz-thumbnail alt="Thumbnail"></span>
+                            <span class="mailbox-attachment-icon">
+                                <i class="fa fa-file-o"></i>
+                            </span>
                             <div class="mailbox-attachment-info">
                                 <div class="progress progress-xxs active dz-progress" data-dz-uploadprogress>
                                     <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
@@ -135,6 +137,10 @@
                 $(file.previewElement).find(".btn-success").removeClass('hidden');
             }).on('success', function(file){
                 $(file.previewElement).find(".btn-danger").removeClass('hidden');
+            }).on('thumbnail', function(file, dataurl){
+                var attachmentIcon = $(file.previewElement).find(".mailbox-attachment-icon").addClass("has-img");
+                attachmentIcon.find("i.fa").remove();
+                attachmentIcon.append('<img src="' + dataurl + '" title="thumbnail" />');
             });
 
             $("#template").remove();
