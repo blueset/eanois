@@ -29,7 +29,7 @@
                 <form action="{{ action('Admin\ImageController@store') }}" method="post" enctype="multipart/form-data" id="image-upload">
                     {{ csrf_field() }}
                     <div class="fallback">
-                        <input type="file" name="file[]" multiple>
+                        <input type="file" name="file" multiple>
                     </div>
                     <div class="mailbox-attachments clearfix dropzone-previews" id="upload-previews">
 
@@ -49,12 +49,12 @@
                                 <span data-dz-name></span>
                             <span class="mailbox-attachment-size">
                                 <span data-dz-size></span>
-                                <span class="text-danger" data-dz-errormessage></span>
+                                <span class="text-danger dz-error-msg"></span>
                                 <button class="btn btn-xs btn-success pull-right hidden" disabled type="button">
-                                    <i class="fa fa-check"></i>
+                                    <i class="fa fa-fw fa-check"></i>
                                 </button>
-                                <button class="btn btn-xs btn-error pull-right hidden" disabled type="button">
-                                    <i class="fa fa-exclamation"></i>
+                                <button class="btn btn-xs btn-danger pull-right hidden" disabled type="button">
+                                    <i class="fa fa-fw fa-exclamation"></i>
                                 </button>
                             </span>
                             </div>
@@ -135,8 +135,9 @@
                 $(file.previewElement).find(".progress-bar").css('display', 'none');
             }).on('success', function(file){
                 $(file.previewElement).find(".btn-success").removeClass('hidden');
-            }).on('success', function(file){
+            }).on('error', function(file, errorMessage){
                 $(file.previewElement).find(".btn-danger").removeClass('hidden');
+                $(file.previewElement).find(".dz-error-msg").text(errorMessage['file']);
             }).on('thumbnail', function(file, dataurl){
                 var attachmentIcon = $(file.previewElement).find(".mailbox-attachment-icon").addClass("has-img");
                 attachmentIcon.find("i.fa").remove();

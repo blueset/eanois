@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\SlugHelper;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\UploadedFile;
+use App\Image;
 
 class ImageController extends Controller
 {
@@ -39,10 +41,24 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         // type pre-process
-        $images = $request->file('file');
+        $file = $request->file('file');
+//        dump($request);
+        $this->validate($request, [
+            'file' => 'required|mimetypes:image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/svg+xml,image/webp'
+        ]);
 
+        $slug = SlugHelper::getNextAvailableSlug($file->getClientOriginalName(), Image::class);
+        $ext = $file->getClientOriginalExtension();
+        $local_path = storage_path('app/images/'.strval(time()).'_'.$slug.$ext);
+        $img_obj = InterventionImage::make($file->getRealPath());
+        $img_obj->save($local_path);
 
-        dump($images);
+        $db_img = new Image([
+            'slug' => $slug,
+            'title' => $images->getClientOriginalName(),
+            'path' => $local_path
+        ]);
+        $db_img->save();
     }
 
     /**
