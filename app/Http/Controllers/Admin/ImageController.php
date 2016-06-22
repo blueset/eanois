@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\UploadedFile;
 use App\Image;
+
 
 class ImageController extends Controller
 {
@@ -19,7 +19,8 @@ class ImageController extends Controller
      */
     public function index()
     {
-        return view('images.index');
+        $images = Image::paginate(20);
+        return view('images.index', ['images' => $images]);
     }
 
     /**
@@ -47,15 +48,15 @@ class ImageController extends Controller
             'file' => 'required|mimetypes:image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/svg+xml,image/webp'
         ]);
 
-        $slug = SlugHelper::getNextAvailableSlug($file->getClientOriginalName(), Image::class);
         $ext = $file->getClientOriginalExtension();
-        $local_path = storage_path('app/images/'.strval(time()).'_'.$slug.$ext);
-        $img_obj = InterventionImage::make($file->getRealPath());
+        $slug = SlugHelper::getNextAvailableSlug(basename($file->getClientOriginalName(), '.'.$ext), Image::class);
+        $local_path = storage_path('app/images/'.strval(time()).'_'.$slug.'.'.$ext);
+        $img_obj = \InterventionImage::make($file->getRealPath());
         $img_obj->save($local_path);
 
         $db_img = new Image([
             'slug' => $slug,
-            'title' => $images->getClientOriginalName(),
+            'title' => $file->getClientOriginalName(),
             'path' => $local_path
         ]);
         $db_img->save();
@@ -64,12 +65,44 @@ class ImageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param        $slug
+     * @param        $ext
+     * @param int    $w
+     * @param int    $h
+     * @param string $mode
+     *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug, $ext=null, $w=0, $h=0, $mode="fit")
     {
-        //
+        $db_img = Image::where('slug', '=', $slug)->firstOrFail();
+        if($ext == null){
+            $ext = \File::extension($db_img->path);
+        }
+        \InterventionImage::configure(["driver" => "imagick"]);
+        $img = \InterventionImage::make($db_img->path);
+        $w = intval($w);
+        $h = intval($h);
+        if ($w > 0 && $h > 0) {
+            if ($mode == "fit") {
+                $img->fit($w, $h);
+            } elseif ($mode == "resize") {
+                $img->resize($w, $h);
+            }
+        } elseif ($w > 0 && $h == 0) {
+            $img->widen($w);
+        } elseif ($w == 0 && $h > 0) {
+            $img->heighten($h);
+        }
+        if($ext == "webp"){
+            $icore = $img->getCore();
+            $icore->setImageFormat('webp');
+            $icore->setImageAlphaChannel(\Imagick::ALPHACHANNEL_ACTIVATE);
+            $icore->setBackgroundColor(new \ImagickPixel('transparent'));
+            return response($icore->getImagesBlob())
+                   ->header('Content-Type', 'image/webp');
+        }
+        return $img->response($ext);
     }
 
     /**
@@ -103,6 +136,9 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $img = Image::find($id);
+        $img->delete();
+        $request->session()->flash("message_success", "Image $img->title has been deleted.");
+        return "Image $img->title has been deleted.";
     }
 }

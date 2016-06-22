@@ -62,11 +62,34 @@
                     </div>
 
                 </form>
-
+                @if(count($images) == 0)
                 <div class="images-empty upload-trigger">
                     <span>No file found. <br>
                     Click or drop here to upload.</span>
                 </div>
+                @else
+                <ul class="mailbox-attachments clearfix">
+                    @foreach($images as $i)
+                    <li>
+                        <span class="mailbox-attachment-icon has-img">
+                            <picture>
+                                <source srcset="{{ route("AdminImageControllerShowWidthHeightExt", [$i->slug, 200, 135, 'webp']) }}" type="image/webp">
+                                <img src="{{ route("AdminImageControllerShowWidthHeight", [$i->slug, 200, 135]) }}" alt="{{ $i->title }}">
+                            </picture>
+                        </span>
+                        <div class="mailbox-attachment-info">
+                            <a href="{{ route("AdminImageControllerShowExt", [$i->slug, $i->getExt()]) }}" class="mailbox-attachment-name">{{ $i->title }}</a>
+                            <span class="mailbox-attachment-size">
+                                Slug: {{ $i->slug }}
+                                <button type="button" class="btn btn-danger btn-xs pull-right" data-toggle="modal" data-target="#confirm-delete" data-name="{{ $i->title }} ({{ $i->slug }})" data-href="{{ action('Admin\ImageController@destroy', ['id' => $i->id]) }}">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+                @endif
             </div>
             <div class="box-footer">
                 {{--@include('paginator.default', ['paginator' => $posts, 'class' => 'pagination-sm no-margin pull-right'])--}}
@@ -84,6 +107,7 @@
                     <h4 class="modal-title">Confirm delete?</h4>
                 </div>
                 <div class="modal-body">
+                    <picture id="modal-delete-item-img"></picture>
                     <p>Confirm to delete <span id="modal-item-name"></span>?</p>
                 </div>
                 <div class="modal-footer">

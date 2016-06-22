@@ -44,7 +44,7 @@
                             <td>{{ $p->published_on }}</td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete" data-name="{{ $p->name }} ({{ $p->slug }})" data-href="{{ action('Admin\PostController@destroy', ['id' => $p->id]) }}">
-                                    <i class="fa fa-remove"></i>
+                                    <i class="fa fa-trash"></i>
                                 </button>
                             </td>
                         </tr>

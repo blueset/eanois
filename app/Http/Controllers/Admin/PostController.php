@@ -157,6 +157,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+        $request->session()->flash("message_success", "Post \"$post->title\" has been deleted.");
+        return "Post \"$img->title\" has been deleted.";
     }
 }
