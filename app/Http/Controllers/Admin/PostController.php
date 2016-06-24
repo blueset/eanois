@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Helpers\SlugHelper;
 use App\Post;
 use App\PostLink;
@@ -32,7 +33,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $cats = \App\Category::all();
+        $cats = Category::all();
         return view('posts.new', ['categories' => $cats]);
     }
 
@@ -50,7 +51,7 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'slug' => 'required',
-            'category' => 'required|exists:categories,id',
+            'category' => 'required|exists:categories,id,deleted_at,NULL',
         ]);
 
         $post = new Post();
@@ -60,8 +61,6 @@ class PostController extends Controller
         $post->desc = $request->desc;
         $post->body = $request->body;
         $post->published_on = empty($request->published_on) ? Carbon::now() : Carbon::createFromFormat("Y-m-d H:i:s", $request->published_on);
-
-        echo 'stage 1';
 
         $post->save();
         if (isset($request->tags)){
@@ -78,8 +77,6 @@ class PostController extends Controller
             }
         }
 
-        echo 'stage 2';
-
         if (isset($request->postlink_name)){
             for ($i = 0; $i < count($request->postlink_name); $i++) {
                 if (!empty($request->postlink_name[$i])){
@@ -92,8 +89,6 @@ class PostController extends Controller
             }
         }
 
-        echo 'stage 3';
-
         if (isset($request->postmeta_key)){
             for ($i = 0; $i < count($request->postmeta_key); $i++) {
                 if (!empty($request->postmeta_key[$i])){
@@ -104,8 +99,6 @@ class PostController extends Controller
                 }
             }
         }
-
-        echo 'stage 4';
 
         $post->save();
         $request->session()->flash("message_success", "Post created.");
@@ -133,7 +126,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        $cats = \App\Category::all();
+        $cats = Category::all();
         return view('posts.edit', ['post' => $post, 'categories' => $cats]);
     }
 
@@ -152,14 +145,47 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int    $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $post = Post::find($id);
         $post->delete();
         $request->session()->flash("message_success", "Post \"$post->title\" has been deleted.");
         return "Post \"$img->title\" has been deleted.";
+    }
+
+    /**
+     * Bulk update/remove entries in Post.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bulkUpdate(Request $request) {
+        $this->validate($request, [
+            'id.*' => 'required|exists:posts,id,deleted_at,NULL',
+            'action' => 'required|in:delete,moveToCategory',
+            'category_id' => 'required_if:action,moveToCategory|exists:categories,id,deleted_at,NULL'
+        ]);
+        if ($request->action == "delete") {
+            foreach ($request->id as $i) {
+                Post::find($i)->delete();
+            }
+            $request->session()->flash("message_success", "Selected posts has been removed.");
+            return "Selected posts has been removed";
+        } elseif ($request->action == "moveToCategory") {
+            foreach ($request->id as $i) {
+                $post_i = Post::find($i);
+                $post_i->category = $request->category_id;
+                $post_i->save();
+            }
+            $cat_name = Category::find($request->category_id)->name;
+            $request->session()->flash("message_success", "Selected posts has been moved to $cat_name.");
+            return "Selected posts has been moved to $cat_name.";
+        }
     }
 }

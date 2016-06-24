@@ -38,7 +38,7 @@
                         Drop here to upload
                     </div>
                     <div id="template">
-                        <li>
+                        <li class="image-item">
                             <span class="mailbox-attachment-icon">
                                 <i class="fa fa-file-o"></i>
                             </span>
@@ -70,7 +70,7 @@
                 @else
                 <ul class="mailbox-attachments clearfix">
                     @foreach($images as $i)
-                    <li>
+                    <li class="image-item">
                         <span class="mailbox-attachment-icon has-img">
                             <picture>
                                 <source srcset="{{ route("AdminImageControllerShowWidthHeightExt", [$i->slug, 200, 135, 'webp']) }}" type="image/webp">
@@ -92,7 +92,7 @@
                 @endif
             </div>
             <div class="box-footer">
-                {{--@include('paginator.default', ['paginator' => $posts, 'class' => 'pagination-sm no-margin pull-right'])--}}
+                @include('paginator.default', ['paginator' => $images, 'class' => 'pagination-sm no-margin pull-right'])
             </div>
         </div>
     </section>
@@ -106,8 +106,8 @@
                     </a>
                     <h4 class="modal-title">Confirm delete?</h4>
                 </div>
-                <div class="modal-body">
-                    <picture id="modal-delete-item-img"></picture>
+                <div class="modal-body clearfix">
+                    <picture id="modal-delete-item-img" class="pull-right"></picture>
                     <p>Confirm to delete <span id="modal-item-name"></span>?</p>
                 </div>
                 <div class="modal-footer">
@@ -130,6 +130,7 @@
                         var data = $(e.relatedTarget).data();
                         $("#modal-item-name", this).text(data.name);
                         $("#modal-btn-delete", this).data('href', data.href);
+                        $("#modal-delete-item-img", this).html($(e.relatedTarget).parents("ul").find("Picture").html());
                     })
                     .on("click", "#modal-btn-delete", function () {
                         $.ajax({url: $(this).data('href'), method: "DELETE"})

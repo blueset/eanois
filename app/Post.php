@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
+
     public function category() {
         return $this->belongsTo('App\Category', 'category');
     }
@@ -21,4 +24,6 @@ class Post extends Model
     public function meta() {
         return $this->hasMany('App\PostMeta', 'post', 'post_meta');
     }
+    
+    protected $dates = ['deleted_at'];
 }

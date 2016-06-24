@@ -17,15 +17,13 @@
                 ["name" => "Tags", "icon" => "fa-tags", "action" => ['Admin\TagController@index', 'Admin\TagController@show']],
             ]) !!}
             {!! AdminHelper::sidebar_treeview("Images", "fa-picture-o", [
-                ["name" => "Upload", "icon" => "fa-upload", "action" => 'Admin\ImageController@index'],
-                ["name" => "Library", "icon" => "fa-list", "action" => ['AdminController@index', 'AdminController@index']],
+                ["name" => "Library", "icon" => "fa-list", "action" => 'Admin\ImageController@index'],
             ]) !!}
             {!! AdminHelper::sidebar_treeview("Files", "fa-file", [
                 ["name" => "Upload", "icon" => "fa-upload", "action" => 'AdminController@index'],
                 ["name" => "Library", "icon" => "fa-list", "action" => ['AdminController@index', 'AdminController@index']],
             ]) !!}
             {!! AdminHelper::sidebar_treeview("Links", "fa-link", [
-                ["name" => "New", "icon" => "fa-plus", "action" => 'AdminController@index'],
                 ["name" => "All links", "icon" => "fa-list", "action" => ['AdminController@index', 'AdminController@index']],
             ]) !!}
         </ul>

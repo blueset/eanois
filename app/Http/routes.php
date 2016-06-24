@@ -73,6 +73,7 @@ Route::group(['middleware' => ['web', 'theme:backend'], 'prefix' => 'eanois'], f
     Route::resource('posts/categories', 'Admin\CategoryController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
     Route::resource('posts/tags', 'Admin\TagController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
     Route::resource('posts', 'Admin\PostController', ['except' => ['show']]);
+    Route::post("posts/batch", 'Admin\PostController@bulkUpdate');
     Route::resource('images', 'Admin\ImageController', ['only' => ['index', 'store', 'destroy']]);
 });
 

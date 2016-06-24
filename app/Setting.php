@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Setting extends Model
 {
@@ -24,6 +25,9 @@ class Setting extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function getKeyAttribute($value) {
         return $value;

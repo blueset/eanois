@@ -55,14 +55,16 @@
             <div class="box-footer">
                 Selected posts:
                 <div class="btn-group">
-                    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i> Remove</button>
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete" data-name="selected posts" data-href="batch_remove">
+                        <i class="fa fa-remove"></i> Remove
+                    </button>
                     <div class="btn-group">
                         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-mail-forward"></i> Move to category <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
                             @foreach(\App\Category::all() as $cat)
-                            <li><a href="javascript:void(0)" data-type="move-selected-to-category" data-name="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</a></li>
+                            <li><a href="javascript:void(0)" data-type="move-to-category" data-name="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -104,8 +106,13 @@
                         $("#modal-btn-delete", this).data('href', data.href);
                     })
                     .on("click", "#modal-btn-delete", function () {
-                        $.ajax({url: $(this).data('href'), method: "DELETE"})
-                                .then(function(){location.reload();});
+                        var href = $(this).data('href');
+                        if (href == "batch_remove"){
+                            batch_remove()
+                        } else {
+                            $.ajax({url: $(this).data('href'), method: "DELETE"})
+                                    .then(function(){location.reload();});
+                        }
                     });
             $('input').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
@@ -142,6 +149,28 @@
                     $("input#all-posts").iCheck('determinate');
                 }
             });
+            $("[data-button=move-to-category]").click(function () {
+                var selected = [];
+                $(".select-post:checked").each(function (e) {
+                    selected.push($(this).data("id"));
+                });
+                $.ajax({
+                    url: "{{ action('Admin\PostController@bulkUpdate') }}",
+                    method: "POST",
+                    data: {id: selected, action: "moveToCategory", category_id: $(this).data('id')}
+                }).then(function(){location.reload();});
+            });
         });
+        function batch_remove(){
+            var selected = [];
+            $(".select-post:checked").each(function (e) {
+                selected.push($(this).data("id"));
+            });
+            $.ajax({
+                url: "{{ action('Admin\PostController@bulkUpdate') }}",
+                method: "POST",
+                data: {id: selected, action: "delete"}
+            }).then(function(){location.reload();});
+        }
     </script>
 @endsection

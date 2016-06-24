@@ -57,3 +57,13 @@
     position: relative;
 }
 
+#modal-delete-item-img{
+    background: #fff;
+    border: 5px solid #eee;
+    outline: 1px solid #555;
+}
+
+.image-item, .image-item img, .image-item picture {
+    user-drag: none;
+    -webkit-user-drag: none;
+}
