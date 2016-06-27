@@ -39,5 +39,8 @@ class AdminController extends Controller
         return redirect()->action('AdminController@viewSettings');
     }
 
-    
+    public function mediaIframe() {
+        $images = \App\Image::all();
+        return view('frames.media', ['images' => $images]);
+    }
 }

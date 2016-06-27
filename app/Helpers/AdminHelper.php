@@ -14,28 +14,6 @@ use App\Http\Controllers\AdminController;
 class AdminHelper
 {
     /**
-     * Check if the current url is under a certain action
-     *
-     * @param string|array $actions Name of controller method
-     * @param bool $css return string if true
-     * @return string|boolean "active" or "" | T/F
-     */
-    static function sidebar_active($actions, $css = true) {
-        $current = \Route::getCurrentRoute()->getActionName();
-        $result = false;
-        foreach ((array) $actions as $i) {
-            $result |= ends_with($current, $i);
-        }
-        if ($css) {
-            return $result ? "active" : "";
-        } else {
-            return $result;
-        }
-
-    }
-
-
-    /**
      * Generate an AdminLTE 2 Sidebar item
      *
      * @param string $name
@@ -56,6 +34,27 @@ EOT;
         return sprintf($result, self::sidebar_active($action), action($action), $fa_classes, $name);
     }
 
+    /**
+     * Check if the current url is under a certain action
+     *
+     * @param string|array $actions Name of controller method
+     * @param bool         $css     return string if true
+     *
+     * @return string|boolean "active" or "" | T/F
+     */
+    static function sidebar_active($actions, $css = true) {
+        $current = \Route::getCurrentRoute()->getActionName();
+        $result = false;
+        foreach ((array)$actions as $i) {
+            $result |= ends_with($current, $i);
+        }
+        if ($css) {
+            return $result ? "active" : "";
+        } else {
+            return $result;
+        }
+
+    }
 
     /**
      * Generate a `treeview` item for sidebar
@@ -137,4 +136,95 @@ FRM;
         return $format;
     }
 
+    public static function form_group() {
+        return new BootStrapFormGroup();
+    }
+
+
+}
+
+class BootStrapFormGroup {
+
+    var $title = "";
+    var $field = "";
+    var $desc = "";
+    var $value = "";
+    var $input_class = ["form-control"];
+    var $errors = null;
+    var $input_type = "text";
+    var $required = false;
+    var $custom_input = null;
+    var $placeholder = "";
+
+    function title($str) {
+        $this->title = $str;
+        return $this;
+    }
+
+    function field($str) {
+        $this->field = $str;
+        return $this;
+    }
+
+    function desc($str) {
+        $this->desc = $str;
+        return $this;
+    }
+
+    function input_class($arr) {
+        $this->input_class = array_merge($this->input_class, $arr);
+        return $this;
+    }
+
+    function errors($err) {
+        $this->errors = $err;
+        return $this;
+    }
+
+    function input_type($type) {
+        $this->input_type = $type;
+        return $this;
+    }
+
+    function required() {
+        $this->required = true;
+        return $this;
+    }
+
+    function custom_input($str) {
+        $this->custom_input = $str;
+        return $this;
+    }
+
+    function placeholder($str) {
+        $this->placeholder = $str;
+        return $this;
+    }
+
+    function value($str) {
+        $this->value = $str;
+        return $this;
+    }
+
+    function render() {
+        if (!is_null($this->errors)) {
+            $error_class = $this->errors->has($this->field) ? ' has-error' : '';
+            $error_msg = $this->errors->has($this->field) ? "<span class=\"help-block\"><strong>" . $this->errors->first($this->field) . "</strong></span>" : "";
+        } else {
+            $error_class = '';
+            $error_msg = '';
+        }
+        $value = old($this->field, $this->value);
+        $label = "<label for=\"$this->field\">$this->title</label>";
+        if (!is_null($this->custom_input)) {
+            $input = $this->custom_input;
+        } else {
+            $input_classes = implode(' ', $this->input_class);
+            $input = "<input type=\"$this->input_type\" class=\"$input_classes\" name=\"$this->field\" id=\"input-$this->field\" value=\"$value\" placeholder=\"$this->placeholder\">";
+        }
+        $desc = $this->desc == "" ? "" : "<p class=\"help-block\">$this->desc</p>";
+        $wrapper = "<div class=\"form-group$error_class\">$label $input $desc $error_msg</div>";
+
+        return $wrapper;
+    }
 }

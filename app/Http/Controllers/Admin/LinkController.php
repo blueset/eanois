@@ -2,29 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\SlugHelper;
-use App\Tag;
+use App\Link;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-class TagController extends Controller
+class LinkController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $tags = Tag::all()->sortByDesc(function ($tag, $key) {
-            return $tag->posts()->count();
-        });
-        if ($request->ajax()){
-            return response()->json($tags->toArray());
-        }
-        return view('posts.tags', ['tags' => $tags]);
+        $links = Link::all()->sortBy('sort_order');
+        return view('links.index', ['links' => $links]);
     }
 
     /**
@@ -45,17 +39,22 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $request->slug = SlugHelper::getNextAvailableSlug($request->slug, Tag::class);
         $this->validate($request, [
             'name' => 'required',
-            'slug' => 'unique:categories,slug'
+            'url' => 'required_if:type,link|url',
+            'type' => 'required|in:link,divider',
+            'sort_index' => 'integer'
         ]);
-        $tag = new Tag;
-        $tag->name = $request->name;
-        $tag->slug = $request->slug;
-        $tag->save();
-        $request->session()->flash("message_success", "Tag added.");
-        return redirect()->action('Admin\TagController@index');
+        $link = new Link([
+            'name' => $request->name,
+            'desc' => $request->desc,
+            'url' => $request->url,
+            'sort_index' => $request->sort_index,
+            'type' => $request->type
+        ]);
+        $link->save();
+        $request->session()->flash("message_success", "Link added.");
+        return redirect()->action('Admin\LinkController@index');
     }
 
     /**
@@ -66,8 +65,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        $tag = Tag::findOrFail($id);
-        return view('posts.tag-single', ['tag' => $tag]);
+        //
     }
 
     /**
@@ -90,16 +88,19 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $link = Link::findOrFail($id);
         $this->validate($request, [
             'name' => 'required',
-            'slug' => 'unique:categories,slug'
+            'url' => 'required_if:type,link|url',
+            'type' => 'required|in:link,divider',
+            'sort_index' => 'integer'
         ]);
-        $tag = Tag::findOrFail($id);
-        $tag->name = $request->name;
-        $tag->slug = $request->slug;
-        $tag->save();
-        $request->session()->flash("message_success", "Tag updated.");
-        return redirect()->action('Admin\TagController@show', $id);
+        $link->name = $request->name;
+        $link->desc = $request->desc;
+        $link->url = $request->url;
+        $link->sort_index = $request->sort_index;
+        $link->type = $request->type;
+        $link->save();
     }
 
     /**
@@ -110,9 +111,9 @@ class TagController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $tag = Tag::findOrFail($id);
-        $tag->remove();
-        $request->session()->flash("message_success", "Tag removed.");
-        return redirect()->action('Admin\TagController@index');
+        $link = Link::findOrFail($id);
+        $link->delete();
+        $request->session()->flash("message_success", "Link $id has been deleted.");
+        return "Link $id has been deleted.";
     }
 }

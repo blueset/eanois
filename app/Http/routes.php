@@ -57,6 +57,9 @@ Route::group(['middleware' => ['web', 'theme:frontend']], function () {
     Route::get('/public/images/{slug}/{mode}/{w}-{h}.{ext}', ['as' => 'AdminImageControllerShowModeWidthHeightExt', function ($slug, $mode, $w, $h, $ext) {
         return (new \App\Http\Controllers\Admin\ImageController)->show($slug, $ext, $w, $h, $mode);
     }])->where(['slug' => '[a-z0-9-]+', 'ext' => '[a-z0-9]{1,4}', 'w' => '[0-9]+', 'h' => '[0-9]+', 'mode' => '[a-z]+']);
+
+    // Internal use, will be removed during release
+
     Route::get('/file', function (){
         return '<form action="/file" method="post" enctype="multipart/form-data">'.csrf_field().'<input name="file" type="file"/><input type="submit"/></form>';
     });
@@ -75,6 +78,8 @@ Route::group(['middleware' => ['web', 'theme:backend'], 'prefix' => 'eanois'], f
     Route::resource('posts', 'Admin\PostController', ['except' => ['show']]);
     Route::post("posts/batch", 'Admin\PostController@bulkUpdate');
     Route::resource('images', 'Admin\ImageController', ['only' => ['index', 'store', 'destroy']]);
+    Route::resource('links', 'Admin\LinkController', ['only' => ['index', 'store', 'update', 'destroy']]);
+    Route::get('frame/media', 'AdminController@mediaIframe');
 });
 
 Route::group(['prefix' => 'api'], function () {

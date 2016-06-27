@@ -57,7 +57,7 @@ class ImageController extends Controller
         $db_img = new Image([
             'slug' => $slug,
             'title' => $file->getClientOriginalName(),
-            'path' => $local_path
+            'path' => $local_path,
         ]);
         $db_img->save();
     }
@@ -134,7 +134,7 @@ class ImageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $img = Image::find($id);
         $img->delete();

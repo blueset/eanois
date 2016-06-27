@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', $category->name.' - Category - Posts - ')
+@section('title', $tag->name.' - Tag - Posts - ')
 
 @section('css')
     @parent
@@ -8,19 +8,21 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Category: <strong>{{ $category->name }}</strong> <small>View and edit a category</small></h1>
+        <h1>Tag: <strong>{{ $tag->name }}</strong>
+            <small>View and edit a tag</small>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
             <li><a href="{{ action('Admin\PostController@index') }}"> Posts</a></li>
-            <li><a href="{{ action('Admin\CategoryController@index') }}"> Categories</a></li>
-            <li class="active">{{ $category->name }}</li>
+            <li><a href="{{ action('Admin\CategoryController@index') }}"> Tags</a></li>
+            <li class="active">{{ $tag->name }}</li>
         </ol>
     </section>
     <section class="content">
         {!! $message_success !!}
         <div class="row">
             <div class="col-md-4">
-                <form action="{{ action('Admin\CategoryController@update', ['id', $category->id]) }}" method="POST">
+                <form action="{{ action('Admin\TagController@update', ['id', $tag->id]) }}" method="POST">
                     {!! csrf_field() !!}
                     <input type="hidden" name="_method" value="PUT">
                     <div class="box box-primary">
@@ -28,13 +30,8 @@
                             <h3 class="box-title">Edit</h3>
                         </div>
                         <div class="box-body">
-                            {!! \AdminHelper::textField("Name *", "name", old("name", $category->name), $errors) !!}
-                            {!! \AdminHelper::textField("Slug", "slug", old("slug", $category->slug), $errors) !!}
-                            <div class="form-group">
-                                <label for="template">Template</label>
-                                <input type="text" class="form-control" name="template" id="template" value="{{ old('template', $category->template) }}">
-                                <p class="help-block">The theme used for listing page of the category.</p>
-                            </div>
+                            {!! \AdminHelper::textField("Name *", "name", old("name", $tag->name), $errors) !!}
+                            {!! \AdminHelper::textField("Slug", "slug", old("slug", $tag->slug), $errors) !!}
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary">Edit</button>
@@ -45,21 +42,23 @@
             <div class="col-md-8">
                 <div class="box box-default">
                     <div class="box-header">
-                        <h3 class="box-title">Posts filed under {{ $category->name }}</h3>
+                        <h3 class="box-title">Posts tagged as {{ $tag->name }}</h3>
                     </div>
                     <div class="box-body no-padding">
                         <table class="table">
                             <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date Published</th>
+                            </tr>
+                            @foreach($tag->posts()->get() as $post)
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Date Published</th>
+                                    <td>
+                                        <a href="{{ action('Admin\PostController@edit', ['id' => $post->id]) }}">{{ $post->title }}</a>
+                                    </td>
+                                    <td>{{ $post->published_on }}</td>
                                 </tr>
-                                @foreach($category->posts()->get() as $post)
-                                    <tr>
-                                        <td><a href="{{ action('Admin\PostController@edit', ['id' => $post->id]) }}">{{ $post->title }}</a></td>
-                                        <td>{{ $post->published_on }}</td>
-                                    </tr>
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -80,7 +79,8 @@
                     <p>Confirm to delete <span id="modal-item-name"></span>?</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="javascript:void(0)" class="btn btn-outline pull-left" data-dismiss="modal" aria-label="Close">Cancel</a>
+                    <a href="javascript:void(0)" class="btn btn-outline pull-left" data-dismiss="modal"
+                       aria-label="Close">Cancel</a>
                     <a href="javascript:void(0)" id="modal-btn-delete" class="btn btn-outline">Delete</a>
                 </div>
             </div>
@@ -91,7 +91,7 @@
 @section('js')
     @parent
     <script>
-        $(function (){
+        $(function () {
             $("#confirm-delete")
                     .on("show.bs.modal", function (e) {
                         var data = $(e.relatedTarget).data();
@@ -100,7 +100,9 @@
                     })
                     .on("click", "#modal-btn-delete", function () {
                         $.ajax({url: $(this).data('href'), method: "DELETE"})
-                                .then(function(){location.reload();});
+                                .then(function () {
+                                    location.reload();
+                                });
                     });
         });
     </script>

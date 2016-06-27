@@ -24,7 +24,7 @@
                 ["name" => "Library", "icon" => "fa-list", "action" => ['AdminController@index', 'AdminController@index']],
             ]) !!}
             {!! AdminHelper::sidebar_treeview("Links", "fa-link", [
-                ["name" => "All links", "icon" => "fa-list", "action" => ['AdminController@index', 'AdminController@index']],
+                ["name" => "All links", "icon" => "fa-list", "action" => 'Admin\LinkController@index'],
             ]) !!}
         </ul>
     </section>

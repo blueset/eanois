@@ -5,6 +5,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset(Theme::url('plugins/select2/select2.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(Theme::url('css/sortable-app.css')) }}">
+    <link rel="stylesheet" href="{{ asset(Theme::url('css/animate.css')) }}">
     @parent
 @endsection
 
@@ -13,7 +14,7 @@
         <h1>New post <small>Create a new post</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
-            <li><a href="{{ action("Admin\PostController@index") }}"> Posts</a></li>
+            <li><a href="{{ action('Admin\PostController@index') }}"> Posts</a></li>
             <li class="active">New post</li>
         </ol>
     </section>
@@ -150,7 +151,9 @@
                         <div class="form-group">
                             <label>Featured Image:</label>
                             <div id="featured-image"></div>
-                            <a href="" class="btn btn-default">Set Image</a>
+                            <button type="button" class="btn btn-default" id="admin-post-set-featured-img-btn"
+                                    data-toggle="modal" data-target="#mediaModal">Set Image
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -158,11 +161,23 @@
         </div>
     </section>
     </form>
+
+    <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalTitle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="mediaModalTitle">Add media</h4>
+                </div>
+                <iframe class="modal-body" src="{{ action('AdminController@mediaIframe') }}" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
     @parent
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="{{ asset(Theme::url('js/ace/ace.js')) }}"></script>
     <script src="{{ asset(Theme::url('plugins/input-mask/jquery.inputmask.js')) }}"></script>
     <script src="{{ asset(Theme::url('plugins/input-mask/jquery.inputmask.date.Extensions.js')) }}"></script>
@@ -170,6 +185,16 @@
     <script src="{{ asset(Theme::url('js/sortable.min.js')) }}"></script>
     <script src="{{ asset(Theme::url('js/jquery-donetyping.js')) }}"></script>
     <script>
+        // Animate.css: https://github.com/daneden/animate.css
+        $.fn.extend({
+            animateCss: function (animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                $(this).addClass('animated ' + animationName).one(animationEnd, function () {
+                    $(this).removeClass('animated ' + animationName);
+                });
+            }
+        });
+
         $(function () {
             // Ace editor
             $('textarea[data-editor]').each(function () {
@@ -196,7 +221,6 @@
             });
 
             // Datetime input mask
-
             $("#published_on").inputmask('y-m-d h:s:s');
 
 
@@ -287,7 +311,7 @@
             $("#btn-cat-add").click(function () {
                 var catName = $("#cat-new-name").val();
                 if (catName == ""){
-                    $("#cat-new-name").effect("shake");
+                    $("#cat-new-name").animateCss("shake");
                     return;
                 }
                 $.ajax({
@@ -326,6 +350,10 @@
                 updateSlug();
             });
             $("#input-title").donetyping(updateSlug);
+
+            window.insertImage = function (slug) {
+                console.log(slug);
+            }
         });
     </script>
 @endsection

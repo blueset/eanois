@@ -67,3 +67,52 @@
     user-drag: none;
     -webkit-user-drag: none;
 }
+
+/*
+ * Links: Index
+ */
+
+.admin-link-divider {
+    padding: 5px 10px;
+    background-color: #485A70;
+    color: #fff;
+}
+
+.admin-link-divider-name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.admin-link-item {
+    padding: 10px 10px;
+    display: flex;
+}
+
+.admin-link-item-info {
+    flex-grow: 1;
+}
+
+.admin-link-item-favicon {
+    padding-right: 5px;
+}
+
+.admin-link-item-name {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+span.admin-link-item-url.text-muted {
+    font-style: italic;
+}
+
+.admin-link-entry button {
+    margin-left: 5px;
+}
+
+.inline-edit {
+    background: none;
+    border: none;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    border-bottom-color: #eeeeee;
+}

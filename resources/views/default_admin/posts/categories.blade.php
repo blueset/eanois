@@ -4,7 +4,7 @@
 
 @section('css')
     @parent
-    <link rel="stylesheet" href="{{ asset(Theme::url('plugins/iCheck/square/blue.css')) }}">
+    <link rel="stylesheet" href="{{ asset(Theme::url('css/animate.css')) }}">
 @endsection
 
 @section('content')

@@ -19,20 +19,35 @@
         {!! $message_success !!}
         <div class="row">
             <div class="col-md-4">
-                <form action="{{ action('Admin\CategoryController@store') }}" method="POST">
+                <form action="{{ action('Admin\LinkController@store') }}" method="POST">
                     {!! csrf_field() !!}
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Create a new category</h3>
+                            <h3 class="box-title">Add a new Link</h3>
                         </div>
                         <div class="box-body">
-                            {!! \AdminHelper::textField("Name *", "name", old("name"), $errors) !!}
-                            {!! \AdminHelper::textField("Slug", "slug", old("slug"), $errors) !!}
+                            {!! \AdminHelper::form_group()->title("Name *")->field("name")->errors($errors)->required()->render() !!}
+                            {!! \AdminHelper::textField("Description", "desc", old("desc"), $errors) !!}
+                            {!! \AdminHelper::form_group()->title("URL *")->field("url")->input_type("url")->errors($errors)->render() !!}
                             <div class="form-group">
-                                <label for="template">Template</label>
-                                <input type="text" class="form-control" name="template" id="template" value="{{ old('template') }}">
-                                <p class="help-block">The theme used for listing page of the category.</p>
+                                <label for="sort_index">Sort Index</label>
+                                <input type="number" class="form-control" name="sort_index" id="sort_index"
+                                       value="{{ old('sort_index') }}">
+                                <p class="help-block">Sort index of the link. Smaller the number, higher up in the
+                                    list.</p>
                             </div>
+                            <div class="form-group">
+                                <label for="type">Item type</label>
+                                <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                    <label for="" class="btn btn-default active">
+                                        <input type="radio" name="type" value="link" checked> Link
+                                    </label>
+                                    <label for="" class="btn btn-default">
+                                        <input type="radio" name="type" value="divider"> Divider
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary">Add</button>
@@ -43,33 +58,57 @@
             <div class="col-md-8">
                 <div class="box box-default">
                     <div class="box-header">
-                        <h3 class="box-title">Categories</h3>
+                        <h3 class="box-title">Links</h3>
                     </div>
                     <div class="box-body no-padding">
-                        <table class="table">
-                            <tbody>
-                            <tr>
-                                <th>Name</th>
-                                <th>Slug</th>
-                                <th>Template</th>
-                                <th>Posts</th>
-                                <th class="table-action"></th>
-                            </tr>
-                            @foreach( $categories as $cat )
-                                <tr>
-                                    <td><a href="{{ action('Admin\CategoryController@show', ['id' => $cat->id]) }}">{{ $cat->name }}</a></td>
-                                    <td><code>{{ $cat->slug }}</code></td>
-                                    <td><code>{{ $cat->template }}</code></td>
-                                    <td>{{ $cat->posts()->count() }}</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete" data-name="{{ $cat->name }} ({{ $cat->slug }})" data-href="{{ action('Admin\CategoryController@destroy', ['id' => $cat->id]) }}">
-                                            <i class="fa fa-remove"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                        @foreach ($links as $l)
+                            @if($l->type == "divider")
+                                <div class="admin-link-divider admin-link-entry" data-id="{{ $l->id }}">
+                                    <div class="pull-right">
+                                        <span class="admin-link-divider-index">{{ $l->sort_index }}</span>
+                                        <button type="button" data-action="edit"
+                                                class="btn btn-primary btn-xs">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <button type="button" data-action="delete" data-id="{{ $l->id }}"
+                                                data-toggle="modal" data-target="#confirm-delete"
+                                                data-name="{{ $l->name }}"
+                                                data-href="{{ action('Admin\LinkController@destroy', ['id' => $l->id]) }}"
+                                                class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <span class="admin-link-divider-name">{{ $l->name }}</span>
+                                </div>
+                            @elseif ($l->type == "link")
+                                <div class="admin-link-item admin-link-entry" data-id="{{ $l->id }}">
+                                    <div class="admin-link-item-favicon"><img
+                                                src="//www.google.com/s2/favicons?domain_url={{ urlencode($l->url) }}"
+                                                alt="{{ $l->name }} ({{ $l->url }})"></div>
+                                    <div class="admin-link-item-info">
+                                        <div class="admin-link-item-title">
+                                            <a href="{{ $l->url }}" class="admin-link-item-name">{{ $l->name }}</a>
+                                            <span class="admin-link-item-url">({{ $l->url }})</span>
+                                        </div>
+                                        <div class="admin-link-item-desc">{{ $l->desc }}</div>
+                                    </div>
+                                    <div class="admin-link-item-right">
+                                        <span class="admin-link-item-index">{{ $l->sort_index }}</span>
+                                        <button type="button" data-action="edit"
+                                                class="btn btn-primary btn-xs">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <button type="button" data-action="delete" data-id="{{ $l->id }}"
+                                                data-toggle="modal" data-target="#confirm-delete"
+                                                data-name="{{ $l->name }}"
+                                                data-href="{{ action('Admin\LinkController@destroy', ['id' => $l->id]) }}"
+                                                class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -98,6 +137,9 @@
 
 @section('js')
     @parent
+    <script src="{{ asset(Theme::url('js/links-inline-edit.js')) }}" id="links-inline-edit"
+            data-edit-url="{{ action('Admin\LinkController@update', '%s') }}"></script>
+    <script src="{{ asset(Theme::url('js/strechy.js')) }}" data-stretchy-filter=".inline-edit"></script>
     <script>
         $(function (){
             $("#confirm-delete")

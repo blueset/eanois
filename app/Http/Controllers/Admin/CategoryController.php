@@ -76,7 +76,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $cat = Category::where('id', $id)->first();
+        $cat = Category::findOrFail($id);
         return view('posts.category-single', ['category' => $cat]);
     }
 
@@ -100,7 +100,30 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cat = Category::findOrFail($id);
+
+        if (empty($request->slug)) {
+            $baseSlug = SlugHelper::getSlug($request->name);
+            $request->slug = $baseSlug;
+            $slugCount = -1;
+            while (Category::where('slug', '=', $request->slug)->exists()) {
+                $slugCount += 1;
+                $request->slug = $baseSlug . '-' . $slugCount;
+            }
+        }
+
+        $this->validate($request, [
+            'name' => 'required',
+            'slug' => 'unique:categories,slug'
+        ]);
+
+        $cat->name = $request->name;
+        $cat->slug = $request->slug;
+        $cat->template = $request->template;
+        $cat->save();
+        $request->session()->flash("message_success", "Category updated.");
+        return redirect()->action('Admin\CategoryController@show', $id);
+
     }
 
     /**
@@ -113,7 +136,7 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $cat = Category::find($id);
+        $cat = Category::findOrFail($id);
         $cat->delete();
         $request->session()->flash("message_success", "Category $id has been deleted.");
         return "Category $id has been deleted.";
