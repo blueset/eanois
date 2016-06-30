@@ -63,10 +63,12 @@ return [
 //		],
         'default' => [
 			'asset-path' => 'eanois_themes/default',
+			'theme-type' => 'frontend'
 		],
 
 		'default_admin' => [
             'asset-path' => 'eanois_themes/default_admin',
+            'theme-type' => 'backend'
         ],
 		// Add your themes here...
 

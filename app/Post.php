@@ -18,11 +18,11 @@ class Post extends Model
     }
 
     public function links() {
-        return $this->hasMany('App\PostLink', 'post', 'post_links');
+        return $this->hasMany('App\PostLink', 'post');
     }
 
     public function meta() {
-        return $this->hasMany('App\PostMeta', 'post', 'post_meta');
+        return $this->hasMany('App\PostMeta', 'post');
     }
     
     protected $dates = ['deleted_at'];

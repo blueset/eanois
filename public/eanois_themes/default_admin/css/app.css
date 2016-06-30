@@ -116,3 +116,93 @@ span.admin-link-item-url.text-muted {
     border-bottom-style: dotted;
     border-bottom-color: #eeeeee;
 }
+
+/*
+ * Themes panel
+ */
+
+.theme-box {
+   width: 100%;
+   border-width: 1px;
+   border-style: solid;
+   border-radius: 5px;
+   height: 45px;
+   box-sizing: content-box;
+}
+
+.theme-box-icon {
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    float: left;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.theme-box-title {
+    margin-left: 45px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 5px 10px;
+}
+
+h3.theme-box-name {
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.theme-box-desc {
+    font-size: 0.8em;
+}
+
+
+.theme-box:hover .theme-box-title {
+    color: #fff;
+}
+
+.theme-box.selected:hover .theme-box-icon {
+    border-right-color: #fff;
+}
+
+.theme-box[data-type=front] {
+    border-color: #00a65a;
+}
+
+.theme-box.selected[data-type=front] .theme-box-icon {
+    background: #00a65a;
+    color: #fff;
+}
+
+.theme-box[data-type=front]:hover .theme-box-title {
+    background: #00a65a;
+}
+
+.theme-box[data-type=front] .theme-box-icon {
+    border-right: 1px solid #00a65a;
+}
+
+.theme-box[data-type=back] .theme-box-icon {
+    border-right: 1px solid #3c8dbc;
+}
+
+.theme-box[data-type=back] {
+    border-color: #3c8dbc;
+}
+
+.theme-box.selected[data-type=back] .theme-box-icon {
+    background: #3c8dbc;
+    color: #fff;
+}
+
+.theme-box[data-type=back] .theme-box-icon {
+    border-right: 1px solid #3c8dbc;
+}
+
+.theme-box[data-type=back]:hover .theme-box-title {
+    background: #3c8dbc;
+}
+

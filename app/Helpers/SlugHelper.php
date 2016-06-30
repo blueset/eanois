@@ -54,16 +54,22 @@ class SlugHelper {
      * Check with the database to find the next available slug
      * in the `slug` column of the table of the specified model.
      *
-     * @param string $slug Slug to be processed
-     * @param $model Model to be checked
+     * @param string    $slug  Slug to be processed
+     * @param           $model Model to be checked
+     * @param int|null  $id    ID of element to be exempted
      *
      * @return string Slug processed
      */
-    public static function getNextAvailableSlug($slug, $model) {
+    public static function getNextAvailableSlug($slug, $model, $id=null) {
         $slug = self::getSlug($slug);
         $baseSlug = $slug;
         $slugCount = -1;
-        while($model::where('slug', $slug)->exists()){
+
+        $query = $model::withTrashed();
+        if (!is_null($id)){
+            $query = $query->where('id', '!=', $id);
+        }
+        while($query->where('slug', $slug)->exists()){
             $slugCount += 1;
             $slug = $baseSlug.'-'.$slugCount;
         }

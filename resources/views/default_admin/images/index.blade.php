@@ -46,7 +46,7 @@
                                 <div class="progress progress-xxs active dz-progress" data-dz-uploadprogress>
                                     <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
                                 </div>
-                                <span data-dz-name></span>
+                                <span class="mailbox-attachment-name" data-dz-name></span>
                             <span class="mailbox-attachment-size">
                                 <span data-dz-size></span>
                                 <span class="text-danger dz-error-msg"></span>
@@ -72,10 +72,7 @@
                     @foreach($images as $i)
                     <li class="image-item">
                         <span class="mailbox-attachment-icon has-img">
-                            <picture>
-                                <source srcset="{{ route("AdminImageControllerShowWidthHeightExt", [$i->slug, 200, 135, 'webp']) }}" type="image/webp">
-                                <img src="{{ route("AdminImageControllerShowWidthHeight", [$i->slug, 200, 135]) }}" alt="{{ $i->title }}">
-                            </picture>
+                            {!! $i->pictureElement()->mode("WidthHeight")->width(200)->height(135) !!}
                         </span>
                         <div class="mailbox-attachment-info">
                             <a href="{{ route("AdminImageControllerShowExt", [$i->slug, $i->getExt()]) }}" class="mailbox-attachment-name">{{ $i->title }}</a>
@@ -121,7 +118,6 @@
 
 @section('js')
     @parent
-    <script src="{{ asset(Theme::url('plugins/iCheck/icheck.min.js')) }}"></script>
     <script src="{{ asset(Theme::url('js/dropzone.js')) }}"></script>
     <script>
         $(function (){
@@ -130,7 +126,7 @@
                         var data = $(e.relatedTarget).data();
                         $("#modal-item-name", this).text(data.name);
                         $("#modal-btn-delete", this).data('href', data.href);
-                        $("#modal-delete-item-img", this).html($(e.relatedTarget).parents("ul").find("Picture").html());
+                        $("#modal-delete-item-img", this).html($(e.relatedTarget).parents("li").find("Picture").html());
                     })
                     .on("click", "#modal-btn-delete", function () {
                         $.ajax({url: $(this).data('href'), method: "DELETE"})

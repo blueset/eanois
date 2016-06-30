@@ -14,7 +14,8 @@
         <div class="row">
             <div class="col-lg-8">
                 {!! $message_success !!}
-                <form action="{{ action("AdminController@putSettings") }}" method="POST" ole="form">
+                <form action="{{ action("AdminController@putSettings") }}" method="POST" role="form">
+                    <input type="hidden" name="_method" value="PUT">
                     {!! csrf_field() !!}
                     {!! AdminHelper::textField("Site name", "site_name", array_get($config, 'site_name', '')) !!}
                     <button class="btn btn-primary" type="submit">Submit</button>

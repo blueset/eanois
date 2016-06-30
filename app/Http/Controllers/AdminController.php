@@ -28,6 +28,8 @@ class AdminController extends Controller
         return view('home');
     }
 
+    // Settings
+    
     public function viewSettings() {
         $config = Setting::getConfig();
 
@@ -37,6 +39,40 @@ class AdminController extends Controller
         Setting::setConfig($request->toArray());
         $request->session()->flash("message_success", "Settings updated.");
         return redirect()->action('AdminController@viewSettings');
+    }
+
+    // Themes
+
+    public function themeIndex() {
+        $frontList = [];
+        $backList = [];
+        foreach (config('themes.themes') as $key => $item) {
+            if ($item['theme-type'] == 'frontend') {
+                array_push($frontList, $key);
+            } elseif ($item['theme-type'] == 'backend') {
+                array_push($backList, $key);
+            }
+        };
+        $param = [
+            'front' => Setting::getConfig('theme'),
+            'back' => Setting::getConfig('admin_theme'),
+            'frontList' => $frontList,
+            'backList' => $backList
+        ];
+        return view("themes", $param);
+    }
+
+    public function themeUpdate(Request $request) {
+        if ($request->type == "front"){
+            $key = "theme";
+        } elseif ($request->type == "back") {
+            $key = "admin_theme";
+        } else {
+            $key = "theme";
+        }
+        Setting::setConfig([$key => $request->id]);
+        $request->session()->flash("message_success", "Theme updated.");
+        return "Theme updated.";
     }
 
     public function mediaIframe() {

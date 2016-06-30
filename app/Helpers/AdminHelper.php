@@ -227,4 +227,8 @@ class BootStrapFormGroup {
 
         return $wrapper;
     }
+
+    function __toString() {
+        return $this->render();
+    }
 }

@@ -50,16 +50,23 @@ class ImageController extends Controller
 
         $ext = $file->getClientOriginalExtension();
         $slug = SlugHelper::getNextAvailableSlug(basename($file->getClientOriginalName(), '.'.$ext), Image::class);
-        $local_path = storage_path('app/images/'.strval(time()).'_'.$slug.'.'.$ext);
-        $img_obj = \InterventionImage::make($file->getRealPath());
-        $img_obj->save($local_path);
+        $local_path = storage_path('app/images');
+        $local_name = strval(time()).'_'.$slug.'.'.$ext;
+        $file->move($local_path, $local_name);
+        $local_full_path = storage_path('app/images/'.strval(time()).'_'.$slug.'.'.$ext);
 
         $db_img = new Image([
             'slug' => $slug,
             'title' => $file->getClientOriginalName(),
-            'path' => $local_path,
+            'path' => $local_full_path,
         ]);
         $db_img->save();
+
+        return response()->json([
+            "id" => $db_img->id,
+            "slug" => $db_img->slug,
+            "title" => $db_img->title
+        ]);
     }
 
     /**
@@ -76,7 +83,10 @@ class ImageController extends Controller
     public function show($slug, $ext=null, $w=0, $h=0, $mode="fit")
     {
         $db_img = Image::where('slug', '=', $slug)->firstOrFail();
-        if($ext == null){
+        if (($ext == null || $ext == $db_img->getExt()) && $w == 0 && $h == 0){
+            return response()->file($db_img->path);
+        }
+        if ($ext == null){
             $ext = \File::extension($db_img->path);
         }
         \InterventionImage::configure(["driver" => "imagick"]);

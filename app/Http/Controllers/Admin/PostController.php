@@ -6,6 +6,7 @@ use App\Category;
 use App\Helpers\SlugHelper;
 use App\Post;
 use App\PostLink;
+use App\PostMeta;
 use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -46,20 +47,22 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        $slug = empty($request->slug) ? SlugHelper::getSlug($request->title) : $request->slug;
+        $request->slug = empty($request->slug) ? SlugHelper::getNextAvailableSlug($request->title, Post::class) : $request->slug;
 
         $this->validate($request, [
             'title' => 'required',
             'slug' => 'required',
-            'category' => 'required|exists:categories,id,deleted_at,NULL',
+            'category' => 'required|exists:categories,id',
+            'image' => 'exists:images,slug,deleted_at,NULL'
         ]);
 
         $post = new Post();
         $post->title = $request->title;
         $post->category = $request->category;
-        $post->slug = SlugHelper::getNextAvailableSlug($slug, Post::class);
+        $post->slug = $request->slug;
         $post->desc = $request->desc;
         $post->body = $request->body;
+        $post->image = $request->image;
         $post->published_on = empty($request->published_on) ? Carbon::now() : Carbon::createFromFormat("Y-m-d H:i:s", $request->published_on);
 
         $post->save();
@@ -77,24 +80,24 @@ class PostController extends Controller
             }
         }
 
-        if (isset($request->postlink_name)){
-            for ($i = 0; $i < count($request->postlink_name); $i++) {
-                if (!empty($request->postlink_name[$i])){
+        if (isset($request->postlink)){
+            foreach ($request->postlink as $order => $value){
+                if (!empty($value->name)){
                     $link = new PostLink();
-                    $link->name = $request->postlink_name[$i];
-                    $link->url = $request->postlink_link[$i];
-                    $link->order = $i;
+                    $link->name = $value->name;
+                    $link->url = $value->url;
+                    $link->order = $order;
                     $post->links()->save($link);
                 }
             }
         }
 
-        if (isset($request->postmeta_key)){
-            for ($i = 0; $i < count($request->postmeta_key); $i++) {
-                if (!empty($request->postmeta_key[$i])){
+        if (isset($request->postmeta)){
+            foreach ($request->postmeta as $item){
+                if (!empty($item->key)){
                     $link = new PostMeta();
-                    $link->name = $request->postmeta_key[$i];
-                    $link->url = $request->postmeta_value[$i];
+                    $link->key = $item->key;
+                    $link->value = $item->value;
                     $post->meta()->save($link);
                 }
             }
@@ -139,7 +142,67 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $this->validate($request, [
+            'title' => 'required',
+            'slug' => 'required',
+            'category' => 'required|exists:categories,id',
+            'image' => 'exists:images,slug,deleted_at,NULL'
+        ]);
+
+        $post->title = $request->title;
+        $post->category = $request->category;
+        $post->slug = $request->slug;
+        $post->desc = $request->desc;
+        $post->body = $request->body;
+        $post->image = $request->image;
+        $post->published_on = empty($request->published_on) ? Carbon::now() : Carbon::createFromFormat("Y-m-d H:i:s", $request->published_on);
+
+        $post->save();
+        if (isset($request->tags)){
+            foreach($request->tags as $t) {
+                if (Tag::where('slug', $t)->exists()) {
+                    $tag = Tag::where('slug', $t);
+                } else {
+                    $tag = new Tag();
+                    $tag->name = $t;
+                    $tag->slug = SlugHelper::getNextAvailableSlug($t, Tag::class);
+                    $tag->save();
+                }
+                $post->tags()->save($tag);
+            }
+        }
+
+        // TODO: CURD for postlink & postmeta
+
+        if (isset($request->postlink_name)){
+            for ($i = 0; $i < count($request->postlink_name); $i++) {
+                if (!empty($request->postlink_name[$i])){
+                    $link = new PostLink();
+                    $link->name = $request->postlink_name[$i];
+                    $link->url = $request->postlink_link[$i];
+                    $link->order = $i;
+                    $post->links()->save($link);
+                }
+            }
+        }
+
+        if (isset($request->postmeta_key)){
+            for ($i = 0; $i < count($request->postmeta_key); $i++) {
+                if (!empty($request->postmeta_key[$i])){
+                    $link = new PostMeta();
+                    $link->name = $request->postmeta_key[$i];
+                    $link->url = $request->postmeta_value[$i];
+                    $post->meta()->save($link);
+                }
+            }
+        }
+
+        $post->save();
+        $request->session()->flash("message_success", "Post edited.");
+
+        return redirect()->action('Admin\PostController@edit', ['id' => $post->id]);
     }
 
     /**
@@ -152,10 +215,10 @@ class PostController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $post->delete();
         $request->session()->flash("message_success", "Post \"$post->title\" has been deleted.");
-        return "Post \"$img->title\" has been deleted.";
+        return redirect()->action('Admin\PostController@index');
     }
 
     /**
