@@ -165,6 +165,7 @@ return [
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -219,6 +220,7 @@ return [
         'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Slugify' => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
         'InterventionImage' => Intervention\Image\Facades\Image::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
         /*
          * App Aliases

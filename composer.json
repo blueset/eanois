@@ -12,7 +12,8 @@
         "creativeorange/gravatar": "~1.0",
         "guzzlehttp/guzzle": "~6.0",
         "cocur/slugify": "^1.4",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "barryvdh/laravel-debugbar": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

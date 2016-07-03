@@ -15,7 +15,7 @@ This CMS is written for personal use, based on Laravel, and it's currently worki
  * [ ] Files
  * [x] Links
  * [x] Settings
- * [ ] Themes
+ * [x] Themes
  * [ ] Dashboard
 * [ ] Frontend
 * [ ] Misc

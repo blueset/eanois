@@ -57,30 +57,6 @@ Route::group(['middleware' => ['web', 'theme:frontend']], function () {
     Route::get('/public/images/{slug}/{mode}/{w}-{h}.{ext}', ['as' => 'AdminImageControllerShowModeWidthHeightExt', function ($slug, $mode, $w, $h, $ext) {
         return (new \App\Http\Controllers\Admin\ImageController)->show($slug, $ext, $w, $h, $mode);
     }])->where(['slug' => '[a-z0-9%-]+', 'ext' => '[a-z0-9]{1,4}', 'w' => '[0-9]+', 'h' => '[0-9]+', 'mode' => '[a-z]+']);
-
-    // Internal use, will be removed during release
-    Route::get('test', function(){
-        $c = csrf_field();
-        return <<<PHP
-<form action="/test" method="post">
-$c
-<input name="test[1][key]"/>
-<input name="test[1][val]"/>
-<input name="test[2][key]"/>
-<input name="test[2][val]"/>
-<input name="test[3][key]"/>
-<input name="test[3][val]"/>
-<input type="submit"/>
-</form>
-PHP;
-    });
-    Route::post('test', function (){ dd(Request::all());});
-    Route::get('/file', function (){
-        return '<form action="/file" method="post" enctype="multipart/form-data">'.csrf_field().'<input name="file" type="file"/><input type="submit"/></form>';
-    });
-    Route::post('/file', function (){
-        dump(Request::file('file')->move('/Users/blueset/htdocs/n1laravel/storage/app/public'));
-    });
 });
 
 Route::group(['middleware' => ['web', 'auth', 'theme:backend'], 'prefix' => 'eanois'], function () {

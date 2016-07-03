@@ -1,0 +1,53 @@
+body {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+.frame-left-black {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,ffffff+51,ffffff+100 */
+  background: #333333;
+  /* Old browsers */
+  background: -moz-linear-gradient(left, #333333 0%, #333333 50%, #fff 50.01%, #fff 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #333333 0%, #333333 50%, #fff 50.01%, #fff 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #333333 0%, #333333 50%, #ffffff 50.01%, #ffffff 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$left', endColorstr='$right',GradientType=1 );
+  /* IE6-9 */ }
+  .frame-left-black .row {
+    *zoom: 1;
+    max-width: 59em;
+    _width: 59em;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-left: auto;
+    margin-right: auto; }
+    .frame-left-black .row:after {
+      content: "";
+      display: table;
+      clear: both; }
+    .frame-left-black .row .container {
+      background: #fff; }
+      @media (min-width: 300px) {
+        .frame-left-black .row .container {
+          width: 100%;
+          float: left;
+          margin-left: 0;
+          margin-right: 0;
+          padding-left: 0%; }
+          .frame-left-black .row .container .index-section-title {
+            margin-left: 0;
+            float: none; } }
+      @media (min-width: 769px) {
+        .frame-left-black .row .container {
+          width: 64.28571%;
+          float: left;
+          margin-left: 7.14286%;
+          padding-left: 8.47458%;
+          padding: 10px; }
+          .frame-left-black .row .container .index-section .index-section-title {
+            margin-left: -28.57143%;
+            float: left; } }
+
+/*# sourceMappingURL=app.css.map */

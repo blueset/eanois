@@ -1,0 +1,60 @@
+@import "../bower_components/susy/sass/susy";
+@import "../bower_components/susy/sass/susyone";
+
+$xs: min-width 300px;
+$sm: min-width 480px;
+$md: min-width 768px;
+$lg: 769px;
+
+@mixin bgLR($left, $right) {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,ffffff+51,ffffff+100 */
+    background: $left; /* Old browsers */
+    background: -moz-linear-gradient(left,  $left 0%, $left 50%, $right 50.01%, $right 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  $left 0%,$left 50%,$right 50.01%,$right 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  $left 0%,$left 50%,$right 50.01%,$right 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$left', endColorstr='$right',GradientType=1 ); /* IE6-9 */
+}
+$susy: (
+        columns: 3,
+        gutters: 1/4,
+        math: fluid,
+        output: float,
+        gutter-position: before,
+);
+
+body {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+.frame-left-black {
+    @include bgLR(#333333, #fff);
+    .row {
+        @include container;
+        .container {
+            background: #fff;
+            @include susy-breakpoint($xs, 3) {
+                @include span(3);
+                @include prefix(0);
+                .index-section-title {
+                    margin-left: 0;
+                    float: none;
+                }
+            }
+            @include susy-breakpoint($lg, 3) {
+                @include span(2);
+                @include prefix(1);
+                padding: 10px;
+                .index-section {
+                    .index-section-title {
+                        margin-left: 0 - columns(1, 3);
+                        float: left;
+                    }
+
+                }
+            }
+
+        }
+
+    }
+}

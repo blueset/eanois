@@ -10,7 +10,6 @@ use App\Setting;
 class FrontEndController extends Controller
 {
     public function index() {
-        $config = Setting::getConfig('site_name');
-        return view('index', ['config' => $config]);
+        return view('index');
     }
 }

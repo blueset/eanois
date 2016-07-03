@@ -22,3 +22,5 @@ storage/
 /app/config/packages
 /public/packages
 /node_modules
+
+.sass-cache
