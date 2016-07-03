@@ -1,60 +1,185 @@
-@import "../bower_components/susy/sass/susy";
-@import "../bower_components/susy/sass/susyone";
+@import "../bower_components/gridle/sass/gridle/gridle";
 
-$xs: min-width 300px;
-$sm: min-width 480px;
-$md: min-width 768px;
-$lg: 769px;
+// setup the grid (required)
+@include gridle_setup((
+        context: 12,
+        column_width: 3em,
+        gutter-width : 20px,
+        gutter-bottom : 20px,
+        states-classes : true,
+));
+
+
+@include gridle_register_state(xs, (max-width: 300px));
+@include gridle_register_state(sm, (min-width: 301px));
+@include gridle_register_state(md, (min-width: 481px));
+@include gridle_register_state(lg, (min-width: 769px));
+@include gridle_register_state(xl, (min-width: 1025px));
 
 @mixin bgLR($left, $right) {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,ffffff+51,ffffff+100 */
     background: $left; /* Old browsers */
-    background: -moz-linear-gradient(left,  $left 0%, $left 50%, $right 50.01%, $right 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  $left 0%,$left 50%,$right 50.01%,$right 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  $left 0%,$left 50%,$right 50.01%,$right 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(left, $left 0%, $left 50%, $right 50.01%, $right 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, $left 0%,$left 50%,$right 50.01%,$right 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, $left 0%,$left 50%,$right 50.01%,$right 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$left', endColorstr='$right',GradientType=1 ); /* IE6-9 */
 }
-$susy: (
-        columns: 3,
-        gutters: 1/4,
-        math: fluid,
-        output: float,
-        gutter-position: before,
-);
 
-body {
+html, body {
     border: 0;
     margin: 0;
     padding: 0;
+    height: 100%;
+    font-family: "Open Sans", "SFNS Display", "Myriad Pro", "Segoe UI", Helvetica, "Helvetica Neue", Arial, sans-serif;
+    color: #3a3a3a;
+    @include gridle_state(lg){
+        font-size: 14pt;
+    }
 }
+
+.frame {
+    height: 100%;
+}
+
+.container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    @include gridle_state(md) {
+        width: 100%;
+    }
+    @include gridle_state(lg) {
+        width: 750px;
+    }
+    @include gridle_state(xl) {
+        width: 960px;
+    }
+}
+
+.row {
+    @include gridle_row();
+    @include gridle_state(md){
+        display: flex;
+        align-items: stretch;
+    }
+}
+
 .frame-left-black {
-    @include bgLR(#333333, #fff);
-    .row {
-        @include container;
-        .container {
-            background: #fff;
-            @include susy-breakpoint($xs, 3) {
-                @include span(3);
-                @include prefix(0);
-                .index-section-title {
-                    margin-left: 0;
-                    float: none;
-                }
+    $columnL: 2;
+    $columnR: 12 - $columnL;
+    @include gridle_state(md) {
+        @include bgLR(#333333, #fff);
+        .last-section{
+            flex-grow: 1;
+        }
+        .first-section{
+            flex-basis: 2em;
+        }
+    }
+    @include gridle_container();
+    .section-title{
+        background-color: #333333;
+        color: #fff;
+        h2 {
+            font-size: 1em;
+            margin: 0;
+            font-weight: normal;
+        }
+    }
+    .section-content{
+        background: #fff;
+    }
+    .normal-section{
+        @include gridle_state(sm) {
+            .section-content{
+                @include gridle_grid(12);
             }
-            @include susy-breakpoint($lg, 3) {
-                @include span(2);
-                @include prefix(1);
-                padding: 10px;
-                .index-section {
-                    .index-section-title {
-                        margin-left: 0 - columns(1, 3);
-                        float: left;
-                    }
-
-                }
+        }
+        @include gridle_state(md) {
+            .section-content{
+                @include gridle_grid($columnR);
+                @include gridle_gutter(3em 4em);
+                @include gridle_push($columnL);
             }
-
         }
 
     }
+    .title-section {
+        @include gridle_state(sm) {
+            .section-title {
+                @include gridle_grid(12);
+            }
+            .section-content {
+                @include gridle_grid(12);
+            }
+        }
+        @include gridle_state(md) {
+            .section-title {
+                @include gridle_gutter(3em 20px);
+                @include gridle_grid($columnL);
+            }
+            .section-content {
+                @include gridle_grid($columnR);
+                @include gridle_gutter(3em 4em);
+            }
+        }
+    }
+
+    .home-section-entry{
+        a {
+            font-weight: bold;
+            color: #3a3a3a;
+            text-decoration: none;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+        .entry-desc {
+            font-style: italic;
+        }
+    }
+
+}
+
+
+// Title page
+
+.logo-long img {
+    max-height: 2em;
+}
+
+.title-nav{
+    ul {
+        font-size: .9em;
+        margin: 1em 0 0 0;
+        padding: 0;
+        font-family: "Work Sans", sans-serif;
+        list-style-type: none;
+        li{
+            display: inline-block;
+            text-transform: uppercase;
+            a:link{
+                color: #3a3a3a;
+                text-decoration: none;
+            }
+            a:hover{
+                text-decoration: underline;
+            }
+            &:after{
+                content: "·";
+                padding: 0 1em;
+            }
+            &:last-child:after{
+                content: '';
+                padding: 0;
+            }
+        }
+    }
+}
+.home-slogan {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 100;
+    font-size: 5em;
+    padding-top: .2em;
 }
