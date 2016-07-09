@@ -175,7 +175,6 @@ HDC
                             <input type="hidden" name="image" id="input-featured-image" val="{{ old('image') }}">
                             <div id="featured-image" class="hidden">
                                 <picture>
-                                    <source srcset="{{-- route("AdminImageControllerShowWidthHeightExt", [$i->slug, 200, 135, 'webp']) --}}" type="image/webp">
                                     <img src="{{-- route("AdminImageControllerShowWidthHeight", [$i->slug, 200, 135]) --}}" alt="Featured Image">
                                 </picture>
                                 <button type="button" class="btn btn-link btn-block" id="admin-post-remove-img-btn">Remove featured image</button>
@@ -200,7 +199,7 @@ HDC
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="mediaModalTitle">Add media</h4>
                 </div>
-                <iframe style="width: 100%" src="{{ action('AdminController@mediaIframe') }}" frameborder="0"></iframe>
+                <iframe style="width: 100%" data-src="{{ action('AdminController@mediaIframe') }}" frameborder="0"></iframe>
             </div>
         </div>
     </div>
@@ -284,7 +283,7 @@ HDC
                     data: cats
                 });
                 $("#tags").val([
-                    @foreach(old("tags") as $t)
+                    @foreach(old("tags", []) as $t)
                             "{{ $t }}",
                     @endforeach
                 ]).trigger('change');
@@ -401,6 +400,9 @@ HDC
             $("#input-title").donetyping(updateSlug);
 
             $("#mediaModal").on('show.bs.modal', function () {
+                if (! $("iframe", this).attr("src")){
+                    $("iframe", this).attr("src", function(){return $(this).data('src')});
+                }
                 $("iframe", this).height($(window).height() - 150);
             });
 
@@ -429,9 +431,6 @@ HDC
                 } else {
                     $("#admin-post-set-featured-img-btn").addClass("hidden");
                     $("#featured-image").removeClass("hidden");
-                    $("#featured-image").find("source[type='image/webp']").attr("srcset",
-                            "{{ route("AdminImageControllerShowWidthExt", ['s1ug', 200, 'webp']) }}".replace("s1ug", slug)
-                    );
                     $("#featured-image").find("img").attr("src",
                             "{{ route("AdminImageControllerShowWidth", ['s1ug', 200]) }}".replace("s1ug", slug)
                     );

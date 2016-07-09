@@ -91,7 +91,7 @@ HDC
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="mediaModalTitle">Add media</h4>
                 </div>
-                <iframe style="width: 100%" src="{{ action('AdminController@mediaIframe') }}" frameborder="0"></iframe>
+                <iframe style="width: 100%" data-src="{{ action('AdminController@mediaIframe') }}" frameborder="0"></iframe>
             </div>
         </div>
     </div>
@@ -183,6 +183,9 @@ HDC
             $("#input-title").donetyping(updateSlug);
 
             $("#mediaModal").on('show.bs.modal', function () {
+                if (! $("iframe", this).attr("src")){
+                    $("iframe", this).attr("src", function(){return $(this).data('src')});
+                }
                 $("iframe", this).height($(window).height() - 150);
             });
 

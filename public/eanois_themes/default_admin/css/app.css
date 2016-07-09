@@ -206,3 +206,16 @@ h3.theme-box-name {
     background: #3c8dbc;
 }
 
+ul.mailbox-attachments {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+li.image-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.mailbox-attachment-info {
+    flex-grow: 1;
+}

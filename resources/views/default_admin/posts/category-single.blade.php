@@ -20,7 +20,7 @@
         {!! $message_success !!}
         <div class="row">
             <div class="col-md-4">
-                <form action="{{ action('Admin\CategoryController@update', ['id', $category->id]) }}" method="POST">
+                <form action="{{ action('Admin\CategoryController@update', [$category->id]) }}" method="POST">
                     {!! csrf_field() !!}
                     <input type="hidden" name="_method" value="PUT">
                     <div class="box box-primary">
@@ -46,6 +46,9 @@
                 <div class="box box-default">
                     <div class="box-header">
                         <h3 class="box-title">Posts filed under {{ $category->name }}</h3>
+                        <div class="box-tools">
+                            @include('paginator.default', ['paginator' => $posts, 'class' => 'pagination-sm no-margin pull-right'])
+                        </div>
                     </div>
                     <div class="box-body no-padding">
                         <table class="table">
@@ -54,7 +57,7 @@
                                     <th>Name</th>
                                     <th>Date Published</th>
                                 </tr>
-                                @foreach($category->posts()->get() as $post)
+                                @foreach($posts as $post)
                                     <tr>
                                         <td><a href="{{ action('Admin\PostController@edit', ['id' => $post->id]) }}">{{ $post->title }}</a></td>
                                         <td>{{ $post->published_on }}</td>

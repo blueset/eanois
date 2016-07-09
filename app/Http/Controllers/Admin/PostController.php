@@ -16,6 +16,8 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -74,7 +76,6 @@ class PostController extends Controller
                     $tag = new Tag();
                     $tag->name = $t;
                     $tag->slug = SlugHelper::getNextAvailableSlug($t, Tag::class);
-                    $tag->save();
                 }
                 $post->tags()->save($tag);
             }
@@ -146,7 +147,7 @@ class PostController extends Controller
 
         $this->validate($request, [
             'title' => 'required',
-            'slug' => 'required',
+            'slug' => 'required,unique:posts,slug,'.$id,
             'category' => 'required|exists:categories,id',
             'image' => 'exists:images,slug,deleted_at,NULL'
         ]);
@@ -252,3 +253,7 @@ class PostController extends Controller
         }
     }
 }
+
+
+
+

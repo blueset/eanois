@@ -13,7 +13,9 @@
         "guzzlehttp/guzzle": "~6.0",
         "cocur/slugify": "^1.4",
         "intervention/image": "^2.3",
-        "barryvdh/laravel-debugbar": "^2.2"
+        "barryvdh/laravel-debugbar": "^2.2",
+        "doctrine/dbal": "^2.5",
+        "intervention/imagecache": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

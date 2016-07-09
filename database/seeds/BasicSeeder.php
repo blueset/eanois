@@ -33,9 +33,9 @@ class BasicSeeder extends Seeder
          */
 
         DB::table('users')->insert([
-            "name" => "blueset",
-            "email" => "ilove@1a23.com",
-            "password" => "demo",
+            "name" => "admin",
+            "email" => "admin@example.com",
+            "password" => bcrypt("password"),
         ]);
 
     }

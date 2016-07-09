@@ -71,9 +71,9 @@ class Initial extends Migration
             $table->text('desc')->nullable();
             $table->text('body')->nullable();
             $table->integer('category')->unsigned();
-            $table->integer('image')->unsigned();
-            $table->foreign('category')->references('id')->on('categories')->nullable();
-            $table->foreign('image')->references('id')->on('images')->nullable();
+            $table->integer('image')->unsigned()->nullable();
+            $table->foreign('category')->references('id')->on('categories');
+            $table->foreign('image')->references('id')->on('images');
             $table->timestamps();
             $table->softDeletes();
         });

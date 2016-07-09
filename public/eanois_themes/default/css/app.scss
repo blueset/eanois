@@ -29,23 +29,24 @@ html, body {
     border: 0;
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
     font-family: "Open Sans", "SFNS Display", "Myriad Pro", "Segoe UI", Helvetica, "Helvetica Neue", Arial, sans-serif;
     color: #3a3a3a;
+
     @include gridle_state(lg){
-        font-size: 14pt;
+        font-size: 16px;
     }
 }
 
 .frame {
-    height: 100%;
+    min-height: 100%;
 }
 
 .container {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100%;
     @include gridle_state(md) {
         width: 100%;
     }
@@ -99,7 +100,7 @@ html, body {
         @include gridle_state(md) {
             .section-content{
                 @include gridle_grid($columnR);
-                @include gridle_gutter(3em 4em);
+                @include gridle_gutter(4em 3em);
                 @include gridle_push($columnL);
             }
         }
@@ -116,12 +117,12 @@ html, body {
         }
         @include gridle_state(md) {
             .section-title {
-                @include gridle_gutter(3em 20px);
+                @include gridle_gutter(4em 20px);
                 @include gridle_grid($columnL);
             }
             .section-content {
                 @include gridle_grid($columnR);
-                @include gridle_gutter(3em 4em);
+                @include gridle_gutter(4em 3em);
             }
         }
     }
@@ -135,7 +136,7 @@ html, body {
                 text-decoration: underline;
             }
         }
-        .entry-desc {
+        .entry-date {
             font-style: italic;
         }
     }
@@ -182,4 +183,12 @@ html, body {
     font-weight: 100;
     font-size: 5em;
     padding-top: .2em;
+    //padding-bottom: .2em;
+}
+
+.home-section-entry {
+    padding-bottom: 2em;
+    &:last-child{
+        padding-bottom: 0;
+    }
 }

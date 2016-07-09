@@ -51,18 +51,12 @@
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_2">
-                <ul class="mailbox-attachments clearfix">
-                    @foreach($images as $i)
-                        <li class="image-item" data-slug="{{ $i->slug }}">
-                            <span class="mailbox-attachment-icon has-img">
-                                {!! $i->pictureElement()->mode("WidthHeight")->width(200)->height(135) !!}
-                            </span>
-                            <div class="mailbox-attachment-info image-item-name">
-                                <a href="javascript:void(0)" class="mailbox-attachment-name">{{ $i->title }}</a>
-                            </div>
-                        </li>
-                    @endforeach
+                <ul class="mailbox-attachments clearfix" id="media-tab-images-ul">
                 </ul>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left media-tab-image-pagination-btn" id="media-tab-image-prev">Prev</button>
+                    <button type="button" class="btn btn-default pull-right media-tab-image-pagination-btn" id="media-tab-image-next">Next</button>
+                </div>
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_3">
@@ -88,15 +82,22 @@
                 content: function () {
                     var slug = $(this).data('slug');
                     var name = $(this).find('.mailbox-attachment-name').text();
-                    return '<div class="btn-group-vertical">' +
-                            '<button type="button" class="btn btn-xs btn-default" onclick="add(\''+slug+ '\', \''+name+'\', \'desc\')">Add to description</button>' +
-                            '<button type="button" class="btn btn-xs btn-default" onclick="add(\''+slug+ '\', \''+name+'\', \'body\')">Add to body</button>' +
-                            '<button type="button" class="btn btn-xs btn-default" onclick="add(\''+slug+ '\', \''+name+'\', \'feat\')">Set as featured image</button>' +
-                            '</div>'
+                    return $("<div>", {"class": "btn-group-vertical"})
+                            .append($("<button>", {
+                                "class": ["btn btn-xs btn-default"],
+                                "onclick": "add('"+slug+"', '"+name+"', 'desc')"
+                            }).text("Add to Description"))
+                            .append($("<button>", {
+                                "class": ["btn btn-xs btn-default"],
+                                "onclick": "add('"+slug+"', '"+name+"', 'body')"
+                            }).text("Add to Body"))
+                            .append($("<button>", {
+                                "class": ["btn btn-xs btn-default"],
+                                "onclick": "add('"+slug+"', '"+name+"', 'feat')"
+                            }).text("Set as featured image"));;
                 }
             };
 
-            $(".image-item").popover(popoverPara);
 
             window.add = function (slug, name, dest) {
                 win.insertImage(slug, name, dest);
@@ -131,8 +132,51 @@
                 attachmentIcon.append('<img src="' + dataurl + '" title="thumbnail" />');
             });
 
-
             $("#template").remove();
+
+            loadImagePage = function (page) {
+                if (typeof(page) == "undefined") page = "{{ action('Admin\ImageController@index') }}";
+                $.ajax({
+                    url: page,
+                    dataType: "json",
+                }).done(function (data) {
+                    $("#media-tab-image-next")
+                            .attr("disabled", data['next_page_url'] === null)
+                            .data("href", data['next_page_url']);
+                    $("#media-tab-image-prev")
+                            .attr("disabled", data['prev_page_url'] === null)
+                            .data("href", data['prev_page_url']);
+
+                    $(".media-tab-image-pagination-btn").click(function (){
+                        if ($(this).data("href")) {
+                            loadImagePage($(this).data("href"));
+                        }
+                    });
+
+
+
+                    $("#media-tab-images-ul").html("");
+
+                    data['data'].forEach(function (val, key, arr) {
+                        $("<li>", {"class": "image-item"})
+                                .data("slug", val['slug'])
+                                .append($("<span>", {"class": "mailbox-attachment-icon has-img"})
+                                        .append($(val['backend_media_preview_html'])))
+                                .append($("<div>", {"class": "mailbox-attachment-info image-item-name"})
+                                        .append("<a>", {
+                                            "href": "javascript:void(0)",
+                                            "class": "mailbox-attachment-name"
+                                        }).text(val['title']))
+                                .appendTo("#media-tab-images-ul");
+                    });
+
+                    $(".image-item").popover(popoverPara);
+
+                });
+            };
+
+
+            loadImagePage();
 
         });
     </script>

@@ -60,7 +60,6 @@ Route::group(['middleware' => ['web', 'theme:frontend']], function () {
 });
 
 Route::group(['middleware' => ['web', 'auth', 'theme:backend'], 'prefix' => 'eanois'], function () {
-    Route::auth();
     Route::any('/', 'AdminController@index');
     Route::get('settings', 'AdminController@viewSettings');
     Route::put('settings', 'AdminController@putSettings');
@@ -74,6 +73,10 @@ Route::group(['middleware' => ['web', 'auth', 'theme:backend'], 'prefix' => 'ean
     Route::resource('images', 'Admin\ImageController', ['only' => ['index', 'store', 'destroy']]);
     Route::resource('links', 'Admin\LinkController', ['only' => ['index', 'store', 'update', 'destroy']]);
     Route::get('frame/media', 'AdminController@mediaIframe');
+});
+
+Route::group(['middleware' => ['web', 'theme:backend'], 'prefix' => 'eanois'], function () {
+    Route::auth();
 });
 
 Route::group(['prefix' => 'api'], function () {

@@ -20,7 +20,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = \App\Category::all();
+        $categories = \App\Category::select(["id", "name", "slug", "template"])->get();
         if ($request->ajax()){
             return response()->json($categories->toArray());
         }
@@ -77,7 +77,8 @@ class CategoryController extends Controller
     public function show($id)
     {
         $cat = Category::findOrFail($id);
-        return view('posts.category-single', ['category' => $cat]);
+        $posts = $cat->posts()->paginate(20);
+        return view('posts.category-single', ['category' => $cat, 'posts' => $posts]);
     }
 
     /**
@@ -114,7 +115,7 @@ class CategoryController extends Controller
 
         $this->validate($request, [
             'name' => 'required',
-            'slug' => 'unique:categories,slug'
+            'slug' => 'unique:categories,slug,'.$id
         ]);
 
         $cat->name = $request->name;

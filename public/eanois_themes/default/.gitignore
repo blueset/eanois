@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Sass template
+.sass-cache/
+*.css.map
+
+### Bower Components
+bower_components/

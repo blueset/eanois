@@ -11,6 +11,7 @@ class Image extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = ['slug', 'title', 'path'];
     protected $hidden = ['path'];
+    protected $appends = ['backend_media_preview_html'];
 
     public function getExt(){
         return strtolower(\File::extension($this->path));
@@ -18,6 +19,10 @@ class Image extends Model
 
     public function pictureElement(){
         return new ImagePictureElement($this);
+    }
+
+    public function getBackendMediaPreviewHtmlAttribute() {
+        return utf8_encode($this->pictureElement()->mode("WidthHeight")->width(200)->height(135));
     }
 }
 
@@ -102,7 +107,8 @@ class ImagePictureElement {
             $webptag = "";
         } else {
             array_push($para, "webp");
-            $webptag = '<source srcset="' . route("AdminImageControllerShow".$this->mode."Ext", $para) . '" type="image/webp">';
+            $webptag = "";
+//            $webptag = '<source srcset="' . route("AdminImageControllerShow".$this->mode."Ext", $para) . '" type="image/webp">';
         }
         $frame = "<picture>$webptag$imgtag</picture>";
         return $frame;

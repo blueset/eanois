@@ -70,6 +70,10 @@ class SlugHelper {
             $query = $query->where('id', '!=', $id);
         }
         while($query->where('slug', $slug)->exists()){
+            $query = $model::withTrashed();
+            if (!is_null($id)){
+                $query = $query->where('id', '!=', $id);
+            }
             $slugCount += 1;
             $slug = $baseSlug.'-'.$slugCount;
         }
