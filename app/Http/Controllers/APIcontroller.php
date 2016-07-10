@@ -21,4 +21,11 @@ class APIController extends Controller
         }
         return SlugHelper::getSlug($request->msg);
     }
+
+    public function getLastUpdate(Request $request) {
+        if (!$request->wantsJson()) {
+            return response("Only JSON is accepted.", 406);
+        }
+        return \App\Posts::select(["title", "slug", "published_on"])->take(3)->toJson();
+    }
 }

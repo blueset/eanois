@@ -15,7 +15,7 @@ class Initial extends Migration
         Schema::create('config', function (Blueprint $table) {
             $table->mediumText('key')->unique();
             $table->primary('key');
-            $table->longText('value');
+            $table->longText('value')->nullable();
             $table->softDeletes();
         });
 

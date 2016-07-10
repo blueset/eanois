@@ -28,7 +28,7 @@
 
 Route::group(['middleware' => ['web', 'theme:frontend']], function () {
     Route::any('/', "FrontEndController@index");
-    Route::any('/php', function () {return phpinfo();});
+    Route::any('/php', function () {return \Markdown::text("```python\nprint('hi')\n```");});
 
     // Image related
 
@@ -81,4 +81,5 @@ Route::group(['middleware' => ['web', 'theme:backend'], 'prefix' => 'eanois'], f
 
 Route::group(['prefix' => 'api'], function () {
     Route::any('slugify', 'APIController@getSlug');
+    Route::get('last-update', 'APIController@getLastUpdate');
 });

@@ -15,7 +15,7 @@
         <div class="box box-success box-front">
             <div class="box-header">
                 <h3 class="box-title">
-                    Front-end theme
+                    Front-end themes
                 </h3>
             </div>
             <div class="box-body">
@@ -37,7 +37,7 @@
         <div class="box box-primary box-back">
             <div class="box-header">
                 <h3 class="box-title">
-                    Back-end theme
+                    Back-end themes
                 </h3>
             </div>
             <div class="box-body">

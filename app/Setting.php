@@ -53,12 +53,18 @@ class Setting extends Model
         return $item['value'];
     }
 
+    /**
+     * Set configs to the 'settings' database.
+     *
+     * @param array  $configs  Key-value pair of configs
+     * @param bool   $new      Flag to true if you want to create new entry. Defaulted to false.
+     */
     public static function setConfig($configs, $new = false) {
         foreach ($configs as $key => $value) {
             if ($new) {
                 $rec = self::firstOrNew(['key'=>$key]);
             } else {
-                $rec = self::where('key', $key)->first();
+                $rec = self::first('key', $key)->first();
                 if ($rec == null){
                     continue;
                 }

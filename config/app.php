@@ -156,6 +156,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
+        App\Providers\EanoisParsedownServiceProvider::class,
 
         /*
          * External Svc Providers
@@ -227,6 +228,7 @@ return [
          */
         'AdminHelper' => \App\Helpers\AdminHelper::class,
         'SlugHelper' => \App\Helpers\SlugHelper::class,
+        'Markdown' => \App\Facades\EanoisParsedown::class,
     ],
 
 ];

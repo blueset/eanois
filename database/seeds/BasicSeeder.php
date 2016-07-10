@@ -27,6 +27,10 @@ class BasicSeeder extends Seeder
             "key" => "admin_theme",
             "value" => "default_admin",
         ]);
+        DB::table('config')->insert([
+            "key" => "feed_url",
+            "value" => "",
+        ]);
 
         /*
          * User
