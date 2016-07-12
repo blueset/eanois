@@ -1,4 +1,4 @@
-<div class="frame frame-left-black">
+<div class="frame frame-left-black" ng-controller="indexController">
     <div class="container">
         <section class="row title-section first-section">
             <div class="section-title"></div>
@@ -12,14 +12,14 @@
                 </picture>
                 <nav class="title-nav">
                     <ul>
-                        <li><a href="/#!about">About</a></li>
-                        <li><a href="/#!works">Works</a></li>
+                        <li><a ui-sref="about">About</a></li>
+                        <li><a ui-sref="works" href="/#!/works">Works</a></li>
                         <li><a href="https://blog.1a23.com">Blog</a></li>
                         <li><a href="/lyricova">Lyricova</a></li>
-                        <li><a href="/#!links">Links</a></li>
+                        <li><a href="/#!/links">Links</a></li>
                     </ul>
                 </nav>
-                <div class="home-slogan"data-fittext=".8">
+                <div class="home-slogan"data-fittext=".9">
                     We create.
                 </div>
             </div>
@@ -29,21 +29,13 @@
                 <h2>Updates</h2>
             </div>
             <div class="section-content">
-                <div class="home-section-entry">
-                    <a href="/#" class="entry-link">Get Latin Modern on Quiver</a>
-                    <div class="entry-desc entry-date">12 Jan 2014</div>
-                </div>
-                <div class="home-section-entry">
-                    <a href="/#" class="entry-link">Get Latin Modern on Quiver</a>
-                    <div class="entry-desc entry-date">12 Jan 2014</div>
-                </div>
-                <div class="home-section-entry">
-                    <a href="/#" class="entry-link">Get Latin Modern on Quiver</a>
-                    <div class="entry-desc entry-date">12 Jan 2014</div>
+                <div class="home-section-entry" ng-repeat="entry in LastUpdate">
+                    <a href="{{entry.url}}" class="entry-link">{{entry.title}}</a>
+                    <div class="entry-desc entry-date">{{entry.published_on}}</div>
                 </div>
             </div>
         </section>
-        <section class="row title-section">
+        <section class="row title-section no-title-center-sm">
             <div class="section-title">
                 <h2>Credit</h2>
             </div>
@@ -52,7 +44,7 @@
                 Created by 1A23 Studio with ♥
             </div>
         </section>
-        <section class="row title-section">
+        <section class="row title-section no-title-center-sm">
             <div class="section-title">
                 <h2>Lyricova</h2>
             </div>

@@ -81,5 +81,5 @@ Route::group(['middleware' => ['web', 'theme:backend'], 'prefix' => 'eanois'], f
 
 Route::group(['prefix' => 'api'], function () {
     Route::any('slugify', 'APIController@getSlug');
-    Route::get('last-update', 'APIController@getLastUpdate');
+    Route::get('last_update', 'APIController@getLastUpdate');
 });

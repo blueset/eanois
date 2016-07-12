@@ -29,7 +29,6 @@ html, body {
     border: 0;
     margin: 0;
     padding: 0;
-    min-height: 100%;
     font-family: "Open Sans", "SFNS Display", "Myriad Pro", "Segoe UI", Helvetica, "Helvetica Neue", Arial, sans-serif;
     color: #3a3a3a;
 
@@ -38,15 +37,23 @@ html, body {
     }
 }
 
+html{
+    height: 100vh;
+}
+
+
+body {
+    min-height: 100vh;
+}
 .frame {
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 .container {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    min-height: 100vh;
     @include gridle_state(md) {
         width: 100%;
     }
@@ -59,7 +66,9 @@ html, body {
 }
 
 .row {
-    @include gridle_row();
+    @include gridle_state(md) {
+        @include gridle_row();
+    }
     @include gridle_state(md){
         display: flex;
         align-items: stretch;
@@ -69,6 +78,34 @@ html, body {
 .frame-left-black {
     $columnL: 2;
     $columnR: 12 - $columnL;
+    @include gridle_state(sm) {
+        .first-section{
+            flex-basis: 1em;
+        }
+        .section-title{
+            color: #333333;
+            padding: 1rem 0;
+            h2 {
+                font-size: 2em;
+                margin: 0;
+                font-family: "Work Sans", sans-serif;
+                font-weight: 300;
+                border-bottom: 1px dashed #333333;
+            }
+        }
+
+        .title-section.no-title-center-sm {
+            .section-title {
+                display: none;
+            }
+            .section-content {
+                font-size: .8em;
+                text-align: center;
+                padding-top: 4em;
+                padding-bottom: 2em;
+            }
+        }
+    }
     @include gridle_state(md) {
         @include bgLR(#333333, #fff);
         .last-section{
@@ -77,24 +114,24 @@ html, body {
         .first-section{
             flex-basis: 2em;
         }
-    }
-    @include gridle_container();
-    .section-title{
-        background-color: #333333;
-        color: #fff;
-        h2 {
-            font-size: 1em;
-            margin: 0;
-            font-weight: normal;
+        .section-title{
+            background-color: #333333;
+            color: #fff;
+            h2 {
+                font-size: 1em;
+                margin: 0;
+                font-weight: normal;
+            }
         }
     }
+    @include gridle_container();
     .section-content{
         background: #fff;
     }
     .normal-section{
         @include gridle_state(sm) {
             .section-content{
-                @include gridle_grid(12);
+                padding: 0 1rem;
             }
         }
         @include gridle_state(md) {
@@ -109,10 +146,10 @@ html, body {
     .title-section {
         @include gridle_state(sm) {
             .section-title {
-                @include gridle_grid(12);
+                padding: 1rem 1rem;
             }
             .section-content {
-                @include gridle_grid(12);
+                padding: 0 1rem;
             }
         }
         @include gridle_state(md) {
@@ -167,9 +204,17 @@ html, body {
             a:hover{
                 text-decoration: underline;
             }
-            &:after{
-                content: "·";
-                padding: 0 1em;
+            @include gridle_state(md) {
+                &:after{
+                    content: "·";
+                    padding: 0 1em;
+                }
+            }
+            @include gridle_state(sm) {
+                &:after{
+                    content: "·";
+                    padding: 0 .5em;
+                }
             }
             &:last-child:after{
                 content: '';
@@ -182,8 +227,10 @@ html, body {
     font-family: "Work Sans", sans-serif;
     font-weight: 100;
     font-size: 5em;
-    padding-top: .2em;
-    //padding-bottom: .2em;
+    padding-top: 2rem;
+    @include gridle_state(sm) {
+        padding-bottom: 2rem;
+    }
 }
 
 .home-section-entry {

@@ -26,6 +26,11 @@ class APIController extends Controller
         if (!$request->wantsJson()) {
             return response("Only JSON is accepted.", 406);
         }
-        return \App\Posts::select(["title", "slug", "published_on"])->take(3)->toJson();
+        $result = \App\Post::select(["title", "category", "slug", "published_on"])->take(3)->get()->toArray();
+        foreach ($result as &$r) {
+            $r['type'] = 'post';
+            $r['category'] = \App\Category::findOrFail(intval($r['category']))->slug;
+        }
+        return response()->json(array_slice($result, 0, 3));
     }
 }

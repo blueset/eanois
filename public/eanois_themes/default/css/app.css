@@ -3,7 +3,6 @@ html, body {
   border: 0;
   margin: 0;
   padding: 0;
-  min-height: 100%;
   font-family: "Open Sans", "SFNS Display", "Myriad Pro", "Segoe UI", Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: #3a3a3a; }
   .state-lg html, .state-lg body {
@@ -12,14 +11,20 @@ html, body {
     html, body {
       font-size: 16px; } }
 
+html {
+  height: 100vh; }
+
+body {
+  min-height: 100vh; }
+
 .frame {
-  min-height: 100%; }
+  min-height: 100vh; }
 
 .container {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  min-height: 100%; }
+  min-height: 100vh; }
   .state-md .container {
     width: 100%; }
   @media screen and (min-width: 481px) {
@@ -36,7 +41,7 @@ html, body {
     .container {
       width: 960px; } }
 
-.row {
+.state-md .row {
   padding-left: 0 !important;
   padding-right: 0 !important;
   margin-left: -10px;
@@ -46,35 +51,21 @@ html, body {
     display: table;
     clear: both; }
 
-  .row:before, .row:after {
+  @media screen and (min-width: 481px) {
+    .row:before, .row:after {
+      content: "";
+      display: table; }
+    .row:after {
+      clear: both; }
+    .row {
+      zoom: 1; } }
+  .state-md .row:before, .state-md .row:after {
     content: "";
     display: table; }
-  .row:after {
+  .state-md .row:after {
     clear: both; }
-  .row {
+  .state-md .row {
     zoom: 1; }
-
-  @media screen and (min-width: 301px) {
-    .frame-left-black .normal-section .section-content, .frame-left-black .title-section .section-title, .frame-left-black .title-section .section-content {
-      display: inline-block;
-      min-height: 1px;
-      float: left;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      vertical-align: top;
-      padding-right: 10px;
-      padding-left: 10px; } }
-  .state-sm .frame-left-black .normal-section .section-content, .state-sm .frame-left-black .title-section .section-title, .state-sm .frame-left-black .title-section .section-content {
-    display: inline-block;
-    min-height: 1px;
-    float: left;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    vertical-align: top;
-    padding-right: 10px;
-    padding-left: 10px; }
   @media screen and (min-width: 481px) {
     .frame-left-black .normal-section .section-content, .frame-left-black .title-section .section-title, .frame-left-black .title-section .section-content {
       display: inline-block;
@@ -101,58 +92,147 @@ html, body {
       position: relative; } }
   .state-md .frame-left-black .normal-section .section-content {
     position: relative; }
-  [class*="no-gutter"] > .row {
+  [class*="no-gutter"] > .state-md .row {
     margin-left: 0 !important;
     margin-right: 0 !important; }
-  .state-default .row .row {
+  .state-default .state-md .row .state-md .row {
     margin-left: -10px;
     margin-right: -10px; }
-  .row .row {
+  .state-md .row .state-md .row {
     margin-left: -10px;
     margin-right: -10px; }
-  .state-xs .row .row {
+  .state-xs .state-md .row .state-md .row {
     margin-left: -10px;
     margin-right: -10px; }
   @media screen and (max-width: 300px) {
+    .state-md .row .state-md .row {
+      margin-left: -10px;
+      margin-right: -10px; } }
+  .state-sm .state-md .row .state-md .row {
+    margin-left: -10px;
+    margin-right: -10px; }
+  @media screen and (min-width: 301px) {
+    .state-md .row .state-md .row {
+      margin-left: -10px;
+      margin-right: -10px; } }
+  .state-md .state-md .row .state-md .row {
+    margin-left: -10px;
+    margin-right: -10px; }
+  @media screen and (min-width: 481px) {
+    .state-md .row .row {
+      margin-left: -10px;
+      margin-right: -10px; } }
+  .state-lg .state-md .row .state-md .row {
+    margin-left: -10px;
+    margin-right: -10px; }
+  @media screen and (min-width: 769px) {
+    .state-md .row .state-md .row {
+      margin-left: -10px;
+      margin-right: -10px; } }
+  .state-xl .state-md .row .state-md .row {
+    margin-left: -10px;
+    margin-right: -10px; }
+  @media screen and (min-width: 1025px) {
+    .state-md .row .state-md .row {
+      margin-left: -10px;
+      margin-right: -10px; } }
+@media screen and (min-width: 481px) {
+  .row {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: -10px;
+    margin-right: -10px; }
+    [class*="no-gutter"] > .row {
+      margin-left: 0 !important;
+      margin-right: 0 !important; } }
+  .state-default .row .row {
+    margin-left: -10px;
+    margin-right: -10px; }
+@media screen and (min-width: 481px) {
+    .row .row {
+      margin-left: -10px;
+      margin-right: -10px; } }
+  .state-xs .row .row {
+    margin-left: -10px;
+    margin-right: -10px; }
+  @media screen and (min-width: 481px) and (max-width: 300px) {
     .row .row {
       margin-left: -10px;
       margin-right: -10px; } }
   .state-sm .row .row {
     margin-left: -10px;
     margin-right: -10px; }
-  @media screen and (min-width: 301px) {
+  @media screen and (min-width: 481px) and (min-width: 301px) {
     .row .row {
       margin-left: -10px;
       margin-right: -10px; } }
   .state-md .row .row {
     margin-left: -10px;
     margin-right: -10px; }
-  @media screen and (min-width: 481px) {
+  @media screen and (min-width: 481px) and (min-width: 481px) {
     .row .row {
       margin-left: -10px;
       margin-right: -10px; } }
   .state-lg .row .row {
     margin-left: -10px;
     margin-right: -10px; }
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 481px) and (min-width: 769px) {
     .row .row {
       margin-left: -10px;
       margin-right: -10px; } }
   .state-xl .row .row {
     margin-left: -10px;
     margin-right: -10px; }
-  @media screen and (min-width: 1025px) {
+  @media screen and (min-width: 481px) and (min-width: 1025px) {
     .row .row {
       margin-left: -10px;
       margin-right: -10px; } }
-  .state-md .row {
-    display: flex;
-    align-items: stretch; }
-  @media screen and (min-width: 481px) {
-    .row {
-      display: flex;
-      align-items: stretch; } }
 
+.state-md .row {
+  display: flex;
+  align-items: stretch; }
+@media screen and (min-width: 481px) {
+  .row {
+    display: flex;
+    align-items: stretch; } }
+
+.state-sm .frame-left-black .first-section {
+  flex-basis: 1em; }
+.state-sm .frame-left-black .section-title {
+  color: #333333;
+  padding: 1rem 0; }
+  .state-sm .frame-left-black .section-title h2 {
+    font-size: 2em;
+    margin: 0;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 300;
+    border-bottom: 1px dashed #333333; }
+.state-sm .frame-left-black .title-section.no-title-center-sm .section-title {
+  display: none; }
+.state-sm .frame-left-black .title-section.no-title-center-sm .section-content {
+  font-size: .8em;
+  text-align: center;
+  padding-top: 4em;
+  padding-bottom: 2em; }
+@media screen and (min-width: 301px) {
+  .frame-left-black .first-section {
+    flex-basis: 1em; }
+  .frame-left-black .section-title {
+    color: #333333;
+    padding: 1rem 0; }
+    .frame-left-black .section-title h2 {
+      font-size: 2em;
+      margin: 0;
+      font-family: "Work Sans", sans-serif;
+      font-weight: 300;
+      border-bottom: 1px dashed #333333; }
+  .frame-left-black .title-section.no-title-center-sm .section-title {
+    display: none; }
+  .frame-left-black .title-section.no-title-center-sm .section-content {
+    font-size: .8em;
+    text-align: center;
+    padding-top: 4em;
+    padding-bottom: 2em; } }
 .state-md .frame-left-black {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,ffffff+51,ffffff+100 */
   background: #333333;
@@ -169,6 +249,13 @@ html, body {
     flex-grow: 1; }
   .state-md .frame-left-black .first-section {
     flex-basis: 2em; }
+  .state-md .frame-left-black .section-title {
+    background-color: #333333;
+    color: #fff; }
+    .state-md .frame-left-black .section-title h2 {
+      font-size: 1em;
+      margin: 0;
+      font-weight: normal; }
 @media screen and (min-width: 481px) {
   .frame-left-black {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,ffffff+51,ffffff+100 */
@@ -185,21 +272,21 @@ html, body {
     .frame-left-black .last-section {
       flex-grow: 1; }
     .frame-left-black .first-section {
-      flex-basis: 2em; } }
-.frame-left-black .section-title {
-  background-color: #333333;
-  color: #fff; }
-  .frame-left-black .section-title h2 {
-    font-size: 1em;
-    margin: 0;
-    font-weight: normal; }
+      flex-basis: 2em; }
+    .frame-left-black .section-title {
+      background-color: #333333;
+      color: #fff; }
+      .frame-left-black .section-title h2 {
+        font-size: 1em;
+        margin: 0;
+        font-weight: normal; } }
 .frame-left-black .section-content {
   background: #fff; }
 .state-sm .frame-left-black .normal-section .section-content {
-  width: 100%; }
+  padding: 0 1rem; }
 @media screen and (min-width: 301px) {
   .frame-left-black .normal-section .section-content {
-    width: 100%; } }
+    padding: 0 1rem; } }
 .state-md .frame-left-black .normal-section .section-content {
   width: 83.33333%;
   padding-top: 2em;
@@ -218,14 +305,14 @@ html, body {
     left: 16.66667%;
     right: auto; } }
 .state-sm .frame-left-black .title-section .section-title {
-  width: 100%; }
+  padding: 1rem 1rem; }
 .state-sm .frame-left-black .title-section .section-content {
-  width: 100%; }
+  padding: 0 1rem; }
 @media screen and (min-width: 301px) {
   .frame-left-black .title-section .section-title {
-    width: 100%; }
+    padding: 1rem 1rem; }
   .frame-left-black .title-section .section-content {
-    width: 100%; } }
+    padding: 0 1rem; } }
 .state-md .frame-left-black .title-section .section-title {
   padding-top: 2em;
   padding-right: 10px;
@@ -277,9 +364,20 @@ html, body {
       text-decoration: none; }
     .title-nav ul li a:hover {
       text-decoration: underline; }
-    .title-nav ul li:after {
+    .state-md .title-nav ul li:after {
       content: "·";
       padding: 0 1em; }
+    @media screen and (min-width: 481px) {
+      .title-nav ul li:after {
+        content: "·";
+        padding: 0 1em; } }
+    .state-sm .title-nav ul li:after {
+      content: "·";
+      padding: 0 .5em; }
+    @media screen and (min-width: 301px) {
+      .title-nav ul li:after {
+        content: "·";
+        padding: 0 .5em; } }
     .title-nav ul li:last-child:after {
       content: '';
       padding: 0; }
@@ -288,7 +386,12 @@ html, body {
   font-family: "Work Sans", sans-serif;
   font-weight: 100;
   font-size: 5em;
-  padding-top: .2em; }
+  padding-top: 2rem; }
+  .state-sm .home-slogan {
+    padding-bottom: 2rem; }
+  @media screen and (min-width: 301px) {
+    .home-slogan {
+      padding-bottom: 2rem; } }
 
 .home-section-entry {
   padding-bottom: 2em; }
