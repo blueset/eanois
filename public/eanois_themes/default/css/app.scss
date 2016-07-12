@@ -11,7 +11,7 @@
 
 
 @include gridle_register_state(xs, (max-width: 300px));
-@include gridle_register_state(sm, (min-width: 301px));
+@include gridle_register_state(sm, (max-width: 480px));
 @include gridle_register_state(md, (min-width: 481px));
 @include gridle_register_state(lg, (min-width: 769px));
 @include gridle_register_state(xl, (min-width: 1025px));

@@ -111,7 +111,7 @@ body {
   .state-sm .state-md .row .state-md .row {
     margin-left: -10px;
     margin-right: -10px; }
-  @media screen and (min-width: 301px) {
+  @media screen and (max-width: 480px) {
     .state-md .row .state-md .row {
       margin-left: -10px;
       margin-right: -10px; } }
@@ -162,7 +162,7 @@ body {
   .state-sm .row .row {
     margin-left: -10px;
     margin-right: -10px; }
-  @media screen and (min-width: 481px) and (min-width: 301px) {
+  @media screen and (min-width: 481px) and (max-width: 480px) {
     .row .row {
       margin-left: -10px;
       margin-right: -10px; } }
@@ -214,7 +214,7 @@ body {
   text-align: center;
   padding-top: 4em;
   padding-bottom: 2em; }
-@media screen and (min-width: 301px) {
+@media screen and (max-width: 480px) {
   .frame-left-black .first-section {
     flex-basis: 1em; }
   .frame-left-black .section-title {
@@ -284,7 +284,7 @@ body {
   background: #fff; }
 .state-sm .frame-left-black .normal-section .section-content {
   padding: 0 1rem; }
-@media screen and (min-width: 301px) {
+@media screen and (max-width: 480px) {
   .frame-left-black .normal-section .section-content {
     padding: 0 1rem; } }
 .state-md .frame-left-black .normal-section .section-content {
@@ -308,7 +308,7 @@ body {
   padding: 1rem 1rem; }
 .state-sm .frame-left-black .title-section .section-content {
   padding: 0 1rem; }
-@media screen and (min-width: 301px) {
+@media screen and (max-width: 480px) {
   .frame-left-black .title-section .section-title {
     padding: 1rem 1rem; }
   .frame-left-black .title-section .section-content {
@@ -374,7 +374,7 @@ body {
     .state-sm .title-nav ul li:after {
       content: "·";
       padding: 0 .5em; }
-    @media screen and (min-width: 301px) {
+    @media screen and (max-width: 480px) {
       .title-nav ul li:after {
         content: "·";
         padding: 0 .5em; } }
@@ -389,7 +389,7 @@ body {
   padding-top: 2rem; }
   .state-sm .home-slogan {
     padding-bottom: 2rem; }
-  @media screen and (min-width: 301px) {
+  @media screen and (max-width: 480px) {
     .home-slogan {
       padding-bottom: 2rem; } }
 
