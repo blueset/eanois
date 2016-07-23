@@ -59,7 +59,7 @@ Route::group(['middleware' => ['web', 'theme:frontend']], function () {
     }])->where(['slug' => '[a-z0-9%-]+', 'ext' => '[a-z0-9]{1,4}', 'w' => '[0-9]+', 'h' => '[0-9]+', 'mode' => '[a-z]+']);
 });
 
-Route::group(['middleware' => ['web', 'auth', 'theme:backend'], 'prefix' => 'eanois'], function () {
+Route::group(['middleware' => ['web', 'theme:backend', 'auth'], 'prefix' => 'eanois'], function () {
     Route::any('/', 'AdminController@index');
     Route::get('settings', 'AdminController@viewSettings');
     Route::put('settings', 'AdminController@putSettings');
@@ -81,5 +81,11 @@ Route::group(['middleware' => ['web', 'theme:backend'], 'prefix' => 'eanois'], f
 
 Route::group(['prefix' => 'api'], function () {
     Route::any('slugify', 'APIController@getSlug');
+});
+
+Route::group(['prefix' => 'api', 'middleware' => "json"], function () {
     Route::get('last_update', 'APIController@getLastUpdate');
+    Route::get('categories', 'APIController@getAllCategories');
+    Route::get('categories/{slug}', 'APIController@getCategory');
+    Route::post('posts', 'APIController@postPosts');
 });

@@ -1,0 +1,47 @@
+<div class="frame frame-right-black">
+    <div class="container">
+        <section class="row title-section first-section">
+            <div class="section-left section-title"></div>
+            <div class="section-content"></div>
+        </section>
+        <section class="row title-section" id="works-cats-header">
+            <div class="section-left section-title">
+                <picture class="logo-large">
+                    <source eanois-srcset="images/logo4large.svg" type="image/svg+xml">
+                    <img eanois-src="images/logo4-02.png" alt="1A23 Studio">
+                </picture>
+                <picture class="logo-long">
+                    <source eanois-srcset="images/logo4long.svg" type="image/svg+xml">
+                    <img eanois-src="images/logo4-10.png" alt="1A23 Studio">
+                </picture>
+            </div>
+            <div class="section-content">
+                <h3 class="page-title" id="work-index-title" data-fittext data-fittext-max="{{ remToPx(6) }}">
+                    Works
+                </h3>
+            </div>
+        </section>
+        <section class="row title-section no-title-sm">
+            <div class="section-left section-title">
+                <h2>Categories</h2>
+            </div>
+            <div class="section-content" id="work-category-name-section" data-fittext data-fittext-max="{{ remToPx(5) }}">
+                <div class="works-category" ng-repeat="entry in index.categories">
+                    <a ui-sref="works-category({category: entry.slug})" class="entry-link">{{entry.name}}</a>
+                </div>
+            </div>
+        </section>
+        <section class="row title-section no-title-sm">
+            <div class="section-left section-title">
+                <h2>Navigation</h2>
+            </div>
+            <div class="section-content">
+                <a ui-sref="home">« Back to Home</a>
+            </div>
+        </section>
+        <section class="row title-section last-section no-title-sm">
+            <div class="section-left section-title"></div>
+            <div class="section-content"></div>
+        </section>
+    </div>
+</div>

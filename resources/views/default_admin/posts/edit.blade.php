@@ -19,7 +19,7 @@
         </ol>
     </section>
     <form action="{{ action('Admin\PostController@update', $post->id) }}" method="post">
-        <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="_method" value="PUT">
     {!! csrf_field() !!}
     <section class="content">
         <div class="row">

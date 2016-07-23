@@ -11,6 +11,12 @@ class EanoisParsedown extends \Parsedown {
         if (substr($Image['element']['attributes']['src'], 0, 6) == "image:") {
             $slug  = substr($Image['element']['attributes']['src'], 6);
             $title = $Image['element']['attributes']['alt'];
+            if (!($slug && \App\Image::where('slug', $slug)->exists())){
+                $Image['element']['name'] = "img";
+                $title = $title ?: "Image+not+found:+" . $slug;
+                $Image['element']['attributes']['src'] = "https://placehold.it/500x300?text=" . $title;
+                return $Image;
+            }
             $text  = \App\Image::where('slug', $slug)->first();
             if (!$text->exists()){return;}
             $text  = $text->pictureElement();

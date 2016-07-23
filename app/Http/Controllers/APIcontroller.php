@@ -22,10 +22,7 @@ class APIController extends Controller
         return SlugHelper::getSlug($request->msg);
     }
 
-    public function getLastUpdate(Request $request) {
-        if (!$request->wantsJson()) {
-            return response("Only JSON is accepted.", 406);
-        }
+    public function getLastUpdate() {
         $result = \App\Post::select(["title", "category", "slug", "published_on"])->take(3)->get()->toArray();
         foreach ($result as &$r) {
             $r['type'] = 'post';
@@ -33,4 +30,29 @@ class APIController extends Controller
         }
         return response()->json(array_slice($result, 0, 3));
     }
+
+    public function getAllCategories() {
+        $result = \App\Category::select(["slug", "name"])->get()->toArray();
+        return response()->json($result);
+    }
+
+    public function getCategory($slug) {
+        $cat = \App\Category::where('slug', $slug)->select(["id", "slug", "name", "template"])->firstOrFail()->toArray();
+        $cat['posts'] = \App\Post::select(['id'])->where("category", $cat['id'])->paginate(20)->toArray();
+        return response()->json($cat);
+    }
+
+    public function postPosts(Request $request){
+        $result = [];
+        foreach ($request->posts as $id) {
+            $q = \App\Post::with(['tags', 'links', 'meta', 'category'])->where('id', $id)->firstOrFail();
+            $item = $q->toArray();
+            $item['imageHtml'] = \App\Image::where('slug', $item['image'])->exists() ? \Markdown::text("![" . $item['title'] . "](image:" . $item['image'] . ')') : "";
+            $item['desc'] = \Markdown::text($item['desc']);
+            $item['body'] = \Markdown::text($item['body']);
+            array_push($result, $item);
+        }
+        return response()->json($result);
+    }
+
 }

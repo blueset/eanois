@@ -147,7 +147,7 @@ class PostController extends Controller
 
         $this->validate($request, [
             'title' => 'required',
-            'slug' => 'required,unique:posts,slug,'.$id,
+            'slug' => 'required|unique:posts,slug,'.$id,
             'category' => 'required|exists:categories,id',
             'image' => 'exists:images,slug,deleted_at,NULL'
         ]);
@@ -162,43 +162,74 @@ class PostController extends Controller
 
         $post->save();
         if (isset($request->tags)){
+            $tagIds = [];
             foreach($request->tags as $t) {
                 if (Tag::where('slug', $t)->exists()) {
-                    $tag = Tag::where('slug', $t);
+                    array_push($tagIds, Tag::where('slug', $t)->firstOrFail()->id);
                 } else {
                     $tag = new Tag();
                     $tag->name = $t;
                     $tag->slug = SlugHelper::getNextAvailableSlug($t, Tag::class);
                     $tag->save();
+                    array_push($tagIds, $tag->id);
                 }
-                $post->tags()->save($tag);
+                $post->tags()->sync($tagIds);
             }
         }
 
-        // TODO: CURD for postlink & postmeta
-
-        if (isset($request->postlink_name)){
-            for ($i = 0; $i < count($request->postlink_name); $i++) {
-                if (!empty($request->postlink_name[$i])){
+        if (!isset($request->postlink)){
+            $request->postlink = [];
+        }
+        $orders = array_column($post->links()->get()->toArray(), 'order');
+        foreach ($orders as $order) {
+            if (!array_key_exists($order, $request->postlink)){
+                $post->links()->where("order", $order)->first()->delete();
+            }
+        }
+        foreach ($request->postlink as $i => $item) {
+            if (!empty($item['name'])){
+                if (in_array($i, $orders)) {
+                    $link = $post->links()->where("order", $i)->first();
+                    $link->name = $item['name'];
+                    $link->url = $item['url'];
+                    $link->save();
+                } else {
                     $link = new PostLink();
-                    $link->name = $request->postlink_name[$i];
-                    $link->url = $request->postlink_link[$i];
+                    $link->name = $item['name'];
+                    $link->url = $item['url'];
                     $link->order = $i;
                     $post->links()->save($link);
                 }
             }
         }
 
-        if (isset($request->postmeta_key)){
-            for ($i = 0; $i < count($request->postmeta_key); $i++) {
-                if (!empty($request->postmeta_key[$i])){
-                    $link = new PostMeta();
-                    $link->name = $request->postmeta_key[$i];
-                    $link->url = $request->postmeta_value[$i];
-                    $post->meta()->save($link);
+
+        if (!isset($request->postmeta)) {
+            $request->postmeta = [];
+        }
+            $keys = array_column($post->meta()->get()->toArray(), 'key');
+            $new_keys = array_column($request->postmeta, 'key');
+            foreach ($keys as $key) {
+                if (!array_key_exists($key, $new_keys)){
+                    $post->meta()->where("key", $key)->first()->delete();
                 }
             }
-        }
+            foreach ($request->postmeta as $i => $item) {
+                if (!empty($item['key'])){
+                    if (in_array($i, $keys)) {
+                        $meta = $post->meta()->where("order", $i)->first();
+                        $meta->key = $item['key'];
+                        $meta->value = $item['value'];
+                        $meta->save();
+                    } else {
+                        $meta = new PostMeta();
+                        $meta->key = $item['key'];
+                        $meta->value = $item['value'];
+                        $post->meta()->save($meta);
+                    }
+                }
+            }
+
 
         $post->save();
         $request->session()->flash("message_success", "Post edited.");

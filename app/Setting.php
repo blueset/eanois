@@ -64,7 +64,7 @@ class Setting extends Model
             if ($new) {
                 $rec = self::firstOrNew(['key'=>$key]);
             } else {
-                $rec = self::first('key', $key)->first();
+                $rec = self::where('key', $key)->first();
                 if ($rec == null){
                     continue;
                 }

@@ -9,12 +9,16 @@
         states-classes : true,
 ));
 
-
 @include gridle_register_state(xs, (max-width: 300px));
 @include gridle_register_state(sm, (max-width: 480px));
 @include gridle_register_state(md, (min-width: 481px));
 @include gridle_register_state(lg, (min-width: 769px));
 @include gridle_register_state(xl, (min-width: 1025px));
+
+$columnLmd: 3;
+$columnRmd: 12 - $columnLmd;
+$columnLxl: 3;
+$columnRxl: 12 - $columnLxl;
 
 @mixin bgLR($left, $right) {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+50,ffffff+51,ffffff+100 */
@@ -45,6 +49,23 @@ html{
 body {
     min-height: 100vh;
 }
+
+a.inherit-style:link, a.inherit-style:visited, a.inherit-style:hover {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+a.inherit-style-underline-hover{
+    &:link, &:visited{
+        color: inherit !important;
+        text-decoration: inherit !important;
+    }
+    &:hover{
+        color: inherit !important;
+        text-decoration: underline !important;
+    }
+}
+
 .frame {
     min-height: 100vh;
 }
@@ -75,25 +96,38 @@ body {
     }
 }
 
-.frame-left-black {
-    $columnL: 2;
-    $columnR: 12 - $columnL;
+h3.page-title {
+    margin: 0;
+    font-family: "Work Sans", sans-serif;
+    font-size: 5em;
+    font-weight: 100;
+}
+
+.content a:link, .content a:visited {
+    text-decoration: none;
+    border-bottom-style: dashed;
+    border-bottom-width: 1px;
+}
+
+.frame-left-black, .frame-right-black {
     @include gridle_state(sm) {
         .first-section{
             flex-basis: 1em;
         }
         .section-title{
-            color: #333333;
             padding: 1rem 0;
             h2 {
                 font-size: 2em;
                 margin: 0;
                 font-family: "Work Sans", sans-serif;
                 font-weight: 300;
-                border-bottom: 1px dashed #333333;
             }
         }
-
+        .title-section.no-title-sm {
+            .section-title {
+                display: none;
+            }
+        }
         .title-section.no-title-center-sm {
             .section-title {
                 display: none;
@@ -107,28 +141,25 @@ body {
         }
     }
     @include gridle_state(md) {
-        @include bgLR(#333333, #fff);
         .last-section{
             flex-grow: 1;
         }
         .first-section{
             flex-basis: 2em;
         }
-        .section-title{
-            background-color: #333333;
-            color: #fff;
-            h2 {
-                font-size: 1em;
-                margin: 0;
-                font-weight: normal;
+        .section-left {
+            &.section-title{
+                h2 {
+                    font-size: 1em;
+                    margin: 0;
+                    font-weight: normal;
+                }
             }
         }
     }
     @include gridle_container();
-    .section-content{
-        background: #fff;
-    }
-    .normal-section{
+
+    .content-section{
         @include gridle_state(sm) {
             .section-content{
                 padding: 0 1rem;
@@ -136,16 +167,21 @@ body {
         }
         @include gridle_state(md) {
             .section-content{
-                @include gridle_grid($columnR);
                 @include gridle_gutter(4em 3em);
-                @include gridle_push($columnL);
+                @include gridle_grid($columnRmd);
+                @include gridle_push($columnLmd);
             }
         }
-
+        @include gridle_state(xl) {
+            .section-content{
+                @include gridle_grid($columnRxl);
+                @include gridle_push($columnLxl);
+            }
+        }
     }
     .title-section {
         @include gridle_state(sm) {
-            .section-title {
+            .section-left.section-title {
                 padding: 1rem 1rem;
             }
             .section-content {
@@ -153,31 +189,78 @@ body {
             }
         }
         @include gridle_state(md) {
-            .section-title {
-                @include gridle_gutter(4em 20px);
-                @include gridle_grid($columnL);
+            .section-left {
+                @include gridle_gutter(2em 1em 2em 1.5em);
+                @include gridle_grid($columnLmd);
             }
             .section-content {
-                @include gridle_grid($columnR);
+                @include gridle_grid($columnRmd);
                 @include gridle_gutter(4em 3em);
             }
         }
-    }
-
-    .home-section-entry{
-        a {
-            font-weight: bold;
-            color: #3a3a3a;
-            text-decoration: none;
-            &:hover{
-                text-decoration: underline;
+        @include gridle_state(xl) {
+            .section-left {
+                @include gridle_grid($columnLxl);
+            }
+            .section-content {
+                @include gridle_grid($columnRxl);
             }
         }
-        .entry-date {
-            font-style: italic;
+    }
+
+}
+
+.frame-left-black {
+    @include gridle_state(sm) {
+        .section-title{
+            color: #333333;
+            h2 {
+                border-bottom: 1px dashed #333333;
+            }
+        }
+    }
+    @include gridle_state(md) {
+        @include bgLR(#333333, #fff);
+        .section-left {
+            background-color: #333333;
+            color: #fff;
         }
     }
 
+    .section-content{
+        background: #fff;
+        a:link, a:visited, a:hover {
+            color: #2196F3
+        }
+    }
+}
+
+.frame-right-black {
+    @include gridle_state(sm) {
+        .section-title{
+            color: #333333;
+            h2 {
+                border-bottom: 1px dashed #333333;
+            }
+        }
+    }
+    @include gridle_state(md) {
+        @include bgLR(#fff, #333333);
+        .section-left {
+            background-color: #fff;
+        }
+    }
+
+    .section-content{
+        background: #333333;
+        color: #fff;
+        a:link, a:visited {
+            color: #ffffff;
+        }
+        a:hover {
+            color: #81D4FA;
+        }
+    }
 }
 
 
@@ -185,6 +268,20 @@ body {
 
 .logo-long img {
     max-height: 2em;
+}
+
+.home-section-entry{
+    a {
+        font-weight: bold;
+        color: #3a3a3a;
+        text-decoration: none;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+    .entry-date {
+        font-style: italic;
+    }
 }
 
 .title-nav{
@@ -197,7 +294,7 @@ body {
         li{
             display: inline-block;
             text-transform: uppercase;
-            a:link{
+            a:link, a:visited {
                 color: #3a3a3a;
                 text-decoration: none;
             }
@@ -228,6 +325,9 @@ body {
     font-weight: 100;
     font-size: 5em;
     padding-top: 2rem;
+    &:first-child{
+        padding-top: 0;
+    }
     @include gridle_state(sm) {
         padding-bottom: 2rem;
     }
@@ -237,5 +337,211 @@ body {
     padding-bottom: 2em;
     &:last-child{
         padding-bottom: 0;
+    }
+}
+
+// Works index
+.frame-right-black{
+    .works-category {
+        a:link, a:hover, a:visited{
+            text-decoration: none;
+            border: 0;
+            font-family: "Work Sans", sans-serif;
+            font-weight: 200;
+        }
+    }
+    @include gridle_state(md) {
+        .works-category {
+            a:link, a:hover, a:visited{
+                font-size: 5em;
+            }
+        }
+        .logo-long {
+            display: none;
+        }
+        #work-index-title {
+            font-size: 5em;
+        }
+
+        #work-category-name-section {
+            padding-top: 1em;
+        }
+
+        .logo-large img{
+            width: 90%;
+        }
+    }
+    @include gridle_state(sm) {
+        #works-cats-header{
+            .logo-large{
+                display: none;
+            }
+            .logo-long {
+                height: 1.5em;
+            }
+            .section-content {
+                background: #ffffff;
+                color: #333333;
+            }
+        }
+        .no-title-sm .section-content{
+            padding-top: 1em;
+            padding-bottom: 1em;
+        }
+    }
+
+}
+.section-left.with-logo-square {
+    @include gridle_state(md){
+        margin-left: -1em;
+        margin-right: 1em;
+        .logo-square-title{
+            margin-top: .5em;
+            margin-left: 5px;
+        }
+    }
+    @include gridle_state(sm){
+        .logo-square-title{
+            margin: .25em;
+        }
+    }
+    .logo-square {
+        img {
+            height: 2em;
+            vertical-align: text-bottom;
+        }
+    }
+    .logo-square-title {
+        font-size: 2em;
+        display: inline-block;
+        font-family: "Work Sans", sans-serif;
+        font-weight: 200;
+        text-transform: uppercase;
+
+    }
+
+}
+
+// Works/lists/entry-template.html
+.works-entry-list {
+    .section-top-title {
+        font-size: 2em;
+        font-family: "Work Sans", sans-serif;
+        margin: 0;
+    }
+    ul.section-top-tags {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        li{
+            display: inline-block;
+            font-style: italic;
+            a, a:link, a:visited{
+                color: #333333;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            &:after{
+                content: "·";
+                margin-left: .5em;
+                margin-right: .3em;
+            }
+            &:last-child:after{
+                content: "";
+                margin: 0;
+            }
+        }
+    }
+    .section-content-banner img{
+        max-width: 100%;
+    }
+    @include gridle_state(md) {
+        .entry-section-top .section-content{
+            @include gridle_gutter(2em 1.5em 0.25em 1em);
+        }
+        .entry-section-body{
+            .section-left{
+                @include gridle_gutter(0.25em 1em 2em 1.5em);
+            }
+            .section-content{
+                @include gridle_gutter(0.25em 1.5em 2em 1em);
+            }
+        }
+    }
+    ul.section-left-links{
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        li {
+            @include gridle_state(md) {
+                a, a:link, a:visited{
+                    color: #fff;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    .entry-section-body-content p:first-child{
+        margin-top: 0;
+    }
+    @include gridle_state(sm) {
+        .container > .row:nth-child(1), .container > .row:nth-child(2) {
+            background: #333333;
+            color: #ffffff;
+            .logo-square-title, a:link, a:hover, a:visited{
+                color: #ffffff;
+            }
+            .section-content {
+                background: #333333;
+            }
+        }
+        .entry-item {
+            margin-top: 2em;
+        }
+        .entry-section-top .section-content{
+            @include gridle_gutter(0.01em 1em 0.01em 1em);
+        }
+        .entry-section-body{
+            .section-left{
+                @include gridle_gutter(0.01em 1em 0.01em 1em);
+            }
+            .section-content{
+                @include gridle_gutter(0.01em 1em 0.01em 1em);
+            }
+        }
+        ul.section-left-links{
+            display: flex;
+            flex-direction: row;
+            padding: .5em 0;
+            li {
+                flex-grow: 1;
+                flex-basis: 0;
+                padding: .5em;
+                text-align: center;
+                border-top: 1px solid #333333;
+                border-left: 1px solid #333333;
+                border-bottom: 1px solid #333333;
+                a:link, a:hover, a:visited {
+                    color: inherit;
+                    text-decoration: inherit;
+                }
+                &:first-child {
+                    border-top-left-radius: .5em;
+                    border-bottom-left-radius: .5em;
+                    background: #333333;
+                    color: #ffffff;
+                }
+                &:last-child {
+                    border-top-right-radius: .5em;
+                    border-bottom-right-radius: .5em;
+                    border-right: 1px solid #333333;
+                }
+            }
+        }
     }
 }

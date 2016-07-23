@@ -1,51 +1,51 @@
-<div class="frame frame-left-black" ng-controller="indexController">
+<div class="frame frame-left-black">
     <div class="container">
         <section class="row title-section first-section">
-            <div class="section-title"></div>
+            <div class="section-left section-title"></div>
             <div class="section-content"></div>
         </section>
-        <section class="row normal-section">
+        <section class="row content-section">
             <div class="section-content">
                 <picture class="logo-long">
-                    <source srcset="images/logo4long.svg" type="image/svg+xml">
-                    <img src="images/logo4-10.png" alt="1A23 Studio">
+                    <source eanois-srcset="images/logo4long.svg" type="image/svg+xml">
+                    <img eanois-src="images/logo4-10.png" alt="1A23 Studio">
                 </picture>
                 <nav class="title-nav">
                     <ul>
-                        <li><a ui-sref="about">About</a></li>
-                        <li><a ui-sref="works" href="/#!/works">Works</a></li>
-                        <li><a href="https://blog.1a23.com">Blog</a></li>
-                        <li><a href="/lyricova">Lyricova</a></li>
-                        <li><a href="/#!/links">Links</a></li>
+                        <li><a class="inherit-style-underline-hover" ui-sref="about">About</a></li>
+                        <li><a class="inherit-style-underline-hover" ui-sref="works" href="/#!/works">Works</a></li>
+                        <li><a class="inherit-style-underline-hover" href="https://blog.1a23.com">Blog</a></li>
+                        <li><a class="inherit-style-underline-hover" href="/lyricova">Lyricova</a></li>
+                        <li><a class="inherit-style-underline-hover" ui-shref="links">Links</a></li>
                     </ul>
                 </nav>
-                <div class="home-slogan"data-fittext=".9">
+                <div class="home-slogan" data-fittext=".89">
                     We create.
                 </div>
             </div>
         </section>
         <section class="row title-section">
-            <div class="section-title">
+            <div class="section-left section-title">
                 <h2>Updates</h2>
             </div>
             <div class="section-content">
-                <div class="home-section-entry" ng-repeat="entry in LastUpdate">
-                    <a href="{{entry.url}}" class="entry-link">{{entry.title}}</a>
-                    <div class="entry-desc entry-date">{{entry.published_on}}</div>
+                <div class="home-section-entry" ng-repeat="entry in index.LastUpdate">
+                    <a href="{{entry.url}}" class="entry-link inherit-style-underline-hover">{{entry.title}}</a>
+                    <div class="entry-desc entry-date">{{toDate(entry.published_on) | date: "d MMMM, y"}}</div>
                 </div>
             </div>
         </section>
         <section class="row title-section no-title-center-sm">
-            <div class="section-title">
+            <div class="section-left section-title">
                 <h2>Credit</h2>
             </div>
             <div class="section-content">
                 2008 — 2016 <br>
-                Created by 1A23 Studio with ♥
+                Created by 1A23 Studio with <span style="color: #e74c3c;">♥</span>
             </div>
         </section>
         <section class="row title-section no-title-center-sm">
-            <div class="section-title">
+            <div class="section-left section-title">
                 <h2>Lyricova</h2>
             </div>
             <div class="section-content">
@@ -53,7 +53,7 @@
             </div>
         </section>
         <section class="row title-section last-section">
-            <div class="section-title"></div>
+            <div class="section-left section-title"></div>
             <div class="section-content"></div>
         </section>
     </div>

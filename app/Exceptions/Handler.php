@@ -45,6 +45,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
+        if($this->isHttpException($e) && !$request->wantsJson()) {
+            switch ($e->getStatusCode()) {
+                // not found
+                case 404:
+                    return app(\App\Http\Controllers\FrontEndController::class)->index();
+                    break;
+
+                default:
+                    return $this->renderHttpException($e);
+                    break;
+            }
+        }
+        else
+        {
+            return parent::render($request, $e);
+        }
     }
 }
