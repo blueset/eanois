@@ -21,7 +21,10 @@
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-animate/angular-animate.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-resource/angular-resource.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/app.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/fld-grd/dist/fldGrd.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/js/ngFldGrd.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/js/app.js"></script>
 
 
     {{--<script src="//rawgithub.com/davatron5000/FitText.js/master/jquery.fittext.js"></script>--}}

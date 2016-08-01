@@ -22,7 +22,7 @@ class Post extends Model
         static::addGlobalScope(new PublishDateScope);
     }
 
-    public function category() {
+    public function cate() {
         return $this->belongsTo('App\Category', 'category');
     }
 

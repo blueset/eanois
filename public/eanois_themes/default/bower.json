@@ -22,6 +22,7 @@
     "html5-boilerplate": "^5.3.0",
     "bootstrap": "3.3.x",
     "angular-route": "~1.5.0",
-    "susy": "^2.2.12"
+    "susy": "^2.2.12",
+    "fld-grd": "^1.2.1"
   }
 }

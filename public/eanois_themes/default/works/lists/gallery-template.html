@@ -1,0 +1,61 @@
+<div class="frame frame-top-black works-entry-list">
+    <div class="wrapper-top-black">
+        <div class="container-div">
+            <section class="row title-section first-section">
+                <div class="section-left section-title"></div>
+                <div class="section-content"></div>
+            </section>
+            <section class="row title-section">
+                <div class="section-left section-title with-logo-square">
+                    <a ui-sref="home" class="inherit-style">
+                        <picture class="logo-square">
+                            <source eanois-srcset="images/logo4square.svg" type="image/svg+xml">
+                            <img eanois-src="images/logo4-03.png" alt="1A23 Studio">
+                        </picture>
+                    </a>
+                    <h3 class="logo-square-title">
+                        <a ui-sref="works" class="inherit-style">Works</a>
+                    </h3>
+                </div>
+                <div class="section-content">
+                    <div class="home-slogan" data-fittext=".89" data-fittext-max="{{ remToPx(6) }}">{{ cate.category.name }}</div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+        <section class="row title-section no-title-sm">
+            <div class="section-left">
+                Listing
+            </div>
+            <div class="section-content section-gallery"
+                 ng-fld-grd="{rowHeight: 250, objSelector: 'div.entry-item-wrapper'}"
+                 infinite-scroll='cate.loadNext()'
+                 infinite-scroll-disabled='cate.pause'>
+                <a class="entry-item"
+                   ui-sref="works-category-single({category: cate.category.slug, post: entry.slug})"
+                   ng-repeat="entry in cate.category.postdata"
+                   data-fld-width="{{ entry.imageMeta.width }}"
+                   data-fld-height="{{ entry.imageMeta.height }}">
+                    <div class="entry-item-wrapper">
+                        <div class="entry-item-image" ng-bind-html="entry.imageMeta.html"></div>
+                        <div class="entry-item-caption">{{ entry.title }}</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        <section class="row title-section no-title-center-sm">
+            <div class="section-left section-title">
+                <h2>Credit</h2>
+            </div>
+            <div class="section-content">
+                2008 — 2016 <br>
+                Created by 1A23 Studio with <span style="color: #e74c3c;">♥</span>
+            </div>
+        </section>
+        <section class="row title-section last-section">
+            <div class="section-left section-title"></div>
+            <div class="section-content"></div>
+        </section>
+    </div>
+</div>

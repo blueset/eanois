@@ -103,13 +103,14 @@ class ImagePictureElement {
             array_push($para, $this->width, $this->height);
         }
         $imgtag = '<img src="' . route("AdminImageControllerShow".$this->mode, $para) . '" alt="' . $this->title . '">';
-        if ($this->mode == "" && $this->is_animated()){
-            $webptag = "";
-        } else {
-            array_push($para, "webp");
-            $webptag = "";
+        $webptag = "";
+//        if ($this->mode == "" && $this->is_animated()){
+//            $webptag = "";
+//        } else {
+//            array_push($para, "webp");
+//            $webptag = "";
 //            $webptag = '<source srcset="' . route("AdminImageControllerShow".$this->mode."Ext", $para) . '" type="image/webp">';
-        }
+//        }
         $frame = "<picture>$webptag$imgtag</picture>";
         return $frame;
     }

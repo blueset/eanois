@@ -32,15 +32,6 @@ angular.module('core.api', ['ngResource'])
                     isArray: true
                 }
             })
-        }])
-    .factory("PostMultpleAPI", ["$resource",
-        function ($resource) {
-            return $resource("/api/post/multiple", {}, {
-                get: {
-                    method: "POST",
-                    isArray: true
-                }
-            })
         }]);
 
 // Declare app level module which depends on views, and components
@@ -48,7 +39,9 @@ angular.module('eanoisFrontEnd', [
     'ui.router',
     'ngFitText',
     'core.api',
-    'ngSanitize'
+    'ngSanitize',
+    'ngFldGrd',
+    'infinite-scroll'
 ])
 .filter('unsafe', function($sce) {
     return function(val) {
@@ -145,28 +138,45 @@ angular.module('eanoisFrontEnd', [
                                 cate.posts.data.forEach(function(val){
                                     post_id.push(val.id);
                                 });
-                                cate['postdata'] = PostAPI.get({posts: post_id});
+                                var templates = {
+                                    "entry-template": ['id', 'title', 'slug', 'desc', 'image', 'tags', 'links'],
+                                    'heading-template': ['id', 'title', 'slug', 'desc', 'published_on', 'meta'],
+                                    'gallery-template': ['id', 'title', 'slug', 'image']
+                                };
+                                cate['postdata'] = PostAPI.get({posts: post_id, select: templates[cate.template]});
                                 return cate;
-                            });
+                            }).$promise;
                         }],
-                    $title: ["cate", '$timeout',
-                        function(cate, $timeout) {
-                            return $timeout(function() {
-                                return cate['name'];
-                            }, 1000);
+                    $title: ["cate",
+                        function(cate) {
+                            return cate['name'];
                     }]
                 },
                 // templateUrl: theme_root + "/works/lists/entry-template.html",
-                templateProvider: ['cate', '$templateRequest', '$timeout',
-                    function (cate, $templateRequest, $timeout) {
-                        return $timeout(function(){
-                            var tPath = theme_root + "/works/lists/" + cate.template + ".html";
-                            return $templateRequest(tPath);
-                        }, 1000);
+                templateProvider: ['cate', '$templateRequest',
+                    function (cate, $templateRequest) {
+                        var tPath = theme_root + "/works/lists/" + cate.template + ".html";
+                        return $templateRequest(tPath);
                     }]
             })
             .state("works-category-single", {
-                url: '/:slug'
+                url: '/works/:category/:post',
+                controller: "worksSingleController as post",
+                resolve: {
+                    post: ["PostAPI", "$stateParams", "$http",
+                        function(PostAPI, $stateParams, $http) {
+                            console.log("post_fired");
+                            return PostAPI.get({slug: $stateParams.post}).$promise;
+                        }],
+                    $title: ['post', '$timeout', function(post, $timeout) {
+                            return post[0].title;
+                        }]
+                },
+                templateProvider: ['post', '$templateRequest',
+                    function(post, $templateRequest){
+                        var tPath = theme_root + "/works/singles/" + post[0].cate.template + ".html";
+                        return $templateRequest(tPath);
+                    }]
             });
 }])
 .controller("indexController", ["$scope", "updates",
@@ -186,7 +196,37 @@ angular.module('eanoisFrontEnd', [
     function($scope, categories) {
         this.categories = categories;
     }])
-.controller("worksCategoryController", ["cate",
-    function(cate){
+.controller("worksCategoryController", ["cate", "CategoryAPI", "PostAPI", "$scope",
+    function(cate, CategoryAPI, PostAPI, $scope){
+        this.pause = false;
+        var self = this;
+        this.loadNext = function () {
+            if (self.pause) return;
+            if (self.category.posts.current_page >= self.category.posts.last_page) return;
+            var postData = self.category.postdata;
+            self.pause = true;
+            CategoryAPI.get({slug: self.category.slug, page: self.category.posts.current_page + 1}, function(cate) {
+                var post_id = [];
+                cate.posts.data.forEach(function(val){
+                    post_id.push(val.id);
+                });
+                var templates = {
+                    "entry-template": ['id', 'title', 'slug', 'desc', 'image', 'tags', 'links'],
+                    'heading-template': ['id', 'title', 'slug', 'desc', 'published_on', 'meta'],
+                    'gallery-template': ['id', 'title', 'slug', 'image']
+                };
+                PostAPI.get({posts: post_id, select: templates[cate.template]}, function(newPostData) {
+                    cate.postdata = postData.concat(newPostData);
+                    self.category = cate;
+                    self.pause = false;
+                    $scope.$emit("scrollPaginationUpdate");
+                    return cate.postdata;
+                });
+                return cate;
+            });
+        };
         this.category = cate;
-    }]);
+    }])
+.controller("worksSingleController", ["post", function(post) {
+    this.post = post[0];
+}]);

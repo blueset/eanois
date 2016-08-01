@@ -12,7 +12,7 @@ class EanoisParsedown extends \Parsedown {
             $slug  = substr($Image['element']['attributes']['src'], 6);
             $title = $Image['element']['attributes']['alt'];
             if (!($slug && \App\Image::where('slug', $slug)->exists())){
-                $Image['element']['name'] = "img";
+                $Image['element'][''] = "img";
                 $title = $title ?: "Image+not+found:+" . $slug;
                 $Image['element']['attributes']['src'] = "https://placehold.it/500x300?text=" . $title;
                 return $Image;

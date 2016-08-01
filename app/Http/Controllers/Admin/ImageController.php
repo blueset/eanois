@@ -162,6 +162,6 @@ class ImageController extends Controller
         $img = Image::find($id);
         $img->delete();
         $request->session()->flash("message_success", "Image $img->title has been deleted.");
-        return "Image $img->title has been deleted.";
+        return response("Image $img->title has been deleted.");
     }
 }

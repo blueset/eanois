@@ -43,13 +43,60 @@ class APIController extends Controller
     }
 
     public function postPosts(Request $request){
+        $column = "id";
+        if (isset($request->slug)){
+            $request->posts = [$request->slug];
+            $column = 'slug';
+        }
         $result = [];
+        $with = [];
+        $select = isset($request->select)? $request->select :
+                  ['id', 'slug', 'title', 'published_on', 'desc', 'image',
+                   'category', 'tags', 'links', 'meta'];
+        if (count($request->posts) == 1){
+            $select = ['id', 'slug', 'title', 'body', 'published_on', 'desc', 'image',
+                'category', 'tags', 'links', 'meta'];
+        }
+        if (in_array('category', $select)){
+            $with['cate'] = function($query) {$query->select(['id', 'name', 'slug', 'template']);};
+        }
+        if (in_array('tags', $select)){
+            $select = array_diff($select, ['tags']);
+            $with['tags'] = function($query) {$query->select(['name', 'slug']);};
+        }
+        if (in_array('links', $select)){
+            $select = array_diff($select, ['links']);
+            $with['links'] = function($query) {$query->select(['post', 'name', 'url', 'css_class', 'order']);};
+        }
+        if (in_array('meta', $select)){
+            $select = array_diff($select, ['meta']);
+            $with['meta'] = function($query) {$query->select(['post', 'key', 'value']);};
+        }
         foreach ($request->posts as $id) {
-            $q = \App\Post::with(['tags', 'links', 'meta', 'category'])->where('id', $id)->firstOrFail();
+            $q = \App\Post::with($with)
+                ->select($select)
+                ->where($column, $id)
+                ->firstOrFail();
             $item = $q->toArray();
-            $item['imageHtml'] = \App\Image::where('slug', $item['image'])->exists() ? \Markdown::text("![" . $item['title'] . "](image:" . $item['image'] . ')') : "";
-            $item['desc'] = \Markdown::text($item['desc']);
-            $item['body'] = \Markdown::text($item['body']);
+            if (array_key_exists('image', $item)) {
+                $item['imageMeta'] = ["html" => \App\Image::where('slug', $item['image'])->exists() ? \App\Image::where('slug', $item['image'])->first()->pictureElement()->title($item['title'])->render() : ""];
+                if (\App\Image::where('slug', $item['image'])->exists()) {
+                    $dimension = getimagesize(\Storage::getDriver()->getAdapter()->applyPathPrefix(\App\Image::where('slug', $item['image'])->first()->path));
+                    $item['imageMeta']['width'] = $dimension[0];
+                    $item['imageMeta']['height'] = $dimension[1];
+                } else {
+                    $item['imageMeta'] = [];
+                }
+            }
+            if (array_key_exists('desc', $item)) {
+                $item['desc'] = \Markdown::text($item['desc']);
+            }
+            if (array_key_exists('body', $item)) {
+                $item['body'] = \Markdown::text($item['body']);
+            }
+            if (array_key_exists('meta', $item)) {
+                $item['meta'] = array_combine(array_column($item['meta'], 'key'), array_column($item['meta'], 'value'));
+            }
             array_push($result, $item);
         }
         return response()->json($result);

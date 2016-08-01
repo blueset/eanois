@@ -40,7 +40,7 @@
                             </td>
 
                             <td><a href="{{ action('Admin\PostController@edit', ['id' => $p->id]) }}">{{ $p->title }}</a></td>
-                            <td><a href="{{ action('Admin\CategoryController@show', ['id' => $p->category()->first()->id]) }}">{{ $p->category()->first()->name }}</a></td>
+                            <td><a href="{{ action('Admin\CategoryController@show', ['id' => $p->cate()->first()->id]) }}">{{ $p->cate()->first()->name }}</a></td>
                             <td>{{ $p->published_on }}</td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete" data-name="{{ $p->name }} ({{ $p->slug }})" data-href="{{ action('Admin\PostController@destroy', ['id' => $p->id]) }}">
