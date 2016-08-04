@@ -37,6 +37,7 @@ $(function () {
             $(".pull-right .btn-success", entry).click(function () {
                 var entry = $(this).parents('.admin-link-entry');
                 var data = entry.data('data');
+                var type = entry.data('type');
                 var name = $("input.inline-edit[name=name]", entry).val();
                 var index = $("input.inline-edit[name=sort_index]", entry).val();
                 $.ajax({
@@ -45,7 +46,8 @@ $(function () {
                     data: {
                         id: data.id,
                         name: name,
-                        sort_index: index
+                        sort_index: index,
+                        type: type
                     },
                     success: function () {
                         entry.data('data', {
@@ -98,6 +100,7 @@ $(function () {
             $(".admin-link-item-right .btn-success", entry).click(function () {
                 var entry = $(this).parents('.admin-link-entry');
                 var data = entry.data('data');
+                var type = entry.data('type');
                 var name = $("input.inline-edit[name=name]", entry).val();
                 var index = $("input.inline-edit[name=sort_index]", entry).val();
                 var desc = $("input.inline-edit[name=desc]", entry).val();
@@ -110,7 +113,8 @@ $(function () {
                         name: name,
                         sort_index: index,
                         desc: desc,
-                        url: url
+                        url: url,
+                        type: type
                     },
                     success: function () {
                         entry.data('data', {

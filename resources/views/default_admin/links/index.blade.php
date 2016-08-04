@@ -63,7 +63,7 @@
                     <div class="box-body no-padding">
                         @foreach ($links as $l)
                             @if($l->type == "divider")
-                                <div class="admin-link-divider admin-link-entry" data-id="{{ $l->id }}">
+                                <div class="admin-link-divider admin-link-entry" data-id="{{ $l->id }}" data-type="divider">
                                     <div class="pull-right">
                                         <span class="admin-link-divider-index">{{ $l->sort_index }}</span>
                                         <button type="button" data-action="edit"
@@ -81,7 +81,7 @@
                                     <span class="admin-link-divider-name">{{ $l->name }}</span>
                                 </div>
                             @elseif ($l->type == "link")
-                                <div class="admin-link-item admin-link-entry" data-id="{{ $l->id }}">
+                                <div class="admin-link-item admin-link-entry" data-id="{{ $l->id }}" data-type="link">
                                     <div class="admin-link-item-favicon"><img
                                                 src="//www.google.com/s2/favicons?domain_url={{ urlencode($l->url) }}"
                                                 alt="{{ $l->name }} ({{ $l->url }})"></div>

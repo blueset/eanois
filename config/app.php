@@ -222,6 +222,7 @@ return [
         'Slugify' => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
         'InterventionImage' => Intervention\Image\Facades\Image::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Reader' => PicoFeed\Reader\Reader::class,
 
         /*
          * App Aliases

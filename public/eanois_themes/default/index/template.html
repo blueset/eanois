@@ -16,7 +16,7 @@
                         <li><a class="inherit-style-underline-hover" ui-sref="works" href="/#!/works">Works</a></li>
                         <li><a class="inherit-style-underline-hover" href="https://blog.1a23.com">Blog</a></li>
                         <li><a class="inherit-style-underline-hover" href="/lyricova">Lyricova</a></li>
-                        <li><a class="inherit-style-underline-hover" ui-shref="links">Links</a></li>
+                        <li><a class="inherit-style-underline-hover" ui-sref="links">Links</a></li>
                     </ul>
                 </nav>
                 <div class="home-slogan" data-fittext=".89">
@@ -31,7 +31,7 @@
             <div class="section-content">
                 <div class="home-section-entry" ng-repeat="entry in index.LastUpdate">
                     <a href="{{entry.url}}" class="entry-link inherit-style-underline-hover">{{entry.title}}</a>
-                    <div class="entry-desc entry-date">{{toDate(entry.published_on) | date: "d MMMM, y"}}</div>
+                    <div class="entry-desc entry-date">{{entry.published_on * 1000 | date: "d MMMM, y"}}</div>
                 </div>
             </div>
         </section>

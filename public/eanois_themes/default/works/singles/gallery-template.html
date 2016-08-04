@@ -24,23 +24,17 @@
     </div>
     <div class="wrapper-top-gray">
         <div class="container-div">
-            <section class="row title-section">
-                <div class="section-full">
-                    <h3 class="single-title">{{ post.post.title }}</h3>
-                </div>
-            </section>
+            <div class="align-center" ng-bind-html="post.post.imageMeta.html"></div>
         </div>
     </div>
     <div class="container">
-        <section class="row full-section no-title-sm">
-            <div class="section-full body-text desc-text" ng-bind-html="post.post.desc">
-            </div>
-        </section>
         <section class="row title-section no-title-sm">
             <div class="section-left">
-                Content
+                Media
             </div>
-            <div class="section-content body-text" ng-bind-html="post.post.body">
+            <div class="section-content body-text">
+                <h3 class="media-title">{{ post.post.title }}</h3>
+                <div class="body-text" ng-bind-html="post.post.desc"></div>
             </div>
         </section>
         <section class="row title-section no-title-center-sm">

@@ -19,8 +19,8 @@ body {
   min-height: 100vh; }
 
 a.inherit-style:link, a.inherit-style:visited, a.inherit-style:hover {
-  color: inherit;
-  text-decoration: inherit; }
+  color: inherit !important;
+  text-decoration: inherit !important; }
 
 a.inherit-style-underline-hover:link, a.inherit-style-underline-hover:visited {
   color: inherit !important;
@@ -517,6 +517,10 @@ h3.page-title {
 .frame-top-black .wrapper-top-gray {
   background: #5a5a5a;
   color: #ffffff; }
+  .frame-top-black .wrapper-top-gray img {
+    max-height: 60vh;
+    max-width: 100vw;
+    margin-bottom: -5px; }
 
 .logo-long img {
   max-height: 2em; }
@@ -907,11 +911,18 @@ h3.page-title {
       height: 100%; }
   .section-gallery .entry-item-wrapper {
     position: relative; }
-    .section-gallery .entry-item-wrapper:hover .entry-item-caption {
+    .state-md .section-gallery .entry-item-wrapper:hover .entry-item-caption {
       display: block; }
-    .section-gallery .entry-item-wrapper .entry-item-caption {
+    .state-md .section-gallery .entry-item-wrapper .entry-item-caption {
       display: none;
-      bottom: 0;
+      bottom: 0; }
+    @media screen and (min-width: 481px) {
+      .section-gallery .entry-item-wrapper:hover .entry-item-caption {
+        display: block; }
+      .section-gallery .entry-item-wrapper .entry-item-caption {
+        display: none;
+        bottom: 0; } }
+    .section-gallery .entry-item-wrapper .entry-item-caption {
       left: 0;
       position: absolute;
       background: rgba(0, 0, 0, 0.6);
@@ -940,5 +951,61 @@ h3.page-title {
   text-align: center;
   font-style: italic;
   padding: 3em 0; }
+
+.align-center {
+  text-align: center; }
+
+.media-title {
+  font-size: 3em;
+  font-weight: 300;
+  font-family: "Work Sans", "Origin Han Sans UI PRChinaGB", "Origin Han Sans UI Nihongo", "Noto Sans CJK SC", "Noto Sans CJK JP", "SourceHanSansHans", "SourceHanSansJa", "Hiragino Sans", "Lantinghei SC", "Pingfang SC", sans-serif;
+  margin-bottom: 1rem; }
+
+.state-sm .frame-top-black .container > .title-section:first-child {
+  margin-top: 2em; }
+@media screen and (max-width: 480px) {
+  .frame-top-black .container > .title-section:first-child {
+    margin-top: 2em; } }
+
+.state-md .logo-square-full img {
+  height: 6em; }
+@media screen and (min-width: 481px) {
+  .logo-square-full img {
+    height: 6em; } }
+.state-sm .logo-square-full img {
+  height: 3em; }
+@media screen and (max-width: 480px) {
+  .logo-square-full img {
+    height: 3em; } }
+
+.about-member {
+  margin-bottom: 3em; }
+  .about-member img.profile-picture {
+    float: right;
+    height: 3em; }
+  .about-member h3.member-name {
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+    font-family: "Work Sans", "Origin Han Sans UI PRChinaGB", "Origin Han Sans UI Nihongo", "Noto Sans CJK SC", "Noto Sans CJK JP", "SourceHanSansHans", "SourceHanSansJa", "Hiragino Sans", "Lantinghei SC", "Pingfang SC", sans-serif; }
+  .about-member ul.member-tags {
+    margin: 0;
+    padding: 0;
+    list-style-type: none; }
+    .about-member ul.member-tags li {
+      display: inline-block;
+      margin-right: 10px;
+      border-bottom: 1px dotted;
+      color: #3a3a3a; }
+  .about-member h4.member-tags-title {
+    margin-bottom: 0; }
+
+.link-item {
+  margin-bottom: 1rem; }
+  .link-item h3.link-title {
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+    font-family: "Work Sans", "Origin Han Sans UI PRChinaGB", "Origin Han Sans UI Nihongo", "Noto Sans CJK SC", "Noto Sans CJK JP", "SourceHanSansHans", "SourceHanSansJa", "Hiragino Sans", "Lantinghei SC", "Pingfang SC", sans-serif; }
 
 /*# sourceMappingURL=app.css.map */

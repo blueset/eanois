@@ -64,8 +64,8 @@ body {
 }
 
 a.inherit-style:link, a.inherit-style:visited, a.inherit-style:hover {
-    color: inherit;
-    text-decoration: inherit;
+    color: inherit !important;
+    text-decoration: inherit !important;
 }
 
 a.inherit-style-underline-hover{
@@ -322,6 +322,11 @@ h3.page-title {
     .wrapper-top-gray{
         background: #5a5a5a;
         color: #ffffff;
+        img {
+            max-height: 60vh;
+            max-width: 100vw;
+            margin-bottom: -5px;
+        }
     }
 }
 
@@ -670,12 +675,16 @@ h3.page-title {
     }
     .entry-item-wrapper {
         position: relative;
-        &:hover .entry-item-caption{
-            display: block;
+        @include gridle_state(md){
+            &:hover .entry-item-caption{
+                display: block;
+            }
+            .entry-item-caption {
+                display: none;
+                bottom: 0;
+            }
         }
         .entry-item-caption {
-            display: none;
-            bottom: 0;
             left: 0;
             position: absolute;
             background: rgba(0,0,0,0.6);
@@ -700,6 +709,7 @@ h3.page-title {
     margin: .5em 0;
 }
 .body-text > *{
+
     &:first-child{
         margin-top: 0;
     }
@@ -711,4 +721,73 @@ h3.page-title {
     text-align: center;
     font-style: italic;
     padding: 3em 0;
+}
+
+.align-center {
+    text-align: center;
+}
+
+// works/singles/gallery-template.html
+
+.media-title{
+    font-size: 3em;
+    font-weight: 300;
+    font-family: $worksans;
+    margin-bottom: 1rem;
+}
+
+.frame-top-black {
+    @include gridle_state(sm){
+        .container > .title-section:first-child{
+            margin-top: 2em;
+        }
+    }
+}
+
+// index/about.html
+.logo-square-full img {
+    @include gridle_state(md) {
+        height: 6em;
+    }
+    @include gridle_state(sm) {
+        height: 3em;
+    }
+}
+
+.about-member{
+    margin-bottom: 3em;
+
+    img.profile-picture {
+        float: right;
+        height: 3em;
+    }
+    h3.member-name {
+        font-size: 2em;
+        padding: 0;
+        margin: 0;
+        font-family: $worksans;
+    }
+    ul.member-tags{
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        li {
+            display: inline-block;
+            margin-right: 10px;
+            border-bottom: 1px dotted;
+            color: #3a3a3a;
+        }
+    }
+    h4.member-tags-title {
+        margin-bottom: 0;
+    }
+}
+.link-item{
+    margin-bottom: 1rem;
+    h3.link-title{
+        font-size: 2em;
+        padding: 0;
+        margin: 0;
+        font-family: $worksans;
+    }
 }

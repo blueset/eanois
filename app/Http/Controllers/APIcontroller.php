@@ -26,8 +26,21 @@ class APIController extends Controller
         $result = \App\Post::select(["title", "category", "slug", "published_on"])->take(3)->get()->toArray();
         foreach ($result as &$r) {
             $r['type'] = 'post';
+            $r['published_on'] = strtotime($r['published_on']);
             $r['category'] = \App\Category::findOrFail(intval($r['category']))->slug;
         }
+        $feed_url = explode(" ", \App\Setting::getConfig("feed_url"));
+        foreach ($feed_url as $url){
+            $reader = new \Reader;
+            $resource = $reader->download($url);
+            $parser = $reader->getParser($resource->getUrl(), $resource->getContent(), $resource->getEncoding());
+            $feed = $parser->execute();
+            foreach (array_slice($feed->items, 0, 3) as $item){
+                array_push($result, ["title"=>$item->getTitle(), "published_on"=>$item->getDate()->getTimestamp(), "url"=>$item->getUrl(), "type"=>"feed"]);
+            }
+
+        }
+        usort($result, function($a, $b){return $b["published_on"] - $a["published_on"];});
         return response()->json(array_slice($result, 0, 3));
     }
 
@@ -100,6 +113,19 @@ class APIController extends Controller
             array_push($result, $item);
         }
         return response()->json($result);
+    }
+
+    public function getPage($slug) {
+        $page = \App\Page::where('slug', $slug)->select(["title", "body", "slug", "data", "template"])->firstOrFail()->toArray();
+        $page['body'] = \Markdown::text($page['body']);
+        $page['data'] = json_decode($page['data']);
+        return response()->json($page);
+    }
+
+    public function getLinks() {
+        return response()->json(\App\Link::orderBy("sort_index")->select([
+            "name", "desc", "url", "sort_index", "type"
+        ])->get()->toArray());
     }
 
 }

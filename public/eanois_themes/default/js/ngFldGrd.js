@@ -17,8 +17,20 @@ angular.module("ngFldGrd", [])
                         var fldGrd_generate = function () {
                             return new $window.FldGrd(elem[0], angular.extend(localConf, conf));
                         };
-                        fldGrd_generate();
+                        $timeout(function(){
+                            fldGrd_generate();
+                        }, 100);
                         scope.$on("scrollPaginationUpdate", function() {
+                            $timeout(function(){
+                                fldGrd_generate();
+                            }, 0);
+                        });
+                        scope.$on("$stateChangeSuccess", function() {
+                            $timeout(function(){
+                                fldGrd_generate();
+                            }, 0);
+                        });
+                        scope.$on("$viewContentLoaded", function() {
                             $timeout(function(){
                                 fldGrd_generate();
                             }, 0);

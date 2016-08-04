@@ -25,7 +25,7 @@
             <div class="section-left section-title">
                 <h2>Categories</h2>
             </div>
-            <div class="section-content" id="work-category-name-section" data-fittext data-fittext-max="{{ remToPx(5) }}">
+            <div class="section-content" id="work-category-name-section" data-fittext data-fittext-max="{{ remToPx(3) }}">
                 <div class="works-category" ng-repeat="entry in index.categories">
                     <a ui-sref="works-category({category: entry.slug})" class="entry-link">{{entry.name}}</a>
                 </div>

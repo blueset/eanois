@@ -16,7 +16,8 @@
         "barryvdh/laravel-debugbar": "^2.2",
         "doctrine/dbal": "^2.5",
         "intervention/imagecache": "^2.3",
-        "erusev/parsedown": "^1.6"
+        "erusev/parsedown": "^1.6",
+        "fguillot/picofeed": "@stable"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

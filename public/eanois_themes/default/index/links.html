@@ -5,30 +5,29 @@
             <div class="section-content"></div>
         </section>
         <section class="row title-section">
-            <div class="section-left section-title with-logo-square">
+            <div class="section-left section-title">
                 <a ui-sref="home" class="inherit-style">
-                    <picture class="logo-square">
+                    <picture class="logo-square-full">
                         <source eanois-srcset="images/logo4square.svg" type="image/svg+xml">
                         <img eanois-src="images/logo4-03.png" alt="1A23 Studio">
                     </picture>
                 </a>
-                <h3 class="logo-square-title">
-                    <a ui-sref="works" class="inherit-style">Works</a>
-                </h3>
             </div>
             <div class="section-content">
-                <div class="home-slogan" data-fittext=".89" data-fittext-max="{{ remToPx(6) }}">{{ cate.category.name }}</div>
+                <div class="home-slogan" data-fittext=".89" data-fittext-max="{{ remToPx(6) }}">Links</div>
             </div>
         </section>
-        <section class="row title-section">
+        <section class="row title-section" ng-repeat="group in link.link">
             <div class="section-left section-title">
-                <h2>Who are we?</h2>
+                <h2>{{ group.name }}</h2>
             </div>
-            <div class="section-content" ng-bind-html="">
-
+            <div class="section-content body-text">
+                <div class="link-item" ng-repeat="link in group.links">
+                    <h3 class="link-title"><a href="{{ link.url }}" class="inherit-style">{{link.name}}</a></h3>
+                    <div class="link-desc">{{link.desc}}</div>
+                </div>
             </div>
         </section>
-
         <section class="row title-section no-title-center-sm">
             <div class="section-left section-title">
                 <h2>Credit</h2>

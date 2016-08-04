@@ -88,4 +88,6 @@ Route::group(['prefix' => 'api', 'middleware' => "json"], function () {
     Route::get('categories', 'APIController@getAllCategories');
     Route::get('categories/{slug}', 'APIController@getCategory');
     Route::post('posts', 'APIController@postPosts');
+    Route::get('pages/{slug}', 'APIController@getPage');
+    Route::get('links', 'APIController@getLinks');
 });

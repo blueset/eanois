@@ -16,7 +16,8 @@ angular.module('core.api', ['ngResource'])
         function ($resource) {
             return $resource("/api/categories/:slug", {}, {
                 get: {
-                    method: "GET"
+                    method: "GET",
+                    isArray: false
                 },
                 all: {
                     method: "GET",
@@ -32,7 +33,20 @@ angular.module('core.api', ['ngResource'])
                     isArray: true
                 }
             })
+        }])
+    .factory("PageAPI", ["$resource",
+        function ($resource) {
+            return $resource("/api/pages/:slug", {}, {
+                get: {method: "GET", isArray: false}
+            });
+        }])
+    .factory("LinkAPI", ["$resource",
+        function ($resource) {
+            return $resource("/api/links", {}, {
+                get: {method: "GET", isArray: true}
+            });
         }]);
+
 
 // Declare app level module which depends on views, and components
 angular.module('eanoisFrontEnd', [
@@ -112,7 +126,26 @@ angular.module('eanoisFrontEnd', [
                 }
             })
             .state("about", {
-                url: '/about'
+                url: '/about',
+                templateUrl: theme_root + "/index/about.html",
+                resolve: {
+                    page: ["PageAPI", function (PageAPI) {
+                        return PageAPI.get({slug: "about"});
+                    }],
+                    title: function() {return "About";}
+                },
+                controller: "pageController as page"
+            })
+            .state("links", {
+                url: '/links',
+                templateUrl: theme_root + "/index/links.html",
+                resolve: {
+                    link: ["LinkAPI", function (LinkAPI) {
+                        return LinkAPI.get();
+                    }],
+                    title: function() {return "Links";}
+                },
+                controller: "linkController as link"
             })
             .state("works", {
                 url: '/works',
@@ -229,4 +262,17 @@ angular.module('eanoisFrontEnd', [
     }])
 .controller("worksSingleController", ["post", function(post) {
     this.post = post[0];
+}])
+.controller("pageController", ["page", function(page) {
+    this.page = page;
+}])
+.controller("linkController", ["link", function(link) {
+    this.link = [];
+    angular.forEach(link, function(val, key){
+        if (val["type"] == "divider"){
+            this.push({name: val.name, links: []});
+        } else {
+            this[this.length - 1].links.push(val);
+        }
+    }, this.link);
 }]);

@@ -1,0 +1,77 @@
+<div class="frame frame-left-black works-heading-list">
+    <div class="container">
+        <section class="row title-section first-section">
+            <div class="section-left section-title"></div>
+            <div class="section-content"></div>
+        </section>
+        <section class="row title-section">
+            <div class="section-left section-title">
+                <a ui-sref="home" class="inherit-style">
+                    <picture class="logo-square-full">
+                        <source eanois-srcset="images/logo4square.svg" type="image/svg+xml">
+                        <img eanois-src="images/logo4-03.png" alt="1A23 Studio">
+                    </picture>
+                </a>
+            </div>
+            <div class="section-content">
+                <div class="home-slogan" data-fittext=".89" data-fittext-max="{{ remToPx(6) }}">{{ page.page.title }}</div>
+            </div>
+        </section>
+        <section class="row title-section">
+            <div class="section-left section-title">
+                <h2>Who are we?</h2>
+            </div>
+            <div class="section-content body-text" ng-bind-html="page.page.body">
+            </div>
+        </section>
+        <section class="row title-section">
+            <div class="section-left section-title">
+                <h2>Members</h2>
+            </div>
+            <div class="section-content">
+                <div class="about-member" ng-repeat="member in page.page.data">
+                    <img src="{{'/public/images/' + member.profile}}" alt="{{ member.name }}" class="profile-picture">
+                    <h3 class="member-name">{{ member.name }}</h3>
+                    <div class="member-desc">{{ member.desc }}</div>
+                    <div class="member-tagging">
+                        <h4 class="member-tags-title">Technology Skills</h4>
+                        <ul class="member-tags">
+                            <li ng-repeat="tag in member.skills">{{ tag }}</li>
+                        </ul>
+                    </div>
+                    <div class="member-tagging">
+                        <h4 class="member-tags-title">Preference and Interests</h4>
+                        <ul class="member-tags">
+                            <li ng-repeat="tag in member.pref">{{ tag }}</li>
+                        </ul>
+                    </div>
+                    <div class="member-tagging">
+                        <h4 class="member-tags-title">Contacts</h4>
+                        <ul class="member-tags">
+                            <li ng-repeat="(tag, val) in member.contact"><a href="{{val}}" class="inherit-style">{{tag}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="member-tagging">
+                        <h4 class="member-tags-title">On the Web&trade;</h4>
+                        <ul class="member-tags">
+                            <li ng-repeat="(tag, val) in member.ontheweb"><a href="{{val}}" class="inherit-style">{{tag}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="row title-section no-title-center-sm">
+            <div class="section-left section-title">
+                <h2>Credit</h2>
+            </div>
+            <div class="section-content">
+                2008 — 2016 <br>
+                Created by 1A23 Studio with <span style="color: #e74c3c;">♥</span>
+            </div>
+        </section>
+        <section class="row title-section last-section">
+            <div class="section-left section-title"></div>
+            <div class="section-content"></div>
+        </section>
+    </div>
+</div>

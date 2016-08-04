@@ -109,7 +109,7 @@ class Initial extends Migration
             $table->increments('id');
             $table->mediumText('name');
             $table->longText('desc')->nullable();
-            $table->longText('url');
+            $table->longText('url')->nullable();
             $table->integer('sort_index')->default(0);
             $table->timestamps();
             $table->softDeletes();
