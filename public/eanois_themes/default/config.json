@@ -1,0 +1,57 @@
+{
+  "name": "Eanois Default",
+  "desc": "Eanois CMS Default theme, designed for 1A23.com.",
+  "author": "Eana Hufwe",
+  "link": "https://1a23.com",
+  "type": "front-end",
+  "sitemap": {
+    "fixed": [
+      {
+        "url": "/",
+        "update-time": "posts",
+        "change-freq": "daily",
+        "priority": 10
+      }
+    ],
+    "assoc-pages": {
+      "about": {
+        "url": "/about",
+        "update-time": "",
+        "change-freq": "monthly",
+        "priority": "3"
+      }
+    },
+    "assoc-posts": {},
+    "generic": {
+      "categories-list": {
+        "url": "/works",
+        "update-time": "",
+        "change-freq": "monthly",
+        "priority": "3"
+      },
+      "tags-list": null,
+      "links-list": {
+        "url": "/links",
+        "update-time": "",
+        "change-freq": "monthly",
+        "priority": "1"
+      },
+      "category": {
+        "url": "/works/{category}",
+        "update-time": "",
+        "change-freq": "daily",
+        "priority": "1"
+      },
+      "post": {
+        "url": "/works/{category}/{slug}",
+        "update-time": "",
+        "change-freq": "monthly",
+        "priority": "9",
+        "except": {
+          "category-template": "entry-template"
+        }
+      },
+      "page": null
+    }
+  }
+}

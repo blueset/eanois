@@ -28,7 +28,7 @@
 
 Route::group(['middleware' => ['web', 'theme:frontend']], function () {
     Route::any('/', "FrontEndController@index");
-    Route::any('/php', function () {return \Markdown::text("```python\nprint('hi')\n```");});
+    Route::any('/sitemap.xml', "APIController@getSitemap");
 
     // Image related
 

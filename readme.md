@@ -17,7 +17,10 @@ This CMS is written for personal use, based on Laravel, and it's currently worki
  * [x] Settings
  * [x] Themes
  * [ ] Dashboard
-* [ ] Frontend
+* [x] Frontend
+ * [x] AngularJS Theme
+ * [x] Generic Front end JSON API
 * [ ] Misc
- * [ ] RSS & SiteMap generation
+ * [x] RSS & SiteMap generation
+ * [ ] RSS feed.
  * [ ] Integrate with Lyricova

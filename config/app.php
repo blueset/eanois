@@ -167,6 +167,7 @@ return [
         Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Watson\Sitemap\SitemapServiceProvider::class,
 
     ],
 
@@ -223,6 +224,7 @@ return [
         'InterventionImage' => Intervention\Image\Facades\Image::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Reader' => PicoFeed\Reader\Reader::class,
+        'Sitemap' => Watson\Sitemap\Facades\Sitemap::class,
 
         /*
          * App Aliases
