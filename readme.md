@@ -22,5 +22,5 @@ This CMS is written for personal use, based on Laravel, and it's currently worki
  * [x] Generic Front end JSON API
 * [ ] Misc
  * [x] RSS & SiteMap generation
- * [ ] RSS feed.
+ * [x] RSS feed.
  * [ ] Integrate with Lyricova

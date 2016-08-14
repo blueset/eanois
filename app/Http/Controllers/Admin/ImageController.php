@@ -56,14 +56,14 @@ class ImageController extends Controller
 
         $ext = $file->getClientOriginalExtension();
         $slug = SlugHelper::getNextAvailableSlug(basename($file->getClientOriginalName(), '.'.$ext), Image::class);
-        $local_path = storage_path('images/');
+        $local_path = 'images/';
         $local_name = strval(time()).'_'.$slug.'.'.$ext;
-        Storage::put($local_path . $local_name, $file->getRealPath());
+        Storage::put($local_path . $local_name, file_get_contents($file->getRealPath()));
 
         $db_img = new Image([
             'slug' => $slug,
             'title' => $file->getClientOriginalName(),
-            'path' => $local_path,
+            'path' => $local_path . $local_name,
         ]);
         $db_img->save();
 

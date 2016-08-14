@@ -11,7 +11,7 @@
     <section class="content-header">
         <h1>Posts <small>List of posts</small></h1>
         <ol class="breadcrumb">
-            <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
+            <li><a href="{{ action("AdminController@index") }}"><i class="fa fa-dashboard"></i> Admin Panel</a></li>
             <li class="active">Posts list</li>
         </ol>
     </section>

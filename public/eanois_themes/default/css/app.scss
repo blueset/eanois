@@ -92,6 +92,11 @@ a.inherit-style-dotted-hover{
     }
 }
 
+.div-link{
+    cursor: default;
+    pointer-events: none;
+}
+
 .frame {
     min-height: 100vh;
 }
@@ -324,7 +329,7 @@ h3.page-title {
         color: #ffffff;
         img {
             max-height: 60vh;
-            max-width: 100vw;
+            max-width: 100%;
             margin-bottom: -5px;
         }
     }
@@ -727,6 +732,27 @@ h3.page-title {
     text-align: center;
 }
 
+.body-text, .desc-text {
+    blockquote {
+        margin-left: .5em;
+        margin-right: 0;
+        border-left: .5em solid #ccc;
+        padding-left: 1em;
+    }
+
+    pre {
+        padding: 10px;
+        background: #5a5a5a;
+        border-radius: 5px;
+        color: #fff;
+        overflow: scroll;
+    }
+
+    a:link, a:visited, a:hover {
+        color: #2196F3;
+    }
+}
+
 // works/singles/gallery-template.html
 
 .media-title{
@@ -789,5 +815,77 @@ h3.page-title {
         padding: 0;
         margin: 0;
         font-family: $worksans;
+    }
+}
+
+// works/lists/heading-listing.html
+h3.listing-title {
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+    font-family: $worksans;
+}
+.section-entry-date{
+    h2 {
+        font-size: 1em;
+        margin: 0;
+        font-weight: normal;
+    }
+}
+.heading-entry {
+    @include gridle_state(sm){
+        margin: 2em 0;
+    }
+}
+
+ul.media-links{
+    display: flex;
+    margin: 0;
+    list-style-type: none;
+    flex-direction: row;
+    @include gridle_state(md) {
+        padding: 0;
+        margin-top: 1.5em;
+    }
+    @include gridle_state(sm) {
+        padding: .5em 0;
+    }
+    li {
+        flex-basis: 0;
+        padding: .5em;
+        text-align: center;
+        @include gridle_state(md) {
+            margin-right: 5px;
+            border-radius: .5em;
+            padding: .5em 1.5em;
+            border: 1px solid #333333;
+        }
+        @include gridle_state(sm) {
+            flex-grow: 1;
+            border-top: 1px solid #333333;
+            border-left: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+        }
+        a:link, a:hover, a:visited {
+            text-align: center;
+            color: inherit;
+            text-decoration: inherit;
+        }
+        &:first-child {
+            @include gridle_state(sm) {
+                border-top-left-radius: .5em;
+                border-bottom-left-radius: .5em;
+            }
+            background: #333333;
+            color: #ffffff;
+        }
+        &:last-child {
+            @include gridle_state(md) {
+                margin-right: 0;
+            }
+            border-top-right-radius: .5em;
+            border-bottom-right-radius: .5em;
+            border-right: 1px solid #333333;
+        }
     }
 }

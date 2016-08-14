@@ -11,7 +11,7 @@
     <section class="content-header">
         <h1>Categories <small>Create and manage categories for posts</small></h1>
         <ol class="breadcrumb">
-            <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
+            <li><a href="{{ action("AdminController@index") }}"><i class="fa fa-dashboard"></i> Admin Panel</a></li>
             <li><a href="{{ action('Admin\PostController@index') }}"> Posts</a></li>
             <li class="active">Categories</li>
         </ol>

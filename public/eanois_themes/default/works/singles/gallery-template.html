@@ -24,7 +24,7 @@
     </div>
     <div class="wrapper-top-gray">
         <div class="container-div">
-            <div class="align-center" ng-bind-html="post.post.imageMeta.html"></div>
+            <a ng-href="{{ (post.post.meta && post.post.meta.link) ? post.post.meta.link : post.post.imageMeta.path }}" target="_self" class="align-center" ng-bind-html="post.post.imageMeta.html"></a>
         </div>
     </div>
     <div class="container">
@@ -35,6 +35,11 @@
             <div class="section-content body-text">
                 <h3 class="media-title">{{ post.post.title }}</h3>
                 <div class="body-text" ng-bind-html="post.post.desc"></div>
+                <ul class="media-links">
+                    <li ng-repeat="link in post.post.links">
+                        <a href="{{ link.url }}">{{ link.name }}</a>
+                    </li>
+                </ul>
             </div>
         </section>
         <section class="row title-section no-title-center-sm">

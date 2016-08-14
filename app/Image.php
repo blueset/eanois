@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\UpdatedAtScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,6 +13,13 @@ class Image extends Model
     protected $fillable = ['slug', 'title', 'path'];
     protected $hidden = ['path'];
     protected $appends = ['backend_media_preview_html'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new UpdatedAtScope);
+    }
 
     public function getExt(){
         return strtolower(\File::extension($this->path));

@@ -5,6 +5,10 @@
             {!! AdminHelper::sidebar_item("Dashboard", "fa-dashboard", 'AdminController@index') !!}
             {!! AdminHelper::sidebar_item("Settings", "fa-cog", "AdminController@viewSettings") !!}
             {!! AdminHelper::sidebar_item("Themes", "fa-paint-brush", 'AdminController@themeIndex') !!}
+            {!! AdminHelper::sidebar_treeview("Users", "fa-users", [
+                ["name" => "New", "icon" => "fa-plus", "action" => 'Admin\UserController@create'],
+                ["name" => "All users", "icon" => "fa-list", "action" => ['Admin\UserController@index', 'Admin\UserController@edit']],
+            ]) !!}
             <li class="header">CONTENTS</li>
             {!! AdminHelper::sidebar_treeview("Pages", "fa-sticky-note-o", [
                 ["name" => "New", "icon" => "fa-plus", "action" => 'Admin\PageController@create'],

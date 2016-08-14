@@ -91,12 +91,16 @@ class APIController extends Controller
                 ->where($column, $id)
                 ->firstOrFail();
             $item = $q->toArray();
+            if (isset($item['published_on'])){
+                $item['published_on'] = strtotime($item['published_on']);
+            }
             if (array_key_exists('image', $item)) {
                 $item['imageMeta'] = ["html" => \App\Image::where('slug', $item['image'])->exists() ? \App\Image::where('slug', $item['image'])->first()->pictureElement()->title($item['title'])->render() : ""];
                 if (\App\Image::where('slug', $item['image'])->exists()) {
                     $dimension = getimagesize(\Storage::getDriver()->getAdapter()->applyPathPrefix(\App\Image::where('slug', $item['image'])->first()->path));
                     $item['imageMeta']['width'] = $dimension[0];
                     $item['imageMeta']['height'] = $dimension[1];
+                    $item['imageMeta']['path'] = route("AdminImageControllerShow", [$item['image']]);
                 } else {
                     $item['imageMeta'] = [];
                 }
@@ -128,118 +132,5 @@ class APIController extends Controller
         ])->get()->toArray());
     }
 
-    private function sitemapUpdateTime($type) {
-        if ($type == "posts"){
-            return \App\Post::select("published_on")->orderBy("published_on")->first()->published_on;
-        }
-    }
 
-    public function getSitemap() {
-        $conf = json_decode(file_get_contents(public_path(\Theme::url("config.json"))), true);
-//        "sitemap": {
-//            "fixed": [
-//      {
-//          "url": "/",
-//        "update-time": "posts",
-//        "change-freq": "daily",
-//        "priority": 10
-//      }
-//    ],
-//    "assoc-pages": {
-//                "about": {
-//                    "url": "/about",
-//        "update-time": "",
-//        "change-freq": "monthly",
-//        "priority": "3"
-//      }
-//    },
-//    "assoc-posts": {},
-//    "generic": {
-//                "categories-list": {
-//                    "url": "/works",
-//        "update-time": "",
-//        "change-freq": "monthly",
-//        "priority": "3"
-//      },
-//      "tags-list": null,
-//      "links-list": {
-//                    "url": "/links",
-//        "update-time": "",
-//        "change-freq": "monthly",
-//        "priority": "1"
-//      },
-//      "category": {
-//                    "url": "/works/{category}",
-//        "update-time": "",
-//        "change-freq": "daily",
-//        "priority": "1"
-//      },
-//      "post": {
-//                    "url": "/works/{category}/{slug}",
-//        "update-time": "",
-//        "change-freq": "monthly",
-//        "priority": "1",
-//        "except": {
-//                        "category-template": "entry-template"
-//        }
-//      },
-//      "page": null
-//    }
-//  }
-        foreach ($conf['sitemap']['fixed'] as $page) {
-            \Sitemap::addTag($page['url'], $this->sitemapUpdateTime($page['update-time']), $page['change-freq'], $page['priority']);
-        }
-        foreach ($conf['sitemap']['assoc-pages'] as $key => $page) {
-            $updateTime = \App\Page::where("slug", $key)->select("published_on")->first()->published_on;
-            \Sitemap::addTag($page['url'], $updateTime, $page['change-freq'], $page['priority']);
-        }
-        foreach ($conf['sitemap']['assoc-posts'] as $key => $page) {
-            $updateTime = \App\Post::where("slug", $key)->select("published_on")->first()->published_on;
-            \Sitemap::addTag($page['url'], $updateTime, $page['change-freq'], $page['priority']);
-        }
-        if ($conf['sitemap']['generic']['categories-list']) {
-            $page = $conf['sitemap']['generic']['categories-list'];
-            \Sitemap::addTag($page['url'], $this->sitemapUpdateTime("categories"), $page['change-freq'], $page['priority']);
-        }
-        if ($conf['sitemap']['generic']['tags-list']) {
-            $page = $conf['sitemap']['generic']['tags-list'];
-            \Sitemap::addTag($page['url'], $this->sitemapUpdateTime("tags"), $page['change-freq'], $page['priority']);
-        }
-        if ($conf['sitemap']['generic']['links-list']) {
-            $page = $conf['sitemap']['generic']['links-list'];
-            \Sitemap::addTag($page['url'], $this->sitemapUpdateTime("links"), $page['change-freq'], $page['priority']);
-        }
-        if ($conf['sitemap']['generic']['category']) {
-            $page = $conf['sitemap']['generic']['category'];
-            $cats = \App\Category::select(["id", "slug"])->get();
-            foreach($cats as $cat){
-                $url = str_replace("{category}", $cat->slug, $page['url']);
-                $updateTime = $cat->posts()->select(["published_on", "category"])->orderBy("published_on")->first()->published_on;
-                \Sitemap::addTag($url, $updateTime, $page['change-freq'], $page['priority']);
-            }
-        }
-        if ($conf['sitemap']['generic']['tags-list']) {
-            // TODO: Tags list
-        }
-        if ($conf['sitemap']['generic']['post']) {
-            $page = $conf['sitemap']['generic']['post'];
-            $ps = \App\Post::select(["category", "slug"])->get();
-            foreach($ps as $p){
-                $category = $p->cate()->select(["slug", "id"])->first()->slug;
-                $url = str_replace(["{category}", "{slug}"], [$category, $p->slug], $page['url']);
-                $updateTime = $p->published_on;
-                \Sitemap::addTag($url, $updateTime, $page['change-freq'], $page['priority']);
-            }
-        }
-        if ($conf['sitemap']['generic']['page']) {
-            $page = $conf['sitemap']['generic']['page'];
-            $ps = \App\Page::select(["id", "slug", "published_on"])->get();
-            foreach($ps as $p){
-                $url = str_replace("{slug}", $p->slug, $page['url']);
-                $updateTime = $p->published_on;
-                \Sitemap::addTag($url, $updateTime, $page['change-freq'], $page['priority']);
-            }
-        }
-        return \Sitemap::render();
-    }
 }

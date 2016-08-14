@@ -62,6 +62,11 @@ angular.module('eanoisFrontEnd', [
         return $sce.trustAsHtml(val);
     };
 })
+.filter('htmlToPlaintext', function() {
+    return function(text) {
+        return text ? String(text).replace(/<[^>]+>/gm, '') : '';
+    };
+})
 .run([
     "$rootScope", "$state", "$stateParams", "$timeout",
     function ($rootScope, $state, $stateParams, $timeout) {
@@ -164,8 +169,8 @@ angular.module('eanoisFrontEnd', [
                 url: '^/works/:category',
                 controller: "worksCategoryController as cate",
                 resolve: {
-                    cate: ["CategoryAPI", "PostAPI", "$stateParams", "$state",
-                        function(CategoryAPI, PostAPI, $stateParams, $state) {
+                    cate: ["CategoryAPI", "PostAPI", "$stateParams", "$state", "$rootScope",
+                        function(CategoryAPI, PostAPI, $stateParams, $state, $rootScope) {
                             return CategoryAPI.get({slug: $stateParams.category}, function(cate) {
                                 var post_id = [];
                                 cate.posts.data.forEach(function(val){
@@ -174,9 +179,21 @@ angular.module('eanoisFrontEnd', [
                                 var templates = {
                                     "entry-template": ['id', 'title', 'slug', 'desc', 'image', 'tags', 'links'],
                                     'heading-template': ['id', 'title', 'slug', 'desc', 'published_on', 'meta'],
-                                    'gallery-template': ['id', 'title', 'slug', 'image']
+                                    'gallery-template': ['id', 'title', 'slug', 'image', 'meta']
                                 };
-                                cate['postdata'] = PostAPI.get({posts: post_id, select: templates[cate.template]});
+                                cate['postdata'] = PostAPI.get({posts: post_id, select: templates[cate.template]}, function(data) {
+                                    data.forEach(function (val) {
+                                        if (!val['meta'] || val['meta']['link'] == "") {
+                                            val['meta'] = val['meta'] || {};
+                                            val['meta']['link'] = $state.href("works-category-single", {
+                                                category: cate.slug,
+                                                post: val['slug']
+                                            }, {absolute: true});
+                                        }
+                                    });
+                                    return data;
+                                });
+
                                 return cate;
                             }).$promise;
                         }],
@@ -217,9 +234,9 @@ angular.module('eanoisFrontEnd', [
         var self = this;
         updates.forEach(function (val) {
             if (val['type'] == "post") {
-                val['url'] = $scope.$state.href("works.category.single", {
+                val['url'] = $scope.$state.href("works-category-single", {
                         category: val['category'],
-                        slug: val['slug']
+                        post: val['slug']
                     }, {absolute: true});
             }
         });
@@ -252,6 +269,15 @@ angular.module('eanoisFrontEnd', [
                     cate.postdata = postData.concat(newPostData);
                     self.category = cate;
                     self.pause = false;
+                    cate.postdata.forEach(function (val) {
+                        if (!val['meta'] || val['meta']['link'] == "") {
+                            val['meta'] = val['meta'] || {};
+                            val['meta']['link'] = $scope.$state.href("works-category-single", {
+                                category: cate.slug,
+                                post: val['slug']
+                            }, {absolute: true});
+                        }
+                    });
                     $scope.$emit("scrollPaginationUpdate");
                     return cate.postdata;
                 });

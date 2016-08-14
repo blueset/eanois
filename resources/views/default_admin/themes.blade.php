@@ -6,7 +6,7 @@
     <section class="content-header">
         <h1>Themes <small>Front-end and back-end themes</small></h1>
         <ol class="breadcrumb">
-            <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
+            <li><a href="{{ action("AdminController@index") }}"><i class="fa fa-dashboard"></i> Admin Panel</a></li>
             <li class="active">Themes</li>
         </ol>
     </section>

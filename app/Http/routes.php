@@ -28,7 +28,10 @@
 
 Route::group(['middleware' => ['web', 'theme:frontend']], function () {
     Route::any('/', "FrontEndController@index");
-    Route::any('/sitemap.xml', "APIController@getSitemap");
+    Route::any('/sitemap.xml', "HomeController@getSitemap");
+    Route::any('/feed.xml', "HomeController@getAtomFeed");
+
+    Route::any("php", function(){return phpinfo();});
 
     // Image related
 
@@ -72,6 +75,7 @@ Route::group(['middleware' => ['web', 'theme:backend', 'auth'], 'prefix' => 'ean
     Route::post("posts/batch", 'Admin\PostController@bulkUpdate');
     Route::resource('images', 'Admin\ImageController', ['only' => ['index', 'store', 'destroy']]);
     Route::resource('links', 'Admin\LinkController', ['only' => ['index', 'store', 'update', 'destroy']]);
+    Route::resource('users', 'Admin\UserController', ['only' => ['index', 'create', 'store', 'edit', 'update']]);
     Route::get('frame/media', 'AdminController@mediaIframe');
 });
 

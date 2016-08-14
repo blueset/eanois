@@ -25,7 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies($gate);
-
+        \Validator::extend('password_hash', function($attribute, $value, $parameters, $validator){
+            list($table, $column, $id) = $parameters;
+            $pw = \DB::table($table)->select(["id", $column])->first(["id" => $id])->$column;
+            $verify = \Hash::check($value, $pw);
+            return $verify;
+        });
         //
     }
 }

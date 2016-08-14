@@ -10,7 +10,7 @@
     <section class="content-header">
         <h1>Category: <strong>{{ $category->name }}</strong> <small>View and edit a category</small></h1>
         <ol class="breadcrumb">
-            <li><a href="{{ action("AdminController@index") }}"></a><i class="fa fa-dashboard"></i> Admin Panel</li>
+            <li><a href="{{ action("AdminController@index") }}"><i class="fa fa-dashboard"></i> Admin Panel</a></li>
             <li><a href="{{ action('Admin\PostController@index') }}"> Posts</a></li>
             <li><a href="{{ action('Admin\CategoryController@index') }}"> Categories</a></li>
             <li class="active">{{ $category->name }}</li>

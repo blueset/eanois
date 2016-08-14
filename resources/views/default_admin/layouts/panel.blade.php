@@ -23,15 +23,16 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
+                        <?php $meta = $user->getMeta(); ?>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ Gravatar::get($user->email, ['size' => 200]) }}" alt="" class="user-image" alt="{{ $user->name }}'s profile picture">
-                            <span class="hidden-xs">{{ $user->name }}</span>
+                            <img src="{{ Gravatar::get($user->email, ['size' => 200]) }}" alt="" class="user-image" alt="{{ $meta['display_name'] }}'s profile picture">
+                            <span class="hidden-xs">{{ $meta['display_name'] }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-header">
                                 <img src="{{ Gravatar::get($user->email, ['size' => 200]) }}" alt="" class="img-circle">
                                 <p>
-                                    {{ $user->name }}
+                                    {{ $meta['display_name'] }}
                                     <small>Administrator</small>
                                 </p>
                             </li>

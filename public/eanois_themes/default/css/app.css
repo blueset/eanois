@@ -38,6 +38,10 @@ a.inherit-style-dotted-hover:hover {
   border-bottom-width: 1px;
   border-bottom-style: dotted; }
 
+.div-link {
+  cursor: default;
+  pointer-events: none; }
+
 .frame {
   min-height: 100vh; }
 
@@ -519,7 +523,7 @@ h3.page-title {
   color: #ffffff; }
   .frame-top-black .wrapper-top-gray img {
     max-height: 60vh;
-    max-width: 100vw;
+    max-width: 100%;
     margin-bottom: -5px; }
 
 .logo-long img {
@@ -955,6 +959,20 @@ h3.page-title {
 .align-center {
   text-align: center; }
 
+.body-text blockquote, .desc-text blockquote {
+  margin-left: .5em;
+  margin-right: 0;
+  border-left: .5em solid #ccc;
+  padding-left: 1em; }
+.body-text pre, .desc-text pre {
+  padding: 10px;
+  background: #5a5a5a;
+  border-radius: 5px;
+  color: #fff;
+  overflow: scroll; }
+.body-text a:link, .body-text a:visited, .body-text a:hover, .desc-text a:link, .desc-text a:visited, .desc-text a:hover {
+  color: #2196F3; }
+
 .media-title {
   font-size: 3em;
   font-weight: 300;
@@ -1007,5 +1025,89 @@ h3.page-title {
     padding: 0;
     margin: 0;
     font-family: "Work Sans", "Origin Han Sans UI PRChinaGB", "Origin Han Sans UI Nihongo", "Noto Sans CJK SC", "Noto Sans CJK JP", "SourceHanSansHans", "SourceHanSansJa", "Hiragino Sans", "Lantinghei SC", "Pingfang SC", sans-serif; }
+
+h3.listing-title {
+  font-size: 2em;
+  padding: 0;
+  margin: 0;
+  font-family: "Work Sans", "Origin Han Sans UI PRChinaGB", "Origin Han Sans UI Nihongo", "Noto Sans CJK SC", "Noto Sans CJK JP", "SourceHanSansHans", "SourceHanSansJa", "Hiragino Sans", "Lantinghei SC", "Pingfang SC", sans-serif; }
+
+.section-entry-date h2 {
+  font-size: 1em;
+  margin: 0;
+  font-weight: normal; }
+
+.state-sm .heading-entry {
+  margin: 2em 0; }
+@media screen and (max-width: 480px) {
+  .heading-entry {
+    margin: 2em 0; } }
+
+ul.media-links {
+  display: flex;
+  margin: 0;
+  list-style-type: none;
+  flex-direction: row; }
+  .state-md ul.media-links {
+    padding: 0;
+    margin-top: 1.5em; }
+  @media screen and (min-width: 481px) {
+    ul.media-links {
+      padding: 0;
+      margin-top: 1.5em; } }
+  .state-sm ul.media-links {
+    padding: .5em 0; }
+  @media screen and (max-width: 480px) {
+    ul.media-links {
+      padding: .5em 0; } }
+  ul.media-links li {
+    flex-basis: 0;
+    padding: .5em;
+    text-align: center; }
+    .state-md ul.media-links li {
+      margin-right: 5px;
+      border-radius: .5em;
+      padding: .5em 1.5em;
+      border: 1px solid #333333; }
+    @media screen and (min-width: 481px) {
+      ul.media-links li {
+        margin-right: 5px;
+        border-radius: .5em;
+        padding: .5em 1.5em;
+        border: 1px solid #333333; } }
+    .state-sm ul.media-links li {
+      flex-grow: 1;
+      border-top: 1px solid #333333;
+      border-left: 1px solid #333333;
+      border-bottom: 1px solid #333333; }
+    @media screen and (max-width: 480px) {
+      ul.media-links li {
+        flex-grow: 1;
+        border-top: 1px solid #333333;
+        border-left: 1px solid #333333;
+        border-bottom: 1px solid #333333; } }
+    ul.media-links li a:link, ul.media-links li a:hover, ul.media-links li a:visited {
+      text-align: center;
+      color: inherit;
+      text-decoration: inherit; }
+    ul.media-links li:first-child {
+      background: #333333;
+      color: #ffffff; }
+      .state-sm ul.media-links li:first-child {
+        border-top-left-radius: .5em;
+        border-bottom-left-radius: .5em; }
+      @media screen and (max-width: 480px) {
+        ul.media-links li:first-child {
+          border-top-left-radius: .5em;
+          border-bottom-left-radius: .5em; } }
+    ul.media-links li:last-child {
+      border-top-right-radius: .5em;
+      border-bottom-right-radius: .5em;
+      border-right: 1px solid #333333; }
+      .state-md ul.media-links li:last-child {
+        margin-right: 0; }
+      @media screen and (min-width: 481px) {
+        ul.media-links li:last-child {
+          margin-right: 0; } }
 
 /*# sourceMappingURL=app.css.map */
