@@ -23,6 +23,7 @@
     "bootstrap": "3.3.x",
     "angular-route": "~1.5.0",
     "susy": "^2.2.12",
-    "fld-grd": "^1.2.1"
+    "fld-grd": "^1.2.1",
+    "ngMeta": "^0.3.9"
   }
 }

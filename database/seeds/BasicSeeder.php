@@ -17,7 +17,7 @@ class BasicSeeder extends Seeder
 
         DB::table('config')->insert([
             "key" => "site_name",
-            "value" => "1A23 Studio",
+            "value" => "A new Eanois Site",
         ]);
         DB::table('config')->insert([
             "key" => "theme",
@@ -29,6 +29,15 @@ class BasicSeeder extends Seeder
         ]);
         DB::table('config')->insert([
             "key" => "feed_url",
+            "value" => "",
+        ]);
+        DB::table('config')->insert([
+            "key" => "site_desc",
+            "value" => "Yet another Eanois website.",
+        ]);
+
+        DB::table('config')->insert([
+            "key" => "site_logo",
             "value" => "",
         ]);
 

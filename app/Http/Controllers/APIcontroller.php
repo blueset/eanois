@@ -105,12 +105,17 @@ class APIController extends Controller
                     $item['imageMeta'] = [];
                 }
             }
+            $item['metadesc'] = '';
+
             if (array_key_exists('desc', $item)) {
                 $item['desc'] = \Markdown::text($item['desc']);
+                $item['metadesc'] .= strip_tags($item['desc']);
             }
             if (array_key_exists('body', $item)) {
                 $item['body'] = \Markdown::text($item['body']);
+                $item['metadesc'] .= strip_tags($item['body']);
             }
+            $item['metadesc'] = substr($item['metadesc'], 0, 200);
             if (array_key_exists('meta', $item)) {
                 $item['meta'] = array_combine(array_column($item['meta'], 'key'), array_column($item['meta'], 'value'));
             }
@@ -122,6 +127,7 @@ class APIController extends Controller
     public function getPage($slug) {
         $page = \App\Page::where('slug', $slug)->select(["title", "body", "slug", "data", "template"])->firstOrFail()->toArray();
         $page['body'] = \Markdown::text($page['body']);
+        $page['metadesc'] = substr(strip_tags($page['body']), 0, 200);
         $page['data'] = json_decode($page['data']);
         return response()->json($page);
     }

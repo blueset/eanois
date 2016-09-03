@@ -82,19 +82,27 @@
                 content: function () {
                     var slug = $(this).data('slug');
                     var name = $(this).find('.mailbox-attachment-name').text();
-                    return $("<div>", {"class": "btn-group-vertical"})
-                            .append($("<button>", {
+                    var group = $("<div>", {"class": "btn-group-vertical"});
+                    var paras = {!! $paras !!};
+                    for (var k in paras){
+                        group = group.append($("<button>", {
                                 "class": ["btn btn-xs btn-default"],
-                                "onclick": "add('"+slug+"', '"+name+"', 'desc')"
-                            }).text("Add to Description"))
-                            .append($("<button>", {
-                                "class": ["btn btn-xs btn-default"],
-                                "onclick": "add('"+slug+"', '"+name+"', 'body')"
-                            }).text("Add to Body"))
-                            .append($("<button>", {
-                                "class": ["btn btn-xs btn-default"],
-                                "onclick": "add('"+slug+"', '"+name+"', 'feat')"
-                            }).text("Set as featured image"));;
+                                "onclick": "add('"+slug+"', '"+name+"', '" + k + "')"
+                            }).text(paras[k]));
+                    }
+//                    return
+//                            .append($("<button>", {
+//                                "class": ["btn btn-xs btn-default"],
+//                                "onclick": "add('"+slug+"', '"+name+"', 'desc')"
+//                            }).text("Add to Description"))
+//                            .append($("<button>", {
+//                                "class": ["btn btn-xs btn-default"],
+//                                "onclick": "add('"+slug+"', '"+name+"', 'body')"
+//                            }).text("Add to Body"))
+//                            .append($("<button>", {
+//                                "class": ["btn btn-xs btn-default"],
+//                                "onclick": "add('"+slug+"', '"+name+"', 'feat')"
+//                            }).text("Set as featured image"));
                 }
             };
 

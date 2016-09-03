@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
             switch ($e->getStatusCode()) {
                 // not found
                 case 404:
-                    return app(\App\Http\Controllers\FrontEndController::class)->index();
+                    return response(app(\App\Http\Controllers\FrontEndController::class)->index());
                     break;
 
                 default:

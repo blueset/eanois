@@ -55,7 +55,8 @@ angular.module('eanoisFrontEnd', [
     'core.api',
     'ngSanitize',
     'ngFldGrd',
-    'infinite-scroll'
+    'infinite-scroll',
+    'ngMeta',
 ])
 .filter('unsafe', function($sce) {
     return function(val) {
@@ -68,8 +69,8 @@ angular.module('eanoisFrontEnd', [
     };
 })
 .run([
-    "$rootScope", "$state", "$stateParams", "$timeout",
-    function ($rootScope, $state, $stateParams, $timeout) {
+    "$rootScope", "$state", "$stateParams", "$timeout", "ngMeta",
+    function ($rootScope, $state, $stateParams, $timeout, ngMeta) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         $rootScope.toDate = function(d) {
@@ -89,6 +90,8 @@ angular.module('eanoisFrontEnd', [
         function getTitleValue(title) {
             return angular.isFunction(title) ? title() : title;
         }
+
+        ngMeta.init();
     }
 ])
 .directive('eanoisSrc', function () {
@@ -109,9 +112,15 @@ angular.module('eanoisFrontEnd', [
         }
     };
 })
-.config(['$locationProvider', '$urlRouterProvider', '$stateProvider',
-    function($locationProvider, $urlRouterProvider, $stateProvider) {
+.config(['$locationProvider', '$urlRouterProvider', '$stateProvider', 'ngMetaProvider',
+    function($locationProvider, $urlRouterProvider, $stateProvider, ngMetaProvider) {
         var theme_root = $("meta[name=theme_root]").attr("content");
+        // ngMeta configs
+        ngMetaProvider.setDefaultTitle($("meta[name='site:name']").attr("content"));
+        ngMetaProvider.setDefaultTag("description", $("meta[name='site:desc']").attr("content"));
+        ngMetaProvider.setDefaultTag("image", $("meta[name='site:logo']").attr("content"));
+        ngMetaProvider.setDefaultTag("og:type", "website");
+        ngMetaProvider.setDefaultTag("twitter:card", "summary");
         // $locationProvider.hashPrefix('!');
         $locationProvider.html5Mode(true);
         // This is only for redirect only.
@@ -119,6 +128,20 @@ angular.module('eanoisFrontEnd', [
             .when('/test', '/test-redirect')  // for no purpose :P
             .otherwise('/');
         // Actual routing goes here!!
+
+        // ngMeta wrapper
+        var ngMetaUpdate = function(ngMeta, title, desc, imgsrc) {
+            if (title) ngMeta.setTitle(title);
+            if (desc) ngMeta.setTag('description', desc);
+            ngMeta.setTag('og:type', 'article');
+            if (imgsrc) {
+                ngMeta.setTag('image', imgsrc.path);
+                ngMeta.setTag('twitter:card', 'summary_large_image');
+            } else {
+                ngMeta.setTag('twitter:card', 'summary');
+            }
+        };
+
         $stateProvider
             .state("home", {
                 url: '/',
@@ -135,11 +158,15 @@ angular.module('eanoisFrontEnd', [
                 templateUrl: theme_root + "/index/about.html",
                 resolve: {
                     page: ["PageAPI", function (PageAPI) {
-                        return PageAPI.get({slug: "about"});
+                        return PageAPI.get({slug: "about"}).$promise;
                     }],
-                    title: function() {return "About";}
+                    title: function() {return "About";},
+                    meta: ['page', 'ngMeta', function(page, ngMeta){
+                        ngMetaUpdate(ngMeta, page.title, page.metadesc);
+                    }],
                 },
-                controller: "pageController as page"
+                controller: "pageController as page",
+                meta: {disableUpdate: true}
             })
             .state("links", {
                 url: '/links',
@@ -148,20 +175,35 @@ angular.module('eanoisFrontEnd', [
                     link: ["LinkAPI", function (LinkAPI) {
                         return LinkAPI.get();
                     }],
-                    title: function() {return "Links";}
+                    title: function() {return "Links";},
+                    meta: ['ngMeta', function (ngMeta) {
+                        ngMeta.setTitle('Links');
+                        ngMeta.setTag('description', 'Websites related to 1A23 Studio');
+                        ngMeta.setTag('og:type', 'article');
+                    }]
                 },
-                controller: "linkController as link"
+                controller: "linkController as link",
+                meta: {disableUpdate: true}
             })
             .state("works", {
                 url: '/works',
                 templateUrl: theme_root + "/works/index.html",
                 controller: "worksIndexController as index",
+                meta: {disableUpdate: true},
                 resolve: {
                     $title: function() {
                         return "Works";
                     },
                     categories: ["CategoryAPI", function (CategoryAPI) {
-                        return CategoryAPI.all();
+                        return CategoryAPI.all().$promise;
+                    }],
+                    meta: ['ngMeta', 'categories', function (ngMeta, categories) {
+                        var categoryList = "Categories: ";
+                        categories.forEach(function(val){categoryList += val.name + ", ";});
+                        categoryList += "...";
+                        ngMeta.setTitle('Works');
+                        ngMeta.setTag('description', categoryList);
+                        ngMeta.setTag('og:type', 'article');
                     }]
                 }
             })
@@ -200,6 +242,21 @@ angular.module('eanoisFrontEnd', [
                     $title: ["cate",
                         function(cate) {
                             return cate['name'];
+                    }],
+                    meta: ['ngMeta', 'cate', function (ngMeta, cate) {
+                        var categoryList = "";
+                        var imgsrc = null;
+                        cate.postdata.forEach(function(val){
+                            categoryList += val.title + "; ";
+                            if (val.imageMeta & !imgsrc){
+                                imgsrc = val.imageMeta.path;
+                            }
+                        });
+                        categoryList += "...";
+                        ngMeta.setTitle(cate.name);
+                        ngMeta.setTag('description', categoryList);
+                        if (imgsrc) ngMeta.setTag('image', imgsrc);
+                        ngMeta.setTag('og:type', 'article');
                     }]
                 },
                 // templateUrl: theme_root + "/works/lists/entry-template.html",
@@ -207,7 +264,8 @@ angular.module('eanoisFrontEnd', [
                     function (cate, $templateRequest) {
                         var tPath = theme_root + "/works/lists/" + cate.template + ".html";
                         return $templateRequest(tPath);
-                    }]
+                    }],
+                meta: {disableUpdate: true}
             })
             .state("works-category-single", {
                 url: '/works/:category/:post',
@@ -220,13 +278,17 @@ angular.module('eanoisFrontEnd', [
                         }],
                     $title: ['post', '$timeout', function(post, $timeout) {
                             return post[0].title;
-                        }]
+                        }],
+                    meta: ['ngMeta', 'post', function (ngMeta, post) {
+                        ngMetaUpdate(ngMeta, post[0].title, post[0].metadesc, post[0].imageMeta);
+                    }]
                 },
                 templateProvider: ['post', '$templateRequest',
                     function(post, $templateRequest){
                         var tPath = theme_root + "/works/singles/" + post[0].cate.template + ".html";
                         return $templateRequest(tPath);
-                    }]
+                    }],
+                meta: {disableUpdate: true}
             });
 }])
 .controller("indexController", ["$scope", "updates",

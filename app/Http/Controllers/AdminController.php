@@ -66,8 +66,19 @@ class AdminController extends Controller
         return "Theme updated.";
     }
 
-    public function mediaIframe() {
+    public function mediaIframe(Request $request) {
         $images = \App\Image::all();
-        return view('frames.media', ['images' => $images]);
+        $paras = [
+            "default" => [
+                "desc" => "Add to description",
+                "body" => "Add to body",
+                "feat" => "Set as featuring image"
+            ],
+            "single" => [
+                "select" => "Select this image"
+            ]
+        ];
+        $paraskey = $request->input("type", "default");
+        return view('frames.media', ['images' => $images, 'paras' => json_encode($paras[$paraskey])]);
     }
 }
