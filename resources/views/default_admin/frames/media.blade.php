@@ -90,19 +90,7 @@
                                 "onclick": "add('"+slug+"', '"+name+"', '" + k + "')"
                             }).text(paras[k]));
                     }
-//                    return
-//                            .append($("<button>", {
-//                                "class": ["btn btn-xs btn-default"],
-//                                "onclick": "add('"+slug+"', '"+name+"', 'desc')"
-//                            }).text("Add to Description"))
-//                            .append($("<button>", {
-//                                "class": ["btn btn-xs btn-default"],
-//                                "onclick": "add('"+slug+"', '"+name+"', 'body')"
-//                            }).text("Add to Body"))
-//                            .append($("<button>", {
-//                                "class": ["btn btn-xs btn-default"],
-//                                "onclick": "add('"+slug+"', '"+name+"', 'feat')"
-//                            }).text("Set as featured image"));
+                    return group;
                 }
             };
 

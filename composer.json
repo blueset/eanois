@@ -18,7 +18,8 @@
         "intervention/imagecache": "^2.3",
         "erusev/parsedown": "^1.6",
         "fguillot/picofeed": "@stable",
-        "watson/sitemap": "^2.0"
+        "watson/sitemap": "^2.0",
+        "nutsweb/laravel-prerender": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

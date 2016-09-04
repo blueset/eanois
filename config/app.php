@@ -168,6 +168,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Watson\Sitemap\SitemapServiceProvider::class,
+        Nutsweb\LaravelPrerender\LaravelPrerenderServiceProvider::class,
 
     ],
 

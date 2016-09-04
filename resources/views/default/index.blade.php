@@ -2,6 +2,7 @@
 <html lang="en" ng-app="eanoisFrontEnd">
 <head>
     <base href="/">
+    <meta name="fragment" content="!">
     <meta name="theme_root" content="{{ asset(Theme::url('/')) }}">
     <meta name="site:name" content="{{ $setting['site_name'] }}">
     <meta name="site:desc" content="{{ $setting['site_desc'] }}">
