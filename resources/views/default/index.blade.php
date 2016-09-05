@@ -55,6 +55,6 @@
     {{--<script src="//rawgithub.com/davatron5000/FitText.js/master/jquery.fittext.js"></script>--}}
 
 </head>
-<body ng-cloak ng-view ui-view>
+<body ng-cloak ng-view ui-view class="html-body">
 </body>
 </html>

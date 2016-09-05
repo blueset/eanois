@@ -57,6 +57,7 @@ angular.module('eanoisFrontEnd', [
     'ngFldGrd',
     'infinite-scroll',
     'ngMeta',
+    'ngAnimate'
 ])
 .filter('unsafe', function($sce) {
     return function(val) {
@@ -79,6 +80,11 @@ angular.module('eanoisFrontEnd', [
         $rootScope.remToPx = function(size) {
             return size * parseInt($("body").css('font-size'));
         };
+
+        function getTitleValue(title) {
+            return angular.isFunction(title) ? title() : title;
+        }
+
         $rootScope.$on("$stateChangeSuccess", function() {
             var title = getTitleValue($state.$current.locals.globals.$title);
             var baseTitle = "1A23 Studio";
@@ -86,10 +92,6 @@ angular.module('eanoisFrontEnd', [
                 $rootScope.$title = title ? title + " - " + baseTitle : baseTitle;
             });
         });
-
-        function getTitleValue(title) {
-            return angular.isFunction(title) ? title() : title;
-        }
 
         ngMeta.init();
     }
@@ -149,7 +151,7 @@ angular.module('eanoisFrontEnd', [
                 controller: "indexController as index",
                 resolve: {
                     updates: ["LastUpdateAPI", function(LastUpdateAPI) {
-                        return LastUpdateAPI.get();
+                        return LastUpdateAPI.get().$promise;
                     }]
                 }
             })
@@ -363,4 +365,16 @@ angular.module('eanoisFrontEnd', [
             this[this.length - 1].links.push(val);
         }
     }, this.link);
-}]);
+}])
+.animation('.html-body', function(){
+    return {
+        enter: function(elem, done){
+            console.log("enter");
+            done();
+        },
+        leave: function(elem, done){
+            console.log("leave");
+            done();
+        }
+    }
+});
