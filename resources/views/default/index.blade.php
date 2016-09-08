@@ -68,11 +68,11 @@
     <script src="{{ asset(Theme::url('/')) }}/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngFitText/dist/ng-FitText.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngMeta/dist/ngMeta.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-animate/angular-animate.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-resource/angular-resource.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/fld-grd/dist/fldGrd.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/fld-grd/dist/fldGrd.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/js/ngFldGrd.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/js/app.js"></script>
