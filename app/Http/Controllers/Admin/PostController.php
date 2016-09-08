@@ -69,24 +69,26 @@ class PostController extends Controller
 
         $post->save();
         if (isset($request->tags)){
+            $tagIds = [];
             foreach($request->tags as $t) {
                 if (Tag::where('slug', $t)->exists()) {
-                    $tag = Tag::where('slug', $t);
+                    array_push($tagIds, Tag::where('slug', $t)->firstOrFail()->id);
                 } else {
                     $tag = new Tag();
                     $tag->name = $t;
                     $tag->slug = SlugHelper::getNextAvailableSlug($t, Tag::class);
+                    $tag->save();
+                    array_push($tagIds, $tag->id);
                 }
-                $post->tags()->save($tag);
             }
+            $post->tags()->sync($tagIds);
         }
-
         if (isset($request->postlink)){
             foreach ($request->postlink as $order => $value){
-                if (!empty($value->name)){
+                if (!empty($value['name'])){
                     $link = new PostLink();
-                    $link->name = $value->name;
-                    $link->url = $value->url;
+                    $link->name = $value['name'];
+                    $link->url = $value['url'];
                     $link->order = $order;
                     $post->links()->save($link);
                 }

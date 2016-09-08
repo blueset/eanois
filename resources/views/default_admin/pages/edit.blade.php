@@ -146,6 +146,7 @@ HDC
                 var editor = ace.edit(editDiv[0]);
                 editor.setOption("wrap", 80);
                 editor.getSession().setValue(textarea.val());
+                editor.getSession().setUseWrapMode(true);
                 editor.getSession().setMode("ace/mode/" + mode);
                 editor.setOptions({fontFamily: "Input Mono Narrow", fontSize: 14});
                 editor.on('change', function () {

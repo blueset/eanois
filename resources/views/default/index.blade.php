@@ -7,6 +7,9 @@
     <meta name="site:name" content="{{ $setting['site_name'] }}">
     <meta name="site:desc" content="{{ $setting['site_desc'] }}">
     <meta name="site:logo" content="{{ $setting['site_logo_url'] }}">
+
+    <link rel="alternate" type="application/atom+xml" title="RSS (Atom) Feed for {{ $setting['site_name'] }}" href="/feed.xml" />
+
     <meta charset="utf-8">
 
     <!-- Search engines -->
@@ -33,12 +36,35 @@
             display: none;
         }
     </style>
-    <title ng-bind="$title">1A23.Studio</title>
+    <title ng-bind="$title">1A23 Studio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ asset(Theme::url('css/app.css')) }}">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-57x57.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-60x60.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-72x72.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-76x76.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-114x114.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-120x120.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-144x144.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-152x152.png?v=201512180001">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset(Theme::url('/')) }}/favicons/apple-touch-icon-180x180.png?v=201512180001">
+    <link rel="icon" type="image/png" href="{{ asset(Theme::url('/')) }}/favicons/favicon-32x32.png?v=201512180001" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ asset(Theme::url('/')) }}/favicons/android-chrome-192x192.png?v=201512180001" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ asset(Theme::url('/')) }}/favicons/favicon-96x96.png?v=201512180001" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ asset(Theme::url('/')) }}/favicons/favicon-16x16.png?v=201512180001" sizes="16x16">
+    <link rel="manifest" href="{{ asset(Theme::url('/')) }}/favicons/manifest.json?v=201512180001">
+    <link rel="mask-icon" href="{{ asset(Theme::url('/')) }}/favicons/safari-pinned-tab.svg?v=201512180001" color="#579df0">
+    <link rel="shortcut icon" href="{{ asset(Theme::url('/')) }}/favicons/favicon.ico?v=201512180001">
+    <meta name="apple-mobile-web-app-title" content="1A23 Studio">
+    <meta name="application-name" content="1A23 Studio">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="{{ asset(Theme::url('/')) }}/favicons/mstile-144x144.png?v=201512180001">
+    <meta name="theme-color" content="#333333">
+
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700|Work+Sans:100,200,300,700" rel="stylesheet">
 
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular/angular.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular/angular.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngFitText/dist/ng-FitText.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngMeta/dist/ngMeta.min.js"></script>
@@ -55,6 +81,6 @@
     {{--<script src="//rawgithub.com/davatron5000/FitText.js/master/jquery.fittext.js"></script>--}}
 
 </head>
-<body ng-cloak ng-view ui-view class="html-body">
+<body ng-view ui-view ng-cloak class="html-body">
 </body>
 </html>
