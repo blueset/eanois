@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: /eanois
+Disallow: /eanois/
 
 Sitemap: https://1a23.com/sitemap.xml
