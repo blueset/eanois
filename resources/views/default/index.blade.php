@@ -64,16 +64,16 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700|Work+Sans:100,200,300,700" rel="stylesheet">
 
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular/angular.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/ngFitText/dist/ng-FitText.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/ngMeta/dist/ngMeta.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-resource/angular-resource.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/fld-grd/dist/fldGrd.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/angular/angular.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/jquery/dist/jquery.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/ngFitText/dist/ng-FitText.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/ngMeta/dist/ngMeta.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/fld-grd/dist/fldGrd.min.js"></script>
+    <script data-cfasync="true" src="{{ asset(Theme::url('/')) }}/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/js/ngFldGrd.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/js/app.js"></script>
 
