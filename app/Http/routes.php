@@ -31,8 +31,6 @@ Route::group(['middleware' => ['web', 'theme:frontend']], function () {
     Route::any('/sitemap.xml', "HomeController@getSitemap");
     Route::any('/feed.xml', "HomeController@getAtomFeed");
 
-    Route::any("php", function(){return phpinfo();});
-
     // Image related
 
     Route::get('/public/images/{slug}', ['as' => 'AdminImageControllerShow', 'uses' => 'Admin\ImageController@show'])

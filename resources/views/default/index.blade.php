@@ -24,7 +24,7 @@
     <meta name="twitter:description" content="@{{ ngMeta.description }}">
     <meta name="twitter:image:src" content="@{{ ngMeta.image }}">
     <!-- Open Graph General (Facebook & Pinterest) -->
-    <meta property="og:url" content="">
+    <meta property="og:url" content="{{ url()->full() }}">
     <meta property="og:title" content="@{{ ngMeta.title }}">
     <meta property="og:description" content="@{{ ngMeta.description }}">
     <meta property="og:site_name" content="{{ $setting['site_name'] }}">
