@@ -1,5 +1,15 @@
 'use strict';
 
+Array.prototype.clean = function(deleteValue) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == deleteValue) {
+            this.splice(i, 1);
+            i--;
+        }
+    }
+    return this;
+};
+
 // RESTful API Modules
 
 angular.module('core.api', ['ngResource'])
@@ -152,6 +162,12 @@ angular.module('eanoisFrontEnd', [
                 resolve: {
                     updates: ["LastUpdateAPI", function(LastUpdateAPI) {
                         return LastUpdateAPI.get().$promise;
+                    }],
+                    lyricovaTotalNumber: ['$http', function ($http) {
+                        return $http({method: 'JSONP', url:'https://1a23.com/lyricova/main/postcountjson?callback=JSON_CALLBACK'});
+                    }],
+                    lyricovaQuote: ['lyricovaTotalNumber', '$http', '$rootScope', function (lyricovaTotalNumber, $http, $scope) {
+
                     }]
                 }
             })
@@ -175,7 +191,7 @@ angular.module('eanoisFrontEnd', [
                 templateUrl: theme_root + "/index/links.html",
                 resolve: {
                     link: ["LinkAPI", function (LinkAPI) {
-                        return LinkAPI.get();
+                        return LinkAPI.get().$promise;
                     }],
                     title: function() {return "Links";},
                     meta: ['ngMeta', function (ngMeta) {
@@ -293,8 +309,8 @@ angular.module('eanoisFrontEnd', [
                 meta: {disableUpdate: true}
             });
 }])
-.controller("indexController", ["$scope", "updates",
-    function ($scope, updates) {
+.controller("indexController", ["$scope", "updates", 'lyricovaTotalNumber', '$http',
+    function ($scope, updates, lyricovaTotalNumber, $http) {
         var self = this;
         updates.forEach(function (val) {
             if (val['type'] == "post") {
@@ -305,6 +321,26 @@ angular.module('eanoisFrontEnd', [
             }
         });
         self.LastUpdate = updates;
+
+        self.lyricovaQuote = "信じたものは<br>都合のいい妄想を<br>繰り返し映し出す鏡";
+
+        var lyricovaTotalNumber = lyricovaTotalNumber.data;
+        var getLyricovaQuote = function(target) {
+            var maxLineCount = 6;
+            var id = Math.floor(Math.random() * (lyricovaTotalNumber - 1));
+            return $http.jsonp("https://1a23.com/lyricova/main/getlyricjson?post_id=" + id + "&post_cat=1&callback=JSON_CALLBACK").success(function (words){
+                words = words.filter(Boolean);
+                if (words.length > maxLineCount){
+                    return getLyricovaQuote();
+                } else {
+                    if (target) {target[0][target[1]] = words.clean("").join("<br>");}
+                    else return words.clean("").join("<br>");
+                }
+            });
+        };
+
+        self.updateQuote = function(){getLyricovaQuote([self, 'lyricovaQuote']);};
+        self.updateQuote();
     }])
 .controller("worksIndexController", ["$scope", "categories",
     function($scope, categories) {
