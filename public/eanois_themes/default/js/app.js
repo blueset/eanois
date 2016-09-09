@@ -165,9 +165,6 @@ angular.module('eanoisFrontEnd', [
                     }],
                     lyricovaTotalNumber: ['$http', function ($http) {
                         return $http({method: 'JSONP', url:'https://1a23.com/lyricova/main/postcountjson?callback=JSON_CALLBACK'});
-                    }],
-                    lyricovaQuote: ['lyricovaTotalNumber', '$http', '$rootScope', function (lyricovaTotalNumber, $http, $scope) {
-
                     }]
                 }
             })
@@ -328,10 +325,12 @@ angular.module('eanoisFrontEnd', [
         var getLyricovaQuote = function(target) {
             var maxLineCount = 6;
             var id = Math.floor(Math.random() * (lyricovaTotalNumber - 1));
+            if (target) {target[0][target[1]] = "...";}
             return $http.jsonp("https://1a23.com/lyricova/main/getlyricjson?post_id=" + id + "&post_cat=1&callback=JSON_CALLBACK").success(function (words){
                 words = words.filter(Boolean);
                 if (words.length > maxLineCount){
-                    return getLyricovaQuote();
+                    if (target) {target[0][target[1]] += ".";}
+                    return getLyricovaQuote(target);
                 } else {
                     if (target) {target[0][target[1]] = words.clean("").join("<br>");}
                     else return words.clean("").join("<br>");
