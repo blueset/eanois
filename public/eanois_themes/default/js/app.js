@@ -88,6 +88,15 @@ angular.module('eanoisFrontEnd', [
         $rootScope.toDate = function(d) {
             return new Date(d);
         };
+
+        $rootScope.$on('$stateChangeStart', function() {
+            $rootScope.stateLoading = true;
+        });
+
+        $rootScope.$on('$stateChangeSuccess', function() {
+            $rootScope.stateLoading = false;
+        });
+
         $rootScope.remToPx = function(size) {
             return size * parseInt($("body").css('font-size'));
         };

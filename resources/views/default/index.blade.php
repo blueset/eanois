@@ -72,7 +72,7 @@
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-animate/angular-animate.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-resource/angular-resource.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/fld-grd/dist/fldGrd.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/js/fldGrd.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/gsap/src/minified/TweenMax.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-gsapify-router/angular-gsapify-router.js"></script>
@@ -84,6 +84,11 @@
 
 </head>
 <body>
+<div ng-show="stateLoading" class="spinner-wrapper">
+    <svg class="spinner" width="25px" height="25px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="spinner-path" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+</div>
 <div ng-view ui-view class="gsapify-router" autoscroll="false" scroll-recall></div>
 </body>
 </html>
