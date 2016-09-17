@@ -67,7 +67,8 @@ angular.module('eanoisFrontEnd', [
     'ngFldGrd',
     'infinite-scroll',
     'ngMeta',
-    'ngAnimate'
+    'ngAnimate',
+    'hj.gsapifyRouter'
 ])
 .filter('unsafe', function($sce) {
     return function(val) {
@@ -124,8 +125,8 @@ angular.module('eanoisFrontEnd', [
         }
     };
 })
-.config(['$locationProvider', '$urlRouterProvider', '$stateProvider', 'ngMetaProvider',
-    function($locationProvider, $urlRouterProvider, $stateProvider, ngMetaProvider) {
+.config(['$locationProvider', '$urlRouterProvider', '$stateProvider', 'ngMetaProvider', 'gsapifyRouterProvider',
+    function($locationProvider, $urlRouterProvider, $stateProvider, ngMetaProvider, gsapifyRouterProvider) {
         var theme_root = $("meta[name=theme_root]").attr("content");
         // ngMeta configs
         ngMetaProvider.setDefaultTitle($("meta[name='site:name']").attr("content"));
@@ -135,9 +136,10 @@ angular.module('eanoisFrontEnd', [
         ngMetaProvider.setDefaultTag("twitter:card", "summary");
         // $locationProvider.hashPrefix('!');
         $locationProvider.html5Mode(true);
-        // This is only for redirect only.
+        // hard-coded redirection for old links
         $urlRouterProvider
-            .when('/test', '/test-redirect')  // for no purpose :P
+            .when('/work/opensources', '/works/open-source')
+            .when('/page/about', '/about')
             .otherwise('/');
         // Actual routing goes here!!
 
@@ -154,6 +156,82 @@ angular.module('eanoisFrontEnd', [
             }
         };
 
+        // Animation defaults
+        // gsapifyRouterProvider.defaults = {enter: null, leave: null};
+        // gsapifyRouterProvider.initialTransitionEnabled = true;
+
+        gsapifyRouterProvider.transition('slideAbove', {
+            duration: 1,
+            ease: 'Quart.easeInOut',
+            css: {
+                y: '-100%',
+                opacity: 0
+            },
+        });
+
+        gsapifyRouterProvider.transition('slideBelow', {
+            duration: 1,
+            ease: 'Quart.easeInOut',
+            css: {
+                y: '100%',
+            },
+        });
+
+        gsapifyRouterProvider.transition('slideLeft', {
+            duration: 1,
+            ease: 'Quint.easeInOut',
+            css: {
+                x: '-100%',
+            },
+        });
+
+        gsapifyRouterProvider.transition('slideRight', {
+            duration: 1,
+            ease: 'Quint.easeInOut',
+            css: {
+                x: '100%',
+            },
+        });
+
+        gsapifyRouterProvider.transition('slideAboveDelay', {
+            duration: 1,
+            ease: 'Quart.easeInOut',
+            delay: 0.5,
+            css: {
+                y: '-100%',
+                opacity: 0
+            },
+        });
+
+        gsapifyRouterProvider.transition('slideBelowDelay', {
+            duration: 1,
+            ease: 'Quart.easeInOut',
+            delay: 0.5,
+            css: {
+                y: '100%',
+            },
+        });
+
+        gsapifyRouterProvider.transition('slideLeftDelay', {
+            duration: 1,
+            ease: 'Quint.easeInOut',
+            delay: 0.5,
+            css: {
+                x: '-100%',
+            },
+        });
+
+        gsapifyRouterProvider.transition('slideRightDelay', {
+            duration: 1,
+            ease: 'Quint.easeInOut',
+            delay: 0.5,
+            css: {
+                x: '100%',
+            },
+        });
+
+
+
         $stateProvider
             .state("home", {
                 url: '/',
@@ -166,6 +244,12 @@ angular.module('eanoisFrontEnd', [
                     lyricovaTotalNumber: ['$http', function ($http) {
                         return $http({method: 'JSONP', url:'https://1a23.com/lyricova/main/postcountjson?callback=JSON_CALLBACK'});
                     }]
+                },
+                data: {
+                    'gsapifyRouter.undefined': {
+                        enter: {'in': {transition: 'slideLeftDelay'}},
+                        leave: {out:  {transition: 'slideLeft'}}
+                    }
                 }
             })
             .state("about", {
@@ -181,7 +265,13 @@ angular.module('eanoisFrontEnd', [
                     }],
                 },
                 controller: "pageController as page",
-                meta: {disableUpdate: true}
+                meta: {disableUpdate: true},
+                data: {
+                    'gsapifyRouter.undefined': {
+                        enter: {'in': {transition: 'slideLeftDelay'}},
+                        leave: {out:  {transition: 'slideLeft'}}
+                    }
+                }
             })
             .state("links", {
                 url: '/links',
@@ -198,7 +288,13 @@ angular.module('eanoisFrontEnd', [
                     }]
                 },
                 controller: "linkController as link",
-                meta: {disableUpdate: true}
+                meta: {disableUpdate: true},
+                data: {
+                    'gsapifyRouter.undefined': {
+                        enter: {'in': {transition: 'slideLeftDelay'}},
+                        leave: {out:  {transition: 'slideLeft'}}
+                    }
+                }
             })
             .state("works", {
                 url: '/works',
@@ -220,6 +316,12 @@ angular.module('eanoisFrontEnd', [
                         ngMeta.setTag('description', categoryList);
                         ngMeta.setTag('og:type', 'article');
                     }]
+                },
+                data: {
+                    'gsapifyRouter.undefined': {
+                        enter: {'in': {transition: 'slideRightDelay'}},
+                        leave: {out:  {transition: 'slideRight'}}
+                    }
                 }
             })
             .state("works-category", {
@@ -250,7 +352,7 @@ angular.module('eanoisFrontEnd', [
                                     });
                                     return data;
                                 });
-
+                                $state.template = cate.template;
                                 return cate;
                             }).$promise;
                         }],
@@ -280,7 +382,23 @@ angular.module('eanoisFrontEnd', [
                         var tPath = theme_root + "/works/lists/" + cate.template + ".html";
                         return $templateRequest(tPath);
                     }],
-                meta: {disableUpdate: true}
+                meta: {disableUpdate: true},
+                data: {
+                    'gsapifyRouter.undefined': {
+                        enter: {'in': {transition: ['$state', function(cate) {
+                            if (cate.template == "gallery-template") {
+                                return 'slideAboveDelay';
+                            }
+                            return 'slideLeftDelay';
+                        }]}},
+                        leave: {out: {transition: ['$state', function(cate) {
+                            if (cate.template == "gallery-template") {
+                                return 'slideAbove';
+                            }
+                            return 'slideLeft';
+                        }]}},
+                    }
+                }
             })
             .state("works-category-single", {
                 url: '/works/:category/:post',
@@ -303,7 +421,13 @@ angular.module('eanoisFrontEnd', [
                         var tPath = theme_root + "/works/singles/" + post[0].cate.template + ".html";
                         return $templateRequest(tPath);
                     }],
-                meta: {disableUpdate: true}
+                meta: {disableUpdate: true},
+                data: {
+                    'gsapifyRouter.undefined': {
+                        enter: {'in': {transition: 'slideAboveDelay'}},
+                        leave: {out:  {transition: 'slideAbove'}}
+                    }
+                }
             });
 }])
 .controller("indexController", ["$scope", "updates", 'lyricovaTotalNumber', '$http',

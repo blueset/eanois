@@ -18,6 +18,11 @@ html {
 body {
   min-height: 100vh; }
 
+.gsapify-router {
+  width: 100%;
+  position: absolute;
+  top: 0; }
+
 a.inherit-style:link, a.inherit-style:visited, a.inherit-style:hover {
   color: inherit !important;
   text-decoration: inherit !important; }
@@ -587,6 +592,11 @@ h3.page-title {
   padding-bottom: 2em; }
   .home-section-entry:last-child {
     padding-bottom: 0; }
+
+.lyricova .section-left {
+  color: rgba(255, 255, 255, 0.3); }
+.lyricova .section-content {
+  color: rgba(57, 57, 57, 0.3); }
 
 .frame-right-black .works-category a:link, .frame-right-black .works-category a:hover, .frame-right-black .works-category a:visited {
   text-decoration: none;

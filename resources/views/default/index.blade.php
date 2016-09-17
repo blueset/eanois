@@ -74,6 +74,8 @@
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/fld-grd/dist/fldGrd.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/gsap/src/minified/TweenMax.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-gsapify-router/angular-gsapify-router.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/js/ngFldGrd.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/js/app.js"></script>
 
@@ -82,6 +84,6 @@
 
 </head>
 <body>
-<div ng-view ui-view ng-cloak class="html-body"></div>
+<div ng-view ui-view class="gsapify-router" autoscroll="false" scroll-recall></div>
 </body>
 </html>

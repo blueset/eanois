@@ -63,6 +63,12 @@ body {
     min-height: 100vh;
 }
 
+.gsapify-router {
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
 a.inherit-style:link, a.inherit-style:visited, a.inherit-style:hover {
     color: inherit !important;
     text-decoration: inherit !important;
@@ -411,6 +417,15 @@ h3.page-title {
     }
 }
 
+.lyricova {
+    $opacity: 0.3;
+    .section-left {
+        color: rgba(255, 255, 255, $opacity);
+    }
+    .section-content {
+        color: rgba(57, 57, 57, $opacity);
+    }
+}
 
 // Works index
 .frame-right-black{
