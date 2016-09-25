@@ -64,8 +64,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700|Work+Sans:100,200,300,700" rel="stylesheet">
 
-    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular/angular.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/bower_components/angular/angular.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngFitText/dist/ng-FitText.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/ngMeta/dist/ngMeta.min.js"></script>
     <script src="{{ asset(Theme::url('/')) }}/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -90,5 +90,6 @@
     </svg>
 </div>
 <div ng-view ui-view class="gsapify-router" autoscroll="false" scroll-recall></div>
+{!! \App\Setting::getConfig('analytics_code'); !!}
 </body>
 </html>

@@ -27,7 +27,7 @@ class AdminController extends Controller
         return view('settings', ['config' => $config]);
     }
     public function putSettings(Request $request) {
-        Setting::setConfig($request->toArray());
+        Setting::setConfig($request->toArray(), true);
         $request->session()->flash("message_success", "Settings updated.");
         return redirect()->action('AdminController@viewSettings');
     }

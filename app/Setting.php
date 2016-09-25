@@ -28,6 +28,7 @@ class Setting extends Model
 
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+    protected $fillable = ['key', 'value'];
 
     public function getKeyAttribute($value) {
         return $value;

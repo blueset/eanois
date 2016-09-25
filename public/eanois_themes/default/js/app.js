@@ -134,6 +134,9 @@ angular.module('eanoisFrontEnd', [
         }
     };
 })
+.component('eanoisAds', {
+    templateUrl: 'api/ads'
+})
 .config(['$locationProvider', '$urlRouterProvider', '$stateProvider', 'ngMetaProvider', 'gsapifyRouterProvider',
     function($locationProvider, $urlRouterProvider, $stateProvider, ngMetaProvider, gsapifyRouterProvider) {
         var theme_root = $("meta[name=theme_root]").attr("content");
@@ -478,13 +481,19 @@ angular.module('eanoisFrontEnd', [
     function($scope, categories) {
         this.categories = categories;
     }])
-.controller("worksCategoryController", ["cate", "CategoryAPI", "PostAPI", "$scope",
-    function(cate, CategoryAPI, PostAPI, $scope){
+.controller("worksCategoryController", ["cate", "CategoryAPI", "PostAPI", "$scope", "$rootScope",
+    function(cate, CategoryAPI, PostAPI, $scope, $rootScope){
         this.pause = false;
         var self = this;
         this.loadNext = function () {
-            if (self.pause) return;
-            if (self.category.posts.current_page >= self.category.posts.last_page) return;
+            $rootScope.stateLoading = true;
+            if (self.pause) {
+                return;
+            }
+            if (self.category.posts.current_page >= self.category.posts.last_page) {
+                $rootScope.stateLoading = false;
+                return;
+            }
             var postData = self.category.postdata;
             self.pause = true;
             CategoryAPI.get({slug: self.category.slug, page: self.category.posts.current_page + 1}, function(cate) {
@@ -511,6 +520,7 @@ angular.module('eanoisFrontEnd', [
                         }
                     });
                     $scope.$emit("scrollPaginationUpdate");
+                    $rootScope.stateLoading = false;
                     return cate.postdata;
                 });
                 return cate;

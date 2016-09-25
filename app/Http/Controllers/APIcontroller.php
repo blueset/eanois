@@ -138,5 +138,8 @@ class APIController extends Controller
         ])->get()->toArray());
     }
 
+    public function getAds() {
+        return response(\App\Setting::getConfig('ads_code'));
+    }
 
 }

@@ -50,7 +50,7 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="feed_url">Site Logo</label>
-                                <input type="hidden" name="site_logo" id="input-site-logo" val="{{ old('site_logo', array_get($config, 'site_logo', '')) }}">
+                                <input type="hidden" name="site_logo" id="input-site-logo" value="{{ old('site_logo', array_get($config, 'site_logo', '')) }}">
                                 <div>
                                     <button type="button" class="btn btn-primary"
                                             data-toggle="modal" data-target="#mediaModal">
@@ -64,6 +64,25 @@
                                 </div>
                                 <p class="help-block">Site logo used for bots including search engine spiders.</p>
                             </div>
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                Advertisements and Analytics
+                            </h3>
+                        </div>
+                        <div class="box-body">
+                            {!! AdminHelper::form_group()
+                                ->title("Ads code")
+                                ->field("ads_code")
+                                ->custom_input('<textarea name="ads_code" rows="5" class="form-control">'.array_get($config, 'ads_code', '').'</textarea>')
+                                ->desc("Ads code provided by your ads provider. The code is placed in the designated place defined in your theme.") !!}
+                            {!! AdminHelper::form_group()
+                                ->title("Analytics code")
+                                ->field("analytics_code")
+                                ->custom_input('<textarea name="analytics_code" rows="5" class="form-control">'.array_get($config, 'analytics_code', '').'</textarea>')
+                                ->desc("Analytics code provided by your service provider. The code is inserted at the end of every page. Load any script in async is strongly recommended.") !!}
                         </div>
                     </div>
                     <button class="btn btn-primary" type="submit">Submit</button>

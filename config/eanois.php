@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'version' => 'preview 0.0 build 20160909'
+    'version' => 'preview 0.1 build 20160925'
 ];
