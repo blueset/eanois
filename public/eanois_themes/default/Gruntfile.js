@@ -30,15 +30,12 @@ module.exports = function(grunt) {
         },
         sass: {
             dist: {
-
                 options: {
-                    sourceMap: true,
-                    outputStyle: 'compressed'
+                    sourcemap: 'auto',
+                    style: 'compressed'
                 },
-                dist: {
-                    files: {
-                        'css/app.css': 'css/app.scss'
-                    }
+                files: {
+                    'css/app.css': 'css/app.scss'
                 }
             }
         },
@@ -48,7 +45,7 @@ module.exports = function(grunt) {
                 tasks: ['uglify']
             },
             sass: {
-                files: ['css/app.css'],
+                files: ['css/app.scss'],
                 tasks: ['sass']
             }
         }

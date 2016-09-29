@@ -476,9 +476,17 @@ $duration: 1.4s;
     $opacity: 0.3;
     .section-left {
         color: rgba(255, 255, 255, $opacity);
+        transition: color 0.25s ease-in-out;
     }
     .section-content {
         color: rgba(57, 57, 57, $opacity);
+        transition: color 0.25s ease-in-out;
+    }
+    &:hover .section-left {
+        color: rgba(255, 255, 255, 1);
+    }
+    &:hover .section-content {
+        color: rgba(57, 57, 57, 1);
     }
 }
 
@@ -957,5 +965,54 @@ ul.media-links{
             border-bottom-right-radius: .5em;
             border-right: 1px solid #333333;
         }
+    }
+}
+
+// Ads module
+
+eanois-ads {
+    .ac_credit_copy {
+        display: none;
+    }
+
+    .ac_credit {
+        float: right;
+        width: 15px;
+        height: 15px;
+        border-radius: 8px;
+        background: #aaa;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .ac_credit a:link {
+        text-decoration: none;
+        color: #fff !important;
+    }
+
+    a.ac_image_link {
+        display: none;
+    }
+
+    a.ac_title:link {
+        text-decoration: none;
+        color: inherit !important;
+        font-size: 0.8em;
+        border-bottom: 1px dashed;
+    }
+
+    .ac_referrer {
+        float: right;
+        font-size: 0.8em;
+        margin-top: -2em;
+    }
+
+    & > div {
+        opacity: 0.3;
+        transition: opacity 0.25s ease-in-out;
+    }
+
+    & > div:hover {
+        opacity: 1;
     }
 }
