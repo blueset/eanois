@@ -79,7 +79,7 @@
     {{--<script src="{{ asset(Theme::url('/')) }}/js/ngFldGrd.js"></script>--}}
     {{--<script src="{{ asset(Theme::url('/')) }}/js/app.js"></script>--}}
 
-    <script src="{{ asset(Theme::url('/')) }}/js/app.min.js"></script>
+    <script src="{{ asset(Theme::url('/')) }}/js/app.min.js" async></script>
 
 
     {{--<script src="//rawgithub.com/davatron5000/FitText.js/master/jquery.fittext.js"></script>--}}
