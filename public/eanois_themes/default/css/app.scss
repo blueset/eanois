@@ -607,6 +607,7 @@ $duration: 1.4s;
     }
     .section-content-banner img{
         max-width: 100%;
+        max-height: 500px;
     }
     @include gridle_state(md) {
         .entry-section-top .section-content{
