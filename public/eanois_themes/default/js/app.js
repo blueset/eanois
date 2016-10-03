@@ -528,8 +528,9 @@ angular.module('eanoisFrontEnd', [
         };
         this.category = cate;
     }])
-.controller("worksSingleController", ["post", function(post) {
+.controller("worksSingleController", ["post", "$scope", "$sce", function(post, $scope, $sce) {
     this.post = post[0];
+    $scope.unsafe = $sce.trustAsHtml;
 }])
 .controller("pageController", ["page", function(page) {
     this.page = page;

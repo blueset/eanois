@@ -40,7 +40,7 @@
             <div class="section-left">
                 Content
             </div>
-            <div class="section-content body-text" ng-bind-html="post.post.body">
+            <div class="section-content body-text" ng-bind-html="unsafe(post.post.body)">
             </div>
         </section>
         <section class="row title-section no-title-center-sm">
