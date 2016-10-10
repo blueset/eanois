@@ -101,6 +101,7 @@ class APIController extends Controller
                     $item['imageMeta']['width'] = $dimension[0];
                     $item['imageMeta']['height'] = $dimension[1];
                     $item['imageMeta']['path'] = route("AdminImageControllerShow", [$item['image']]);
+                    $item['imageMeta']['pathHeightThumbnail'] = route("AdminImageControllerShowHeight", [$item['image'], 'he1ght']);
                 } else {
                     $item['imageMeta'] = [];
                 }

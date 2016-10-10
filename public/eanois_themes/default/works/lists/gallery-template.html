@@ -39,7 +39,9 @@
                    data-fld-width="{{ entry.imageMeta.width }}"
                    data-fld-height="{{ entry.imageMeta.height }}">
                     <div class="entry-item-wrapper">
-                        <div class="entry-item-image" ng-bind-html="entry.imageMeta.html"></div>
+                        <div class="entry-item-image">
+                            <img src="{{ (entry.imageMeta.pathHeightThumbnail).replace('he1ght', '250') }}" alt="{{ entry.title }}">
+                        </div>
                         <div class="entry-item-caption">{{ entry.title }}</div>
                     </div>
                 </a>
