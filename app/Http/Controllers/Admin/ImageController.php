@@ -124,7 +124,7 @@ class ImageController extends Controller
 //                   ->header('Content-Type', 'image/webp');
             }
         };
-        $img = \InterventionImage::cache($callback, 5, true);
+        $img = \InterventionImage::cache($callback, 43200, true);
         return $img->response($ext);
     }
 
