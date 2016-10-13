@@ -101,14 +101,14 @@ class HomeController extends Controller
             ->withFeedUrl(action("HomeController@getAtomFeed"))
             ->withDate(new \DateTime());
         $post_url_template = json_decode(file_get_contents(public_path(\Theme::url("config.json"))), true)['sitemap']['generic']['post']['url'];
-        $posts = \App\Post::select(["title", "category", "desc", "body", "published_on", "updated_on"])->take(15)->get();
+        $posts = \App\Post::select(["title", "category", "desc", "body", "published_on", "updated_on", "image"])->take(15)->get();
 
         foreach ($posts as $post){
             $category = $post->cate()->select(["slug", "id"])->first()->slug;
             $url = str_replace(["{category}", "{slug}"], [$category, $post->slug], $post_url_template);
             $image = "";
             if(!empty($post->image)){
-                $image = \App\Image::where("slug", $post->image)->pictureElement()->render();
+                $image = \App\Image::where("slug", $post->image)->first()->pictureElement()->render();
             }
             $desc = $image . \Markdown::text($post->desc);
             $body = $image . $desc . \Markdown::text($post->body);
