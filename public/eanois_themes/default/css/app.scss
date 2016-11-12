@@ -343,7 +343,7 @@ h3.page-title {
 
 
 // Spinner
-
+/*
 $offset: 187;
 $duration: 1.4s;
 
@@ -393,6 +393,60 @@ $duration: 1.4s;
             stroke-dashoffset: $offset;
             transform:rotate(450deg);
         }
+    }
+}
+*/
+
+.loading-slider{
+    position:fixed;
+    top:0;
+    width:100%;
+    height:5px;
+    z-index: 1;
+
+    .line{
+        position:absolute;
+        opacity: 0.4;
+        background:#3a81f0;
+        width:150%;
+        height:5px;
+    }
+
+    .subline{
+        position:absolute;
+        background:#3a81f0;
+        height:5px;
+    }
+    .inc{
+        animation: increase 2s infinite;
+
+    }
+    .dec{
+        animation: decrease 2s .5s infinite;
+
+    }
+
+    @keyframes increase {
+        from { left: -5%; width: 5%; }
+        to { left: 130%; width: 100%;}
+    }
+    @keyframes decrease {
+        from { left: -80%; width: 80%; }
+        to { left: 110%; width: 10%;}
+    }
+    .peg{
+        position: absolute;
+        display: block;
+        right: 0px;
+        width: 100px;
+        height: 100%;
+        box-shadow: 0 0 10px #3a81f0, 0 0 5px #29d;
+        opacity: 1;
+        -webkit-transform: rotate(3deg) translate(0px, -4px);
+        -moz-transform: rotate(3deg) translate(0px, -4px);
+        -ms-transform: rotate(3deg) translate(0px, -4px);
+        -o-transform: rotate(3deg) translate(0px, -4px);
+        transform: rotate(3deg) translate(0px, -4px);
     }
 }
 
