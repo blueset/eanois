@@ -147,7 +147,7 @@ angular.module('eanoisFrontEnd', [
         ngMetaProvider.setDefaultTag("og:type", "website");
         ngMetaProvider.setDefaultTag("twitter:card", "summary");
         // $locationProvider.hashPrefix('!');
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode({enabled: true, rewriteLinks: false});
         // hard-coded redirection for old links
         $urlRouterProvider
             .when('/work/opensources', '/works/open-source')
