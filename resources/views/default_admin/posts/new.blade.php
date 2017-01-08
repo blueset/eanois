@@ -209,7 +209,7 @@ HDC
     @parent
     <script src="{{ asset(Theme::url('js/ace/ace.js')) }}"></script>
     <script src="{{ asset(Theme::url('plugins/input-mask/jquery.inputmask.js')) }}"></script>
-    <script src="{{ asset(Theme::url('plugins/input-mask/jquery.inputmask.date.Extensions.js')) }}"></script>
+    <script src="{{ asset(Theme::url('plugins/input-mask/jquery.inputmask.date.extensions.js')) }}"></script>
     <script src="{{ asset(Theme::url('plugins/select2/select2.full.min.js')) }}"></script>
     <script src="{{ asset(Theme::url('js/sortable.min.js')) }}"></script>
     <script src="{{ asset(Theme::url('js/jquery-donetyping.js')) }}"></script>
