@@ -1,0 +1,55 @@
+<div class="frame frame-top-black works-entry-list">
+    <div class="wrapper-top-black">
+        <div class="container-div">
+            <section class="row title-section first-section">
+                <div class="section-left section-title"></div>
+                <div class="section-content"></div>
+            </section>
+            <section class="row title-section">
+                <div class="section-full section-title with-logo-square">
+                    <a ui-sref="home" class="inherit-style">
+                        <picture class="logo-square">
+                            <source eanois-srcset="images/logo4square.svg" type="image/svg+xml">
+                            <img eanois-src="images/logo4-03.png" alt="1A23 Studio">
+                        </picture>
+                    </a>
+                    <h3 class="logo-square-title">
+                        <a ui-sref="works" class="inherit-style">Works</a>
+                        <span class="divider">|</span>
+                        <a ui-sref="works-category({category: post.post.cate.slug})" class="inherit-style">{{ post.post.cate.name }}</a>
+                    </h3>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+        <section class="row title-section no-title-sm">
+            <div class="section-left">
+                <ul class="section-left-links text-black">
+                    <li ng-repeat="link in post.post.links">
+                        <a href="{{ link.url }}">{{ link.name }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="section-content body-text">
+                <h3 class="media-title">{{ post.post.title }}</h3>
+                <div class="body-text" ng-bind-html="post.post.desc"></div>
+                <div class="section-content body-text" ng-bind-html="unsafe(post.post.body)">
+                </div>
+            </div>
+        </section>
+        <section class="row title-section no-title-center-sm">
+            <div class="section-left section-title">
+                <h2>Credit</h2>
+            </div>
+            <div class="section-content">
+                2008 — 2017 <br>
+                Created by 1A23 Studio with <span style="color: #e74c3c;">♥</span>
+            </div>
+        </section>
+        <section class="row title-section last-section">
+            <div class="section-left section-title"></div>
+            <div class="section-content"></div>
+        </section>
+    </div>
+</div>

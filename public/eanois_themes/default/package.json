@@ -2,10 +2,16 @@
   "name": "EanoisDefault",
   "version": "0.0.1",
   "devDependencies": {
-    "grunt": "^1.0.1",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "grunt": "^1.0.2",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "uglifyjs-webpack-plugin": "^1.1.8"
+  },
+  "dependencies": {
+    "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony"
   }
 }

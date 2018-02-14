@@ -36,7 +36,7 @@ class APIController extends Controller
             $parser = $reader->getParser($resource->getUrl(), $resource->getContent(), $resource->getEncoding());
             $feed = $parser->execute();
             foreach (array_slice($feed->items, 0, 3) as $item){
-                array_push($result, ["title"=>$item->getTitle(), "published_on"=>$item->getDate()->getTimestamp(), "url"=>$item->getUrl(), "type"=>"feed"]);
+                array_push($result, ["title"=>$item->getTitle(), "published_on"=>$item->getDate(), "url"=>$item->getUrl(), "type"=>"feed"]);
             }
 
         }

@@ -80,6 +80,20 @@ angular.module('eanoisFrontEnd', [
         return text ? String(text).replace(/<[^>]+>/gm, '') : '';
     };
 })
+.filter('minorFilter', function() {
+    return function(vArray) {
+        return vArray.filter(function (value) {
+            return value.meta.minor
+        });
+    }
+})
+.filter('majorFilter', function() {
+    return function(vArray) {
+        return vArray.filter(function (value) {
+            return !value.meta.minor
+        });
+    }
+})
 .run([
     "$rootScope", "$state", "$stateParams", "$timeout", "ngMeta",
     function ($rootScope, $state, $stateParams, $timeout, ngMeta) {
@@ -348,6 +362,7 @@ angular.module('eanoisFrontEnd', [
                                     post_id.push(val.id);
                                 });
                                 var templates = {
+                                    "complex-entry-template": ['id', 'title', 'slug', 'desc', 'image', 'tags', 'links', 'meta'],
                                     "entry-template": ['id', 'title', 'slug', 'desc', 'image', 'tags', 'links'],
                                     'heading-template': ['id', 'title', 'slug', 'desc', 'published_on', 'meta'],
                                     'gallery-template': ['id', 'title', 'slug', 'image', 'meta']
@@ -430,7 +445,8 @@ angular.module('eanoisFrontEnd', [
                 },
                 templateProvider: ['post', '$templateRequest',
                     function(post, $templateRequest){
-                        var tPath = theme_root + "/works/singles/" + post[0].cate.template + ".html";
+                        var template = post[0].cate.template;
+                        var tPath = theme_root + "/works/singles/" + template + ".html";
                         return $templateRequest(tPath);
                     }],
                 meta: {disableUpdate: true},
@@ -439,7 +455,11 @@ angular.module('eanoisFrontEnd', [
                         enter: {'in': {transition: 'slideAboveDelay'}},
                         leave: {out:  {transition: 'slideAbove'}}
                     }
-                }
+                },
+                onEnter: ['post', function(post) {
+                    //worksSingleController
+                    console.log("post", post);
+                }]
             });
 }])
 .controller("indexController", ["$scope", "updates", 'lyricovaTotalNumber', '$http',

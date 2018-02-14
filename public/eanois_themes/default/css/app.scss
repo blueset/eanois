@@ -628,6 +628,7 @@ $duration: 1.4s;
 }
 
 // Works/lists/entry-template.html
+// Works/lists/complex-entry-template.html
 .works-entry-list {
     .section-top-title {
         font-size: 2em;
@@ -751,6 +752,37 @@ $duration: 1.4s;
                 }
             }
         }
+    }
+
+    .section-horizontal-scroll {
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+        overflow-x: scroll;
+        .horizontal-scroll-card {
+            width: 45%;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            margin: 0.25rem 0.5rem;
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+            .scroll-card-image {
+                border-radius: 0.5rem 0.5rem 0 0;
+                width: 100%;
+                height: 12em;
+                background-position: center;
+                background-size: cover;
+            }
+            h3.scroll-card-title {
+                margin: 0.5rem;
+                font-family: $worksans;
+            }
+            .scroll-card-content p {
+                margin: 0.5rem;
+            }
+        }
+    }
+    .text-black li a {
+        color: #0c0c0c !important;
     }
 }
 

@@ -20,7 +20,55 @@
                 <div class="home-slogan" data-fittext=".89" data-fittext-max="{{ remToPx(6) }}">{{ cate.category.name }}</div>
             </div>
         </section>
-        <div class="entry-item" ng-repeat="entry in cate.category.postdata">
+
+        <div class="entry-item" ng-repeat="entry in cate.category.postdata | majorFilter" ng-if="$index == 0">
+            <div class="section row content-section entry-section-top">
+                <div class="section-content">
+                    <h3 class="section-top-title">{{ entry.title }}</h3>
+                    <ul class="section-top-tags">
+                        <li ng-repeat="tag in entry.tags">
+                            <a href="{{ tag.slug }}">{{ tag.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section row title-section entry-section-body">
+                <div class="section-left">
+                    <ul class="section-left-links">
+                        <li ng-repeat="link in entry.links">
+                            <a href="{{ link.url }}">{{ link.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="section-content">
+                    <div class="section-content-banner" ng-bind-html="entry.imageMeta.html">
+                    </div>
+                    <div class="entry-section-body-content" ng-bind-html="entry.desc">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="entry-item">
+            <div class="section row content-section entry-section-top">
+                <div class="section-content">
+                    <h3 class="section-top-title">Minor projects</h3>
+                    <div class="section-top-tags">Projects with more or less one file.</div>
+                    <div class="section-horizontal-scroll">
+                        <div class="horizontal-scroll-card" ng-repeat="entry in cate.category.postdata | minorFilter"
+                           ng-click="$state.go('works-category-single', {category: cate.category.slug, post: entry.slug})">
+                            <div class="scroll-card-image" style="background-image: url('{{(entry.imageMeta.pathHeightThumbnail).replace('he1ght', remToPx(15))}}')">
+                            </div>
+                            <h3 class="scroll-card-title">{{ entry.title }}</h3>
+                            <div class="scroll-card-content" ng-bind-html="entry.desc">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="entry-item" ng-repeat="entry in cate.category.postdata | majorFilter" ng-if="$index > 0">
             <div class="section row content-section entry-section-top">
                 <div class="section-content">
                     <h3 class="section-top-title">{{ entry.title }}</h3>
