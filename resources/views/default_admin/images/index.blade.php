@@ -4,7 +4,6 @@
 
 @section('css')
     @parent
-    {{--<link rel="stylesheet" href="{{ asset(Theme::url('css/dropzone.css')) }}">--}}
 @endsection
 
 @section('content')
