@@ -36,14 +36,14 @@
                 <div class="section-left">
                     <ul class="section-left-links">
                         <li ng-repeat="link in entry.links">
-                            <a href="{{ link.url }}">{{ link.name }}</a>
+                            <a href="{{ link.url }}" ng-bind-html="unsafe(link.name)"></a>
                         </li>
                     </ul>
                 </div>
                 <div class="section-content">
                     <div class="section-content-banner" ng-bind-html="entry.imageMeta.html">
                     </div>
-                    <div class="entry-section-body-content" ng-bind-html="entry.desc">
+                    <div class="entry-section-body-content" ng-bind-html="unsafe(entry.desc)">
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     <h3 class="section-top-title">{{ entry.title }}</h3>
                     <ul class="section-top-tags">
                         <li ng-repeat="tag in entry.tags">
-                            <a href="{{ tag.slug }}">{{ tag.name }}</a>
+                            <a href="{{ tag.slug }}" ng-bind-html="unsafe(link.name)"></a>
                         </li>
                     </ul>
                 </div>
@@ -90,7 +90,7 @@
                 <div class="section-content">
                     <div class="section-content-banner" ng-bind-html="entry.imageMeta.html">
                     </div>
-                    <div class="entry-section-body-content" ng-bind-html="entry.desc">
+                    <div class="entry-section-body-content" ng-bind-html="unsafe(entry.desc)">
                     </div>
                 </div>
             </div>
