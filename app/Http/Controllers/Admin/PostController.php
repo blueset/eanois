@@ -98,7 +98,7 @@ class PostController extends Controller
 
         if (isset($request->postmeta)){
             foreach ($request->postmeta as $item){
-                if (!empty($item->key)){
+                if (!empty($item['key'])){
                     $link = new PostMeta();
                     $link->key = $item['key'];
                     $link->value = $item['value'];
