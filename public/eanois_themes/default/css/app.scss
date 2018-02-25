@@ -760,7 +760,8 @@ $duration: 1.4s;
         max-width: 100%;
         overflow-x: scroll;
         .horizontal-scroll-card {
-            width: 45%;
+            width: 30%;
+            min-width: 30%;
             background-color: #ffffff;
             border-radius: 0.5rem;
             margin: 0.25rem 0.5rem;
@@ -775,9 +776,23 @@ $duration: 1.4s;
             h3.scroll-card-title {
                 margin: 0.5rem;
                 font-family: $worksans;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2; 
+                line-height: 1.3em;
+                max-height: 2.6em;
             }
             .scroll-card-content p {
                 margin: 0.5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3; 
+                line-height: 1.3em;
+                max-height: 3.9em;
             }
         }
     }
