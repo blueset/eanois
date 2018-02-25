@@ -501,8 +501,9 @@ angular.module('eanoisFrontEnd', [
     function($scope, categories) {
         this.categories = categories;
     }])
-.controller("worksCategoryController", ["cate", "CategoryAPI", "PostAPI", "$scope", "$rootScope",
-    function(cate, CategoryAPI, PostAPI, $scope, $rootScope){
+.controller("worksCategoryController", ["cate", "CategoryAPI", "PostAPI", "$scope", "$rootScope", "$sce",
+    function(cate, CategoryAPI, PostAPI, $scope, $rootScope, $sce){
+        $scope.unsafe = $sce.trustAsHtml;
         this.pause = false;
         var self = this;
         this.loadNext = function () {
